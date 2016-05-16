@@ -1,0 +1,28 @@
+{% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
+{% block admin_univ_body %}
+    <h4>Les semestre</h4>
+    <a href="{{ path('ajouter_semestre') }}" class="btn">Nouvelle semestre</a>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">Semestre</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for semestre in semestres %}
+            <tr>
+                <td>{{ semestre.intitule }}</td>
+                <td>
+                    <a href="" class="btn btn-primary">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun semestre enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

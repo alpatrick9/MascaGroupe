@@ -1,0 +1,13 @@
+{% extends "::base.html.twig"%}
+{% block body %}
+    <div class="col-md-12">
+        <div class="titre">ETUDIANTS</div>
+        <ul class="nav nav-pills">
+            <li {% if 'lycee' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('accueil_lycee') }}">Lycée</a></li>
+            <li {% if 'univ' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('accueil_universite') }}">Université</a></li>
+        </ul>
+        <div>
+            {% block etudiant_body %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
+{% block admin_univ_body %}
+    <h4>Les grilles de frais de scolarité</h4>
+    <a href="{{ path('ajouter_grille_ecolage_universite') }}" class="btn">Nouvelle grille</a>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">Filière</th>
+            <th>Niveau d'étude</th>
+            <th>Montant</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for grille in grilles %}
+            <tr>
+                <td>{{ grille.filiere.intitule }}</td>
+                <td>{{ grille.niveauEtude.intitule }}</td>
+                <td>{{ grille.montant }}</td>
+                <td>
+                    <a href="" class="btn btn-primary">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun grille enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

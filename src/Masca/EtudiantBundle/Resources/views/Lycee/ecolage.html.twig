@@ -1,0 +1,49 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %}Ecolage{% endblock %}
+{% block etudiant_body %}
+    <div class="row">
+        <div class="span10">
+            <h3>Suivi d'écolage</h3>
+            <h5>Année scolaire {{ lyceen.anneeScolaire }}</h5>
+            <p> {{ lyceen.person.nom }} {{ lyceen.person.prenom }} en classe de {{ lyceen.sonClasse.intitule }} n° {{ lyceen.numeros }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span10">
+            <table class="table table-hover table-bordered table-striped avectri">
+                <thead>
+                <th>Mois</th>
+                <th>Année</th>
+                <th>Status</th>
+                </thead>
+                <tbody>
+                {% for ecolage in statusEcolages %}
+                <tr>
+                    <td>{{ ecolage.mois }}</td>
+                    <td>{{ ecolage.annee }}</td>
+                    <td>
+                        {% if ecolage.status %}
+                            payé
+                        {% else %}
+                            Somme versée: {{ ecolage.montant }} Ar <br>
+                            reste à payer: {{ montant - ecolage.montant }} Ar <br>
+                            <a href="{{ path('regularisation_reste_ecolage_lyceen',{'frais_scolarite_id': ecolage.id})}}"class="btn">Verser</a>
+                        {% endif %}
+                        <!--<a href="" class="btn btn-info btn-lg" data-dismiss="modal" data-toggle="modal"
+                           data-target="#paiementEcolageLycee">Payé</a>-->
+                    </td>
+                </tr>
+                {% else %}
+                    <tr><td colspan="3">Aucun ecolage enregisté</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="clearfix"></div>
+            <div class="align-center">
+                <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}" class="btn btn-primary"><<</a>
+                <a href="{{ path('payer_ecolage_lyceen', {'id': lyceen.id}) }}" class="btn btn-primary">Payer</a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

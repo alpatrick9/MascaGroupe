@@ -1,0 +1,28 @@
+{% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
+{% block admin_univ_body %}
+    <h4>Les niveau d'etude</h4>
+    <a href="{{ path('ajouter_niveau_etude') }}" class="btn">Nouvelle niveau d'étude</a>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">Niveau d'étude</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for niveauEtude in niveauEtudes %}
+            <tr>
+                <td>{{ niveauEtude.intitule }}</td>
+                <td>
+                    <a href="" class="btn btn-primary">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun niveauEtude enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

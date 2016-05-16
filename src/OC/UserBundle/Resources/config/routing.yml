@@ -1,0 +1,3 @@
+oc_app:
+    resource: "@OCUserBundle/Controller"
+    type: annotation

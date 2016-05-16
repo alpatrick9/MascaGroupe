@@ -1,0 +1,112 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %}Details univeritaire{% endblock %}
+{% block etudiant_body %}
+    <div class="row">
+        <div class="span6">
+            <fieldset>
+                <legend>Infos personnelle</legend>
+                <table class="table  table-hover table-bordered table-striped">
+                    <tr>
+                        <td><b>N° matricule:</b></td>
+                        <td>{{ universitaire.person.numMatricule }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Nom:</b></td>
+                        <td>{{ universitaire.person.nom }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Prénom:</b></td>
+                        <td>{{ universitaire.person.prenom }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Date de naissance:</b></td>
+                        <td>{{ universitaire.person.dateNaissance |date('d M Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Lieu de naissance:</b></td>
+                        <td>{{ universitaire.person.lieuNaissance }}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="span6">
+            <fieldset>
+                <legend>Infos conmplementaire</legend>
+                <table class="table  table-hover table-bordered table-striped">
+                    <tr>
+                        <td><b>Adresse:</b></td>
+                        <td>{{ universitaire.infoEtudiant.adresse }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Téléphone:</b></td>
+                        <td>{{ universitaire.infoEtudiant.tel }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>E-mail:</b></td>
+                        <td>{{ universitaire.infoEtudiant.email }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Nom de sa mère:</b></td>
+                        <td>{{ universitaire.infoEtudiant.nomMere }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Nom de son père:</b></td>
+                        <td>{{ universitaire.infoEtudiant.nomPere }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Contact de ses parents:</b></td>
+                        <td>{{ universitaire.infoEtudiant.telParent }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>E-mail de ses parents:</b></td>
+                        <td>{{ universitaire.infoEtudiant.emailParent }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Nom du tuteur:</b></td>
+                        <td>{{ universitaire.infoEtudiant.nomTuteur }}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="span12">
+            <fieldset>
+                <legend> Les filères suivi par {{ universitaire.person.prenom }} {{ universitaire.person.nom}}</legend>
+                <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+                    <thead>
+                    <tr>
+                        <th class="selection" data-tri="1" data-type="num">Filière</th>
+                        <th>Niveau d'étude</th>
+                        <th>Semestre</th>
+                        <th>Année d'étude</th>
+                        <th>Réinscription</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    {% for filiere in sesFilieres %}
+                        <tr>
+                            <td>{{ filiere.sonFiliere.intitule }}</td>
+                            <td>{{ filiere.sonNiveauEtude.intitule }}</td>
+                            <td>{{ filiere.semestre.intitule }}</td>
+                            <td>{{ filiere.anneeEtude }}</td>
+                            <td>{{ filiere.dateReinscription | date('d M Y')}}</td>
+                            <td><a href="{{ path('details_etude_universitaire', {'sonFiliere_id':filiere.id}) }}" class="btn btn-primary">Plus d'information</a></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">Aucun filière enregistré</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="align-center">
+            <a href="{{ path('accueil_universite')}}" class="btn btn-primary"> << </a>
+            <a href="{{ path('modifier_universite', {'id': universitaire.id}) }}" class="btn btn-primary"> Modifier </a>
+            <a href="" class="btn btn-primary">Absence</a>
+            <a href="" class="btn btn-primary">Retard</a>
+
+        </div>
+    </div>
+{% endblock %}

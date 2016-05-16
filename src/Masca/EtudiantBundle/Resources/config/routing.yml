@@ -1,0 +1,3 @@
+etudiant_app:
+    resource: "@MascaEtudiantBundle/Controller"
+    type: annotation

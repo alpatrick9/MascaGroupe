@@ -1,0 +1,14 @@
+{% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
+{% block admin_univ_body %}
+    <div id="DivInfo" style="display:none;">
+        <p style="color: red ">Filière et niveau déjà existant</p>
+    </div>
+    {% if (js is defined) %}{{ js|raw }}{% endif %}
+    <form method="post">
+        {{ form_widget(form) }}
+        <div class="align-right">
+            <input type="submit" value="Enregistrer" class="btn">
+            <a class="btn" href="{{ path('grille_ecolage_universite') }}">Annuler</a>
+        </div>
+    </form>
+{% endblock%}

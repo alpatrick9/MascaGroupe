@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+    <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/js.js') }}"></script>
+</head>
+<body>
+<div class="entete-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="span4"><img src="{{  asset('assets/logo.png') }}" class="logo-home"></div>
+            <div class="span4 align-center slogan">
+                Système d'information du GROUPE MASCA
+            </div>
+            <div class="span4 slogan align-right">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {{ app.user }}
+                    <a href="{{ path('fos_user_security_logout') }}">Se deconnecter</a>
+                {% else %}
+                    <a href="{{ path('fos_user_security_login') }}">Se connecter</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="menu-wrapper">
+    <div class="container">
+        <ul class="main-menu floatright">
+            <a href="{{ path('oc_user_homepage') }}"><li class="actif"><div class=" span1"><img src="{{ asset('assets/homeactif.png') }}"></div><div class="col-md-12">Accueil</div></li></a>
+            <a href=""><li><div class=" span1"><img src="{{ asset('assets/tresorerie.png') }}"></div><div class=" col-md-12">Tresorérie</div></li></a>
+            <a href=""><li><div class=" span1"><img src="{{ asset('assets/personnel.png') }}"></div><div class=" col-md-12">Personnels</div></li></a>
+            <a href=""><li><div class=" span1"><img src="{{ asset('assets/etudiant.png') }}"></div><div class=" col-md-12">Etudiants</div></li></a>
+            <a href="{{ path('OC_user_lists') }}"><li><div class=" span1"><img src="{{ asset('assets/user-admin.png') }}"></div><div class=" col-md-12">Utilisateur</div></li></a>
+        </ul>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="content-wrapper">
+    <div class="container zone-bordered">
+        <div class="milieupage">
+            {% block body %}{% endblock %}
+        </div><!-- FIN row milieupage//-->
+    </div><!-- FIN container zone-bordered//-->
+</div><!-- FIN content-wrapper//-->
+<div class="clearfix"></div>
+<div class="footer-wrapper">
+    <div class="container">
+        <div class="row basdepage">&copy;Masca Groupe Tous droits resérvé 2016 </div>
+    </div>
+</div>
+
+</body>
+</html>

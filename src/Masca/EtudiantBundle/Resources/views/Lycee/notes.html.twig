@@ -1,0 +1,64 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %}Ecolage{% endblock %}
+{% block etudiant_body %}
+    <div class="row">
+        <div class="span10">
+            <h3>Note de {{ lyceen.person.nom }} {{ lyceen.person.prenom }}</h3>
+            <h5>Année scolaire {{ lyceen.anneeScolaire }}</h5>
+            <p>classe de {{ lyceen.sonClasse.intitule }} n° {{ lyceen.numeros }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <table class="table  table-hover table-bordered table-striped">
+                <thead>
+                <th>Matiere</th>
+                <th>coefficient</th>
+                <th>1ère trimestre</th>
+                <th>2 ième trimestre</th>
+                <th>3 ième trimestre</th>
+                <th>Action</th>
+                </thead>
+                <tbody>
+                {% for note in notes %}
+                    <tr>
+                        <td>{{ note.matiere.intitule }}</td>
+                        <td class="align-center">{{ note.coefficient }}</td>
+                        <td class="align-center">{{ note.noteTrimestre1 * note.coefficient}}</td>
+                        <td class="align-center">{{ note.noteTrimestre2 * note.coefficient}}</td>
+                        <td class="align-center">{{ note.noteTrimestre3 * note.coefficient}}</td>
+                        <td><a href="" class="btn">Modifier</a></td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="align-center">Aucun note enregisté</td></tr>
+                {% endfor %}
+                <tr>
+                    <th >TOTAL</th>
+                    <th class="align-center">{{ totalCoef }}</th>
+                    <th class="align-center">{{ totalTrimestre1 }}</th>
+                    <th class="align-center">{{ totalTrimestre2 }}</th>
+                    <th class="align-center">{{ totalTrimestre3 }}</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th colspan="2">MOYENNE</th>
+                    <th class="align-center">{{ moyenne1 | number_format(2) }}</th>
+                    <th class="align-center">{{ moyenne2 | number_format(2)}}</th>
+                    <th class="align-center">{{ moyenne3 | number_format(2)}}</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th colspan="2">MOYENNE GENERALE</th>
+                    <th colspan="4" class="align-center">{{ moyenneGeneral |number_format(2) }}</th>
+                </tr>
+                </tbody>
+            </table>
+            <div class="clearfix"></div>
+            <div class="align-center">
+                <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}" class="btn btn-primary"><<</a>
+                <a href=" {{ path('ajouter_note_lyceen',{'lyceen_id':lyceen.id}) }}" class="btn btn-primary">Ajouter</a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

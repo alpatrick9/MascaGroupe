@@ -1,0 +1,254 @@
+/*
+**
+* @ file: La mise en page css à utiliser
+* @author : Rakotomahefa David & Rajaonarison Alain Patrick
+**
+*/
+@import url('bootstrap.css');
+@import url('bootstrap-theme.css');
+
+.clearfix{ clear: both;}
+.align-right {
+  text-align: right !important;
+}
+.align-center {
+	text-align: center !important;
+}
+.entete-wrapper{
+	background: url('./../assets/bg-entete.png');
+	background-repeat: repeat-x;
+	height: 100px;
+}
+.content-wrapper{
+	margin-bottom: 50px;
+}
+.footer-wrapper{
+	background: url('../assets/bg-footer.png');
+	background-repeat: repeat-x;
+	height: 60px;
+	padding:5px 5px;
+	margin-top: 20px;
+	color: #fff;
+	text-align: center;
+}
+.logo-home{
+	width: 120px;
+}
+.slogan{
+	padding-top: 40px;
+    color: #fff;
+}
+.main-menu li{ 
+	float: left;
+	padding:  5px 20px;
+	text-transform: uppercase;
+	font-weight: bold;
+	list-style: none;
+}
+.floatleft{ float: left;}
+.floatright{float: right;}
+.icon-main-menu{ /*height: 40px;*/ text-align: center;}
+.main-menu li div{ padding-right: 0 !important; padding-left: 0 !important; text-align: center; color: #0606a2;}
+.icon-main-menu img{ width: auto; height: 100%; margin: 0 auto;}
+.zone-bordered{
+	border: 1px solid #0606a2;
+	border-radius: 10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	min-height: 400px;
+}
+.milieupage{ 
+	padding: 5px;
+    margin-bottom: 20px;
+}
+.grid{
+	float: left;
+	margin: 5px;
+	border: 1px solid #000;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	padding: auto;
+}
+.menu{
+	list-style: none;
+}
+.menu li{
+	width: 100%;
+}
+.main-menu .actif div{ color: #fff !important;}
+.actif{
+	color: #fff !important;
+	background: #0606a2;
+	border-radius: 10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+}
+.main-menu li:hover{
+	background: #ccc;
+	border-radius: 10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.grid-full{
+	width: 100%;
+	height: auto;
+	border: none;
+}
+.grid-half{
+	width: 45%;
+	margin: 5px;
+	height: auto;
+	border: none;
+}
+.grid-tier{
+	width: 30%;
+	margin: 5px;
+	height: auto;
+	border: none;
+}
+.grid-quart{
+	width: 20%;
+	margin: 5px;
+	height: auto;
+	border: none;
+}
+.grid-half img{ width: 20%;}
+.grid-full div{ text-align: center;}
+.icon-edu{ min-width: 100%;}
+.icon-flat{ width: 40%;}
+.icon-full{ width: 100%;}
+.primaire{
+	background:url('../assets/primaire.png');
+	background-position: top center;
+	background-repeat: no-repeat;
+}
+.college{
+	background:url('../assets/college.png');
+	background-position: top center;
+	background-repeat: no-repeat;
+}
+.lycee{
+	background:url('../assets/lycee.png');
+	background-position: top center;
+	background-repeat: no-repeat;
+}
+.universite{
+	/*background:url('../assets/universite.png');*/
+	background-position: top center;
+	background-repeat: no-repeat;
+}
+.titre{
+	text-align: center;
+	font-weight: bold;
+	border-bottom: 1px solid #000;
+	margin: 5px 0;
+}
+#tableshow{
+	table-layout: fixed;
+}
+#tableshow th {
+    word-break: break-all;
+    
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+/* Classe obligatoire pour les flèches */
+.flecheDesc {
+  width: 0; 
+  height: 0; 
+  float:right;
+  margin: 10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid black;
+}
+.flecheAsc {
+  width: 0; 
+  height: 0;
+  float:right;
+  margin: 10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+}
+.avectri th.selection {background-color:#5d625c;color:#fff;}
+.avectri th.selection .flecheDesc {border-bottom-color: white;}
+.avectri th.selection .flecheAsc {border-top-color: white;}
+.zebre tbody td:nth-child(3) {text-align:center;}
+.link-text{ margin: 10px 5px;}
+.thumbs{
+	width: 20px;
+}
+table tbody tr td{
+	overflow: hidden;
+}
+#editlyceen, #edituniversitaire, #ecolage{
+	z-index: 9999 !important;
+}
+#infos table{
+	margin-bottom:10px;
+}
+#infos table tr{
+	border-bottom: 1px solid #ccc;
+}
+#infos table tr td{
+	text-align: right;
+	padding:2px 5px 2px 0;
+}
+#infos fieldset label{
+	text-transform: uppercase;
+	font-weight:bold;
+	text-align: center;
+}
+.modal {
+	max-height: 98%;
+	overflow-y: scroll;
+}
+
+#form_dateNaissance_day, #form_dateReinscription_day, #form_dateDelivranceCin_day {
+	width: 65px;
+	margin: 2.5px;
+}
+#form_dateNaissance_month, #form_dateReinscription_month, #form_dateDelivranceCin_month {
+	width: 100px;
+	margin: 2.5px;
+}
+#form_dateNaissance_year, #form_dateReinscription_year, #form_dateDelivranceCin_year {
+	width: 100px;
+	margin: 2.5px;
+}
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+	width: 89%;
+}
+#formpaiement select,
+#formpaiement textarea,
+#formpaiement input[type="text"],
+#formpaiement input[type="password"],
+#formpaiement input[type="email"],
+#formpaiement input[type="url"],
+#formpaiement input[type="search"],
+#formpaiement input[type="tel"],
+#formpaiement input[type="color"],
+#formpaiement .uneditable-input {
+	width: 100%;
+}
+
+#formpaiement input[type="number"]{ width:95%;}
+#inscriptionuniv select{ width:93%;}
+#form_dateNaissance select, #form_dateReinscription select, #form_dateDelivranceCin select{width: 30%;}

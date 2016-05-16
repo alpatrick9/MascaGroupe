@@ -1,0 +1,43 @@
+{% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
+{% block title %} Administration lycée {% endblock %}
+{% block admin_lycee_body %}
+    <h4>Les classe du lycée</h4>
+    <a href="{{ path('ajouter_classe_lycee') }}" class="btn">Nouvelle classe</a>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">Classe</th>
+            <th>Niveau d'étude</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for classe in classes %}
+            <tr>
+                <td>{{ classe.intitule }}</td>
+                <td>{{ classe.niveauEtude.intitule }}</td>
+                <td>
+                    <a href="{{ path('modifier_classe_lycee',{'classe_id':classe.id}) }}" class="btn btn-primary">modifier</a>
+                    <a href="{{ path('emploi_du_temps_lycee',{'id':classe.id}) }}" class="btn">Emploi du temps</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun étudiant enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if classes|length > 0 %}
+        <div class="pagination align-center">
+            <ul>
+                {% for p in range(1, nbPage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('admin_lycee_accueil', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock%}

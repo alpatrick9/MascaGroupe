@@ -1,0 +1,15 @@
+{% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
+{% block title %}Matiere{% endblock %}
+{% block admin_lycee_body %}
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
+    <h2>Creer/modifier matiere</h2>
+    <form method="post">
+        {{ form_widget(matiereForm) }}
+        <div class="align-right">
+            <input type="submit" class="btn" value="Enregistre">
+            <a href="{{ path('liste_matieres_lycee') }}" class="btn">Annulers</a>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,36 @@
+security:
+    encoders:
+        OC\UserBundle\Entity\User: sha512
+    role_hierarchy:
+            ROLE_AUTEUR:      ROLE_AUTEUR
+            ROLE_LECTEUR:     ROLE_USER
+            ROLE_ADMIN:       ROLE_ADMIN
+            ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        main:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main_login:
+            pattern: ^/login$
+            anonymous: true
+        main:
+            pattern: ^/
+            anonymous: true
+            provider: main
+            form_login:
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+            logout:
+                path: fos_user_security_logout
+                target: fos_user_security_login
+            remember_me:
+                secret:        %secret% # %secret% est un paramètre de parameters.yml
+
+    access_control:
+        #- { path: ^/blog, roles: [ROLE_ADMIN, ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY]  }
+

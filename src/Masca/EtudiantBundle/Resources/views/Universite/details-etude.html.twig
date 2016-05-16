@@ -1,0 +1,59 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %}Details univeritaire{% endblock %}
+{% block etudiant_body %}
+    <div class="row">
+        <div class="span6">
+            <fieldset>
+                <table class="table  table-hover table-bordered table-striped">
+                    <tr>
+                        <td><b>N° matricule:</b></td>
+                        <td>{{ sonFiliere.universitaire.person.numMatricule }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Nom:</b></td>
+                        <td>{{ sonFiliere.universitaire.person.nom }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Prénom:</b></td>
+                        <td>{{ sonFiliere.universitaire.person.prenom }}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="span6">
+            <fieldset>
+                <table class="table  table-hover table-bordered table-striped">
+                    <tr>
+                        <td><b>Intitulé du Filiere:</b></td>
+                        <td>{{ sonFiliere.sonFiliere.intitule }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Niveau d'étude:</b></td>
+                        <td>{{ sonFiliere.sonNiveauEtude.intitule }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Semestre:</b></td>
+                        <td>{{ sonFiliere.semestre.intitule }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Année d'étude:</b></td>
+                        <td>{{ sonFiliere.anneeEtude }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Date de prochain inscription:</b></td>
+                        <td>{{ sonFiliere.dateReinscription | date('d M Y') }}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="align-center">
+            <a href="{{ path('details_universite',{'id':sonFiliere.universitaire.id})}}" class="btn btn-primary"> << </a>
+            <a href="{{ path('reinscription_universite', {'id':sonFiliere.sonFiliere.id}) }}" class="btn btn-primary">Reinscription</a>
+            <a href="" class="btn btn-primary">Note d'examen</a>
+            <a href="" class="btn btn-primary">Ecolage</a>
+
+        </div>
+    </div>
+{% endblock %}

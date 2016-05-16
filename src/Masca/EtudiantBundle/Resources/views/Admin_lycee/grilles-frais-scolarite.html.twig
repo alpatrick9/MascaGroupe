@@ -1,0 +1,40 @@
+{% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
+{% block title %}Grilles de frais de scolarite lycée{% endblock %}
+{% block admin_lycee_body %}
+    <h4>Frais de scolarité Lycée</h4>
+    <a href="{{ path('ajouter_grille_ecolage_lycee') }}" class="btn">Nouvelle grille</a>
+    <hr/>
+    <table id="tableshow" class="table table-hover table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">grille</th>
+            <th>Montant</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for grille in grilles %}
+            <tr>
+                <td>{{ grille.classe.intitule }}</td>
+                <td>{{ grille.montant }}</td>
+                <td><a href="{{ path('modifier_grille_ecolage_lycee',{'grille_id': grille.id}) }}" class="btn btn-primary">modifier</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun étudiant enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if grilles|length > 0 %}
+        <div class="pagination align-center">
+            <ul>
+                {% for p in range(1, nbPage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('grille_ecolage_lycee', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

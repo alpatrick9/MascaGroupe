@@ -1,0 +1,30 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %}Inscription lyceen{% endblock %}
+{% block etudiant_body %}
+    <form method="post">
+        <div class="row">
+            <div class="span4">
+                <fieldset>
+                    <legend>Infos personnelle</legend>
+                    {{ form_widget(personForm) }}
+                </fieldset>
+            </div>
+            <div class="span4">
+                <fieldset>
+                    <legend>Infos Etudie</legend>
+                    {{ form_widget(etudeForm) }}
+                </fieldset>
+            </div>
+            <div class="span4">
+                <fieldset>
+                    <legend>Infos conmplementaire</legend>
+                    {{ form_widget(infoEtudiantForm) }}
+                </fieldset>
+            </div>
+        </div>
+        <div class="align-right">
+            <input type="submit" value="Enregistrer" class="btn btn-primary">
+            <a href="{{ path('accueil_lycee') }}" class="btn btn-primary">Annuler</a>
+        </div>
+    </form>
+{% endblock %}

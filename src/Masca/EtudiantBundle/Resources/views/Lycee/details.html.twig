@@ -1,0 +1,107 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %}Details lyceen{% endblock %}
+{% block etudiant_body %}
+    <div class="row">
+        <div class="span4">
+            <fieldset>
+                <legend>Infos personnelle</legend>
+                <table class="table  table-hover table-bordered table-striped">
+                    <tr>
+                        <td class="text-bold"><b>N° matricule:</b></td>
+                        <td>{{ lyceen.person.numMatricule }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Nom:</b></td>
+                        <td>{{ lyceen.person.nom }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Prénom:</b></td>
+                        <td>{{ lyceen.person.prenom }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Date de naissance:</b></td>
+                        <td>{{ lyceen.person.dateNaissance |date('d M Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Lieu de naissance:</b></td>
+                        <td>{{ lyceen.person.lieuNaissance }}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="span4">
+            <fieldset>
+                <legend>Infos Etudie</legend>
+                <table class="table  table-hover table-bordered table-striped">
+                    <tr>
+                        <td class="text-bold"><b>N°:</b></td>
+                        <td>{{ lyceen.numeros }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Année scolaire:</b></td>
+                        <td>{{ lyceen.anneeScolaire }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Classe:</b></td>
+                        <td>{{ lyceen.sonClasse.intitule }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Date de réinscription:</b></td>
+                        <td>{{ lyceen.dateReinscription |date('d M Y') }}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="span4">
+            <fieldset>
+                <legend>Infos conmplementaire</legend>
+                <table class="table  table-hover table-bordered table-striped">
+                    <tr>
+                        <td class="text-bold"><b>Adresse:</b></td>
+                        <td>{{ lyceen.infoEtudiant.adresse }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Téléphone:</b></td>
+                        <td>{{ lyceen.infoEtudiant.tel }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>E-mail:</b></td>
+                        <td>{{ lyceen.infoEtudiant.email }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Nom de sa mère:</b></td>
+                        <td>{{ lyceen.infoEtudiant.nomMere }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Nom de son père:</b></td>
+                        <td>{{ lyceen.infoEtudiant.nomPere }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Contact de ses parents:</b></td>
+                        <td>{{ lyceen.infoEtudiant.telParent }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>E-mail de ses parents:</b></td>
+                        <td>{{ lyceen.infoEtudiant.emailParent }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-bold"><b>Nom du tuteur:</b></td>
+                        <td>{{ lyceen.infoEtudiant.nomTuteur }}</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="align-center">
+            <a href="{{ path('accueil_lycee')}}" class="btn btn-primary"> << </a>
+            <a href="{{ path('modifier_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary"> Modifier </a>
+            <a href="{{ path('reinscription_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Réinscription</a>
+            <a href="{{ path('liste_notes_lyceen', {'lyceen_id':lyceen.id}) }}" class="btn btn-primary">Note d'examen</a>
+            <a href="{{ path('ecolage_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Ecolage</a>
+            <a href="" class="btn btn-primary">Absence</a>
+            <a href="" class="btn btn-primary">Retard</a>
+
+        </div>
+    </div>
+{% endblock %}

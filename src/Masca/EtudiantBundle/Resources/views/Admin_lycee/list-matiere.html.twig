@@ -1,0 +1,40 @@
+{% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
+{% block title %} Administration lycée {% endblock %}
+{% block admin_lycee_body %}
+    <h4>Les matières du lycée</h4>
+    <a href="{{ path('ajouter_matiere_lycee') }}" class="btn">Nouvelle matière</a>
+    <hr/>
+    <table id="tableshow" class="table table-hover table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">Nom du matière</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for matiere in matieres %}
+            <tr>
+                <td>{{ matiere.intitule }}</td>
+                <td>
+                    <a href="{{ path('modifier_matiere_lycee',{'matiere_id':matiere.id}) }}" class="btn">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun matière enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if matieres|length > 0 %}
+        <div class="pagination align-center">
+            <ul>
+                {% for p in range(1, nbPage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('liste_matieres_lycee', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock%}

@@ -1,0 +1,14 @@
+{% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
+{% block title %} Nouvelle classe {% endblock %}
+{% block admin_lycee_body %}
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
+    <form method="post">
+        {{ form_widget(classeForm) }}
+        <div class="align-right">
+            <input type="submit" value="Enregistrer" class="btn">
+            <a class="btn" href="{{ path('admin_lycee_accueil') }}">Annuler</a>
+        </div>
+    </form>
+{% endblock %}

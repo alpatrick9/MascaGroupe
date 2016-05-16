@@ -1,0 +1,13 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+    jours: ['Lundi','Mardi','Mercredi','Jeudi','Vendredi']
+    heures: ['07-08','08-09','09-10','10-11','11-12','12-13','13-14','14-15','15-16','16-17','17-18']
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    fos_user.doctrine_registry:
+        alias: doctrine

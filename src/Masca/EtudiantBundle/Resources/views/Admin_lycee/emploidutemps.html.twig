@@ -1,0 +1,30 @@
+{% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
+{% block title %}Emploi du temps{% endblock %}
+{% block admin_lycee_body %}
+    <h4>Emploi du temps classe de {{ classe.intitule }}</h4>
+    <table class="table table-hover table-bordered table-striped">
+        {% for h in range(0,nbHeures) %}
+            <tr>
+                {% for j in range(0,nbJours) %}
+                    {% if (j == 0 and h == 0)%}
+                        <th scope="row"> </th>
+                    {% elseif (j > 0 and h == 0) %}
+                        <th scope="row"> {{ jours[j-1] }}</th>
+                    {% elseif (j == 0 and h > 0) %}
+                        <th style="min-width: 50px" scope="row"> {{ heures[h-1] }}</th>
+                    {% else %}
+                        <td>
+                            {% if matieres[j-1][h-1] != '' %}
+                                {{ matieres[j-1][h-1].matiere.intitule }}
+                            {% else %}
+                                <a href="{{ path('ajouter_matiere_emplois_du_temps_lycee',{'classe_id':classe.id, 'jourIndex':j-1, 'heureIndex':h-1}) }}">libre</a>
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+
+        {% endfor %}
+    </table>
+
+{% endblock %}
