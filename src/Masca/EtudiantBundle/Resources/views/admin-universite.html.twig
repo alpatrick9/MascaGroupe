@@ -3,10 +3,10 @@
     <div class="row">
         <div class="span3" id="sidebar-wrapper">
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="{{ path('admin_univ_accueil') }}">Filiere</a></li>
-                <li><a href="{{ path('niveau_etude') }}">Niveau d'étude</a></li>
-                <li><a href="{{ path('semestre') }}">Semestre</a></li>
-                <li><a href="{{ path('grille_ecolage_universite') }}">Grille de frais de scolarité</a></li>
+                <li {% if 'filiere' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('admin_univ_filiere') }}">Filiere</a></li>
+                <li {% if 'niveau' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('niveau_etude_univ') }}">Niveau d'étude</a></li>
+                <li {% if 'semestre' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('semestre_univ') }}">Semestre</a></li>
+                <li {% if 'grille' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('grille_ecolage_universite') }}">Grille de frais de scolarité</a></li>
                 <li><a href="">Matière</a></li>
                 <li><a href="">Unité d'enseignement</a></li>
 

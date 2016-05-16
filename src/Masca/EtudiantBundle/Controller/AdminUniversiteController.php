@@ -26,7 +26,7 @@ class AdminUniversiteController extends Controller
     /**
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/{page}", name="admin_univ_accueil", defaults={"page"=1})
+     * @Route("/universite/admin/{page}", name="admin_univ_filiere", defaults={"page"=1})
      */
     public function indexAction($page) {
         $nbParPage = 30;
@@ -49,7 +49,7 @@ class AdminUniversiteController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/ajoute-filiere/", name="ajouter_filiere")
+     * @Route("/universite/admin/ajoute-filiere/", name="ajouter_filiere_univ")
      */
     public function ajouterFiliereAction(Request $request) {
         $filiere = new Filiere();
@@ -66,7 +66,7 @@ class AdminUniversiteController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($filiere);
             $em->flush();
-            return $this->redirect($this->generateUrl('admin_univ_accueil'));
+            return $this->redirect($this->generateUrl('admin_univ_filiere'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-filiere.html.twig',[
             'filiereForm'=>$filiereForm->createView()
@@ -75,7 +75,7 @@ class AdminUniversiteController extends Controller
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/niveau-etude/", name="niveau_etude")
+     * @Route("/universite/admin/niveau-etude/", name="niveau_etude_univ")
      */
     public function niveauEtudeAction() {
         return $this->render('MascaEtudiantBundle:Admin_universite:niveau-etude.html.twig',[
@@ -87,7 +87,7 @@ class AdminUniversiteController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/ajoute-niveau-etude/", name="ajouter_niveau_etude")
+     * @Route("/universite/admin/ajoute-niveau-etude/", name="ajouter_niveau_etude_univ")
      */
     public function ajouterNiveauEtudeAction(Request $request) {
         $niveau = new NiveauEtude();
@@ -102,7 +102,7 @@ class AdminUniversiteController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($niveau);
             $em->flush();
-            return $this->redirect($this->generateUrl('niveau_etude'));
+            return $this->redirect($this->generateUrl('niveau_etude_univ'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-niveau-etude.html.twig',[
             'form'=>$form->createView()
@@ -111,7 +111,7 @@ class AdminUniversiteController extends Controller
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/semestre/", name="semestre")
+     * @Route("/universite/admin/semestre/", name="semestre_univ")
      */
     public function semestreAction() {
         return $this->render('MascaEtudiantBundle:Admin_universite:semestre.html.twig',[
@@ -123,7 +123,7 @@ class AdminUniversiteController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/ajoute-semestre/", name="ajouter_semestre")
+     * @Route("/universite/admin/ajoute-semestre/", name="ajouter_semestre_univ")
      */
     public function ajouterSemestreAction(Request $request) {
         $semestre = new Semestre();
@@ -139,7 +139,7 @@ class AdminUniversiteController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($semestre);
             $em->flush();
-            return $this->redirect($this->generateUrl('semestre'));
+            return $this->redirect($this->generateUrl('semestre_univ'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-semestre.html.twig',[
            'form'=>$form->createView()
@@ -196,7 +196,7 @@ class AdminUniversiteController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($grille);
             $em->flush();
-            return $this->redirect($this->generateUrl('grille-ecolage-universite'));
+            return $this->redirect($this->generateUrl('grille_ecolage_universite'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-grilles-frais-scolarite.html.twig',[
             'form'=>$form->createView()
