@@ -29,7 +29,7 @@ class DefaultController extends Controller
          */
         $users = $this->getDoctrine()->getManager()
             ->getRepository('OCUserBundle:User')->findAll();
-        return $this->render('OCUserBundle:Security:list-users.html.twig', array(
+        return $this->render('OCUserBundle:Default:list-users.html.twig', array(
             'users'=> $this->getDoctrine()->getManager()
                             ->getRepository('OCUserBundle:User')->findAll()
         ));
