@@ -211,15 +211,15 @@ table tbody tr td{
 	overflow-y: scroll;
 }
 
-#form_dateNaissance_day, #form_dateReinscription_day, #form_dateDelivranceCin_day {
+#person_dateNaissance_day, #lyceen_dateReinscription_day, #person_dateDelivranceCin_day {
 	width: 65px;
 	margin: 2.5px;
 }
-#form_dateNaissance_month, #form_dateReinscription_month, #form_dateDelivranceCin_month {
+#person_dateNaissance_month, #lyceen_dateReinscription_month, #person_dateDelivranceCin_month {
 	width: 100px;
 	margin: 2.5px;
 }
-#form_dateNaissance_year, #form_dateReinscription_year, #form_dateDelivranceCin_year {
+#person_dateNaissance_year, #lyceen_dateReinscription_year, #person_dateDelivranceCin_year {
 	width: 100px;
 	margin: 2.5px;
 }

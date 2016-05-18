@@ -3,9 +3,9 @@
 <div class="row">
     <div class="span3" id="sidebar-wrapper">
         <ul class="nav nav-pills nav-stacked">
-            <li><a href="{{ path('admin_lycee_classe') }}">Classes</a></li>
-            <li><a href="{{ path('liste_matieres_lycee') }}">Matière</a></li>
-            <li><a href="{{ path('grille_ecolage_lycee') }}">Grille de frais de scolarite</a></li>
+            <li{% if 'classe' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('admin_lycee_classe') }}">Classes</a></li>
+            <li{% if 'matiere' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('liste_matieres_lycee') }}">Matière</a></li>
+            <li{% if 'ecolage' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('grille_ecolage_lycee') }}">Grille de frais de scolarite</a></li>
         </ul>
     </div>
     <div class="span9">

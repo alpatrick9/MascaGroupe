@@ -12,6 +12,7 @@ namespace Masca\EtudiantBundle\Controller\Lycee;
 use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee;
 use Masca\EtudiantBundle\Entity\Lyceen;
+use Masca\EtudiantBundle\Type\EcolageLyceenType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -71,31 +72,13 @@ class EcolageLyceenController extends Controller
         $fraisScolariteLyceen->setAnneeScolaire($lyceen->getAnneeScolaire());
         $fraisScolariteLyceen->setLyceen($lyceen);
 
-        $ecolageFromBuilder = $this->createFormBuilder($fraisScolariteLyceen);
-        $ecolageFromBuilder
-            ->add('mois',ChoiceType::class,array(
-                'label'=>'Mois',
-                'choices_as_values'=>true,
-                'choices'=>array('Janvier'=>'Janvier','Fevrier'=>'Février','Mars'=>'Mars','Mai'=>'Mai','Juin'=>'Juin','Juillet'=>'Juillet','Aout'=>'Août','Septembre'=>'Septembre','Novermbre'=>'Novembre','Decembre'=>'Decembre'),
-                'placeholder'=>'Choisissez...',
-                'data'=>$fraisScolariteLyceen->getMois()
-            ))
-            ->add('annee',ChoiceType::class,array(
-                'label'=>'Annee',
-                'choices_as_values'=>true,
-                'choices'=> $choicesAnnee,
-                'placeholder'=>'Choisissez...',
-                'data'=>$fraisScolariteLyceen->getAnnee()
-            ))
-            ->add('montant',IntegerType::class,array(
-                'label'=>'Montant',
-                'attr'=>array(
-                    'placeholder'=>'la somme',
-                    'min'=>0,
-                    'max'=>$motantEcolage->getMontant()
-                )
-            ));
-        $ecolageFrom = $ecolageFromBuilder->getForm();
+        $ecolageFrom = $this->createForm(EcolageLyceenType::class,$fraisScolariteLyceen,[
+            'trait_choices'=>[
+                'mois'=>$this->getParameter('mois'),
+                'annees'=>$choicesAnnee,
+                'max'=>$motantEcolage->getMontant()
+            ]
+        ]);
 
         if($request->getMethod() == 'POST') {
             $ecolageFrom->handleRequest($request);
@@ -131,34 +114,24 @@ class EcolageLyceenController extends Controller
         $motantEcolage = $this->getDoctrine()->getManager()
             ->getRepository('MascaEtudiantBundle:GrilleFraisScolariteLycee')->findOneByClasse($fraisScolariteLyceen->getLyceen()->getSonClasse());
 
-        $ecolageFromBuilder = $this->createFormBuilder($fraisScolariteLyceen);
-        $ecolageFromBuilder
-            ->add('mois',ChoiceType::class,array(
-                'label'=>'Mois',
-                'choices_as_values'=>true,
-                'choices'=>array('Janvier'=>'Janvier','Fevrier'=>'Février','Mars'=>'Mars','Mai'=>'Mai','Juin'=>'Juin','Juillet'=>'Juillet','Aout'=>'Août','Septembre'=>'Septembre','Novermbre'=>'Novembre','Decembre'=>'Decembre'),
-                'placeholder'=>'Choisissez...',
-                'data'=>$fraisScolariteLyceen->getMois(),
-                'attr'=>['readonly'=>true]
-            ))
-            ->add('annee',ChoiceType::class,array(
-                'label'=>'Annee',
-                'choices_as_values'=>true,
-                'choices'=> $choicesAnnee,
-                'placeholder'=>'Choisissez...',
-                'data'=>$fraisScolariteLyceen->getAnnee(),
-                'attr'=>['readonly'=>true]
-            ))
-            ->add('montant',IntegerType::class,array(
-                'label'=>'Complement de l\'ecolage',
-                'attr'=>array(
-                    'placeholder'=>'la somme',
-                    'min'=>0,
-                    'max'=>$motantEcolage->getMontant()-$fraisScolariteLyceen->getMontant()
-                ),
-                'data'=>null
-            ));
-        $ecolageFrom = $ecolageFromBuilder->getForm();
+
+        $ecolageFrom = $this->createForm(EcolageLyceenType::class,$fraisScolariteLyceen,[
+            'trait_choices'=>[
+                'mois'=>$this->getParameter('mois'),
+                'annees'=>$choicesAnnee,
+                'max'=>$motantEcolage->getMontant()
+                ]
+        ]);
+
+        $moisField = $ecolageFrom->get('mois');
+        $options = $moisField->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $ecolageFrom->add('mois',$moisField->getConfig()->getType()->getInnerType(),$options);
+
+        $anneeFied = $ecolageFrom->get('annee');
+        $options = $anneeFied->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $ecolageFrom->add('annee',$anneeFied->getConfig()->getType()->getInnerType(),$options);
 
         if($request->getMethod() == 'POST') {
             $oldMontant = $fraisScolariteLyceen->getMontant();

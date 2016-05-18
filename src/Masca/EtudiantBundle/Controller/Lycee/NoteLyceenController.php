@@ -11,6 +11,7 @@ namespace Masca\EtudiantBundle\Controller\Lycee;
 
 use Masca\EtudiantBundle\Entity\Lyceen;
 use Masca\EtudiantBundle\Entity\LyceenNote;
+use Masca\EtudiantBundle\Type\LyceenNoteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -80,34 +81,10 @@ class NoteLyceenController extends Controller
      * @Route("/lycee/note/ajouter/{lyceen_id}", name="ajouter_note_lyceen")
      */
     public function ajouterNoteAction(Request $request, Lyceen $lyceen) {
+
         $note = new LyceenNote();
-        $formBuilder = $this->createFormBuilder($note);
-        $formBuilder
-            ->add('matiere',EntityType::class,[
-                'label'=>'Matière',
-                'class'=>'Masca\EtudiantBundle\Entity\MatiereLycee',
-                'choice_label'=>'intitule',
-                'placeholder'=>'choisissez...'
-            ])
-            ->add('coefficient',IntegerType::class,[
-                'label'=>'Coefficient',
-                'attr'=>[
-                    'min'=>1,
-                    'max'=>10
-                ],
-            ])
-            ->add('noteTrimestre1',NumberType::class,[
-                'label'=>'Note 1èr trimestre (/20)'
-            ])
-            ->add('noteTrimestre2',NumberType::class,[
-                'label'=>'Note 2nd trimestre (/20)',
-                'required'=>false
-            ])
-            ->add('noteTrimestre3',NumberType::class,[
-                'label'=>'Note 3ème trimestre(/20)',
-                'required'=>false
-            ]);
-        $form = $formBuilder->getForm();
+        $form = $this->createForm(LyceenNoteType::class,$note);
+
         if($request->getMethod() ==  'POST') {
             $form->handleRequest($request);
             $note->setLyceen($lyceen);

@@ -23,6 +23,10 @@ class DefaultController extends Controller
         return $this->render('MascaEtudiantBundle:Default:index.html.twig');
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/users", name="user_lists")
+     */
     public function listUserAction() {
         /**
          * @var $users User[]
