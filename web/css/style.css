@@ -252,3 +252,17 @@ input[type="color"],
 #formpaiement input[type="number"]{ width:95%;}
 #inscriptionuniv select{ width:93%;}
 #form_dateNaissance select, #form_dateReinscription select, #form_dateDelivranceCin select{width: 30%;}
+
+.menu_tool{
+	height: 20px;
+}
+.menu_tool ul{
+	display: none;
+	position: absolute;
+	z-index: 10;
+	margin: -2px 0 0 0;
+}
+.menu_tool:hover ul{
+	display: block;
+}
+

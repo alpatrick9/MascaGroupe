@@ -15,7 +15,13 @@
                     {% else %}
                         <td>
                             {% if matieres[j-1][h-1] != '' %}
-                                {{ matieres[j-1][h-1].matiere.intitule }}
+                                <span class="menu_tool" href="#">
+                                    {{ matieres[j-1][h-1].matiere.intitule }}
+                                    <ul class="nav nav-pills">
+                                        <li><a href="{{ path('modifier_matiere_emplois_du_temps_lycee',{'emploiDuTempsLycee_id':matieres[j-1][h-1].id}) }}" class="btn-primary">modif</a></li>
+                                        <li><a href="{{ path('supprimer_matiere_emplois_du_temps_lycee',{'emploiDuTempsLycee_id':matieres[j-1][h-1].id}) }}" class="btn-danger">suppr</a></li>
+                                    </ul>
+                                </span>
                             {% else %}
                                 <a href="{{ path('ajouter_matiere_emplois_du_temps_lycee',{'classe_id':classe.id, 'jourIndex':j-1, 'heureIndex':h-1}) }}">libre</a>
                             {% endif %}

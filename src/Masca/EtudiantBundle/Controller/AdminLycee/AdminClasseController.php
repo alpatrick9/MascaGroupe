@@ -187,4 +187,56 @@ class AdminClasseController extends Controller
             'classeId'=>$classe->getId()
         ));
     }
+
+    /**
+     * @param Request $request
+     * @param Classe $classe
+     * @param $jourIndex
+     * @param $heureIndex
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("emploiDuTempsLycee", options={"mapping": {"emploiDuTempsLycee_id":"id"}})
+     * @Route("/lycee/admin/emploi-du-temps/modifier-matiere/{emploiDuTempsLycee_id}", name="modifier_matiere_emplois_du_temps_lycee")
+     */
+    public function modifierMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
+        $jours = $this->getParameter('jours');
+        $heures = $this->getParameter('heures');
+
+        $emploiDuTempsForm = $this->createForm(EmploiDuTempsLyceeType::class,$emploiDuTempsLycee,[
+            'trait_choices'=>[
+                'classe'=>$emploiDuTempsLycee->getClasse()
+            ]
+        ]);
+
+        if($request->getMethod() == 'POST') {
+            $emploiDuTempsForm->handleRequest($request);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirect($this->generateUrl('emploi_du_temps_lycee',array('id'=>$emploiDuTempsLycee->getClasse()->getId())));
+        }
+
+        return $this->render('MascaEtudiantBundle:Admin_lycee:ajouter-matiere-emploidutemps.html.twig', array(
+            'emploiDuTempsForm'=>$emploiDuTempsForm->createView(),
+            'jour'=>$jours[$emploiDuTempsLycee->getJourIndex()],
+            'heure'=>$heures[$emploiDuTempsLycee->getHeureIndex()],
+            'classeId'=>$emploiDuTempsLycee->getClasse()->getId()
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param Classe $classe
+     * @param $jourIndex
+     * @param $heureIndex
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("emploiDuTempsLycee", options={"mapping": {"emploiDuTempsLycee_id":"id"}})
+     * @Route("/lycee/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsLycee_id}", name="supprimer_matiere_emplois_du_temps_lycee")
+     */
+    public function supprimerMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
+        $jours = $this->getParameter('jours');
+        $heures = $this->getParameter('heures');
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($emploiDuTempsLycee);
+        $em->flush();
+        return $this->redirect($this->generateUrl('emploi_du_temps_lycee',array('id'=>$emploiDuTempsLycee->getClasse()->getId())));
+    }
+
 }
