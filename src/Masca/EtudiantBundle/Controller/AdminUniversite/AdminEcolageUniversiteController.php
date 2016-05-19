@@ -10,6 +10,7 @@ namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite;
+use Masca\EtudiantBundle\Type\GrilleEcolageUniversiteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,24 +36,8 @@ class AdminEcolageUniversiteController extends Controller
      */
     public function ajouterGrilleAction(Request $request) {
         $grille = new GrilleFraisScolariteUniversite();
-        $formBuilder = $this->createFormBuilder($grille);
-        $formBuilder
-            ->add('filiere',EntityType::class,[
-                'label'=>'Filiere',
-                'class'=>'Masca\EtudiantBundle\Entity\Filiere',
-                'choice_label'=>'intitule',
-                'placeholder'=>'Choisissez'
-            ])
-            ->add('niveauEtude',EntityType::class,[
-                'label'=>'Niveau d\étude',
-                'class'=>'Masca\EtudiantBundle\Entity\NiveauEtude',
-                'choice_label'=>'intitule',
-                'placeholder'=>'Choisissez'
-            ])
-            ->add('montant',NumberType::class,[
-                'label'=>'Montant (Ar)'
-            ]);
-        $form = $formBuilder->getForm();
+        $form = $this->createForm(GrilleEcolageUniversiteType::class, $grille);
+        
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if(!$this->getDoctrine()->getManager()->

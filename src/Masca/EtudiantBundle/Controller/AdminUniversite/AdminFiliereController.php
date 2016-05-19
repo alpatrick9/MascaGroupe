@@ -14,6 +14,7 @@ use Masca\EtudiantBundle\Entity\FiliereRepository;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite;
 use Masca\EtudiantBundle\Entity\NiveauEtude;
 use Masca\EtudiantBundle\Entity\Semestre;
+use Masca\EtudiantBundle\Type\FiliereType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -53,13 +54,7 @@ class AdminFiliereController extends Controller
      */
     public function ajouterFiliereAction(Request $request) {
         $filiere = new Filiere();
-
-        $filiereFormBuilder = $this->createFormBuilder($filiere);
-        $filiereFormBuilder->add('intitule',TextType::class,[
-           'label'=>'Intitulé du filière'
-        ]);
-
-        $filiereForm = $filiereFormBuilder->getForm();
+        $filiereForm = $this->createForm(FiliereType::class, $filiere);
 
         if($request->getMethod() == 'POST') {
             $filiereForm->handleRequest($request);

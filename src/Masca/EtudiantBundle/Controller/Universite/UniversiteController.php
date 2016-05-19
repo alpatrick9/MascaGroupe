@@ -14,6 +14,10 @@ use Masca\EtudiantBundle\Entity\Person;
 use Masca\EtudiantBundle\Entity\Universitaire;
 use Masca\EtudiantBundle\Entity\UniversitaireRepository;
 use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
+use Masca\EtudiantBundle\Type\InfoEtudiantType;
+use Masca\EtudiantBundle\Type\PersonType;
+use Masca\EtudiantBundle\Type\SonFiliereType;
+use Masca\EtudiantBundle\Type\UniversitaireType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -57,123 +61,16 @@ class UniversiteController extends Controller
      */
     public  function inscriptionAction(Request $request) {
         $person = new Person();
+        $personForm = $this->createForm(PersonType::class, $person);
+        
         $infoEtudiant = new InfoEtudiant();
+        $infoEtudiantForm = $this->createForm(InfoEtudiantType::class, $infoEtudiant);
+        
         $universitaire = new Universitaire();
+        $universitaireForm = $this->createForm(UniversitaireType::class, $universitaire);
+        
         $sonFiliere = new UniversitaireSonFiliere();
-
-        $personFormBuilder = $this->createFormBuilder($person);
-        $personFormBuilder
-            ->add('numMatricule',TextType::class,array(
-                'label'=>'Numeros matricule'
-            ))
-            ->add('nom',TextType::class,array(
-                'label'=>'Nom'
-            ))
-            ->add('prenom',TextType::class,array(
-                'label'=>'Prénom',
-                'required'=>false
-            ))
-            ->add('dateNaissance',DateType::class,array(
-                'label'=>'Date de naissance',
-                'format'=>'dd MMMM yyyy',
-                'years'=>range(date('Y')-50,date('Y')),
-                'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
-
-            ))
-            ->add('lieuNaissance',TextType::class,array(
-                'label'=>'Lieu de Naissance'
-            ))
-            ->add('numCin',IntegerType::class,array(
-                'label'=>'Numeros CIN',
-                'attr'=>array(
-                    'min'=>100000000000,
-                    'placeholder'=>112991012188),
-                'required'=>false
-            ))
-            ->add('dateDelivranceCin',DateType::class,array(
-                'label'=>'Fait le',
-                'format'=>'dd MMMM yyyy',
-                'years'=>range(date('Y')-50,date('Y')),
-                'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois'),
-                'required'=>false
-            ))
-            ->add('lieuDelivranceCin',TextType::class, array(
-               'label'=>'à',
-                'required'=>false
-            ));
-        $personForm = $personFormBuilder->getForm();
-
-        $infoEtudiantFormBuilder = $this->createFormBuilder($infoEtudiant);
-        $infoEtudiantFormBuilder
-            ->add('adresse',TextType::class,array(
-                'label'=>'Adresse'
-            ))
-            ->add('tel',TextType::class,array(
-                'label'=>'Téléphone',
-                'required'=>false
-            ))
-            ->add('email',EmailType::class,array(
-                'label'=>'E-mail',
-                'required'=>false
-            ))
-            ->add('nomMere',TextType::class,array(
-                'label'=>'Nom de votre mère'
-            ))
-            ->add('nomPere',TextType::class,array(
-                'label'=>'Nom de votre père'
-            ))
-            ->add('telParent',TextType::class,array(
-                'label'=>'Contact de votre parent',
-                'required'=>false
-            ))
-            ->add('emailParent',EmailType::class,array(
-                'label'=>'E-mail de votre parent',
-                'required'=>false
-            ))
-            ->add('nomTuteur',TextType::class,array(
-                'label'=>'Nom de votre tuteur',
-                'required'=>false
-            ));
-        $infoEtudiantForm = $infoEtudiantFormBuilder->getForm();
-
-        $universitaireFormBuilder = $this->createFormBuilder($universitaire);
-        $universitaireFormBuilder
-            ->add('serieBacc',TextType::class,array(
-                'label'=>'Série du bacc'
-            ));
-        $universitaireForm = $universitaireFormBuilder->getForm();
-
-        $sonFiliereFormBuilder = $this->createFormBuilder($sonFiliere);
-        $sonFiliereFormBuilder
-            ->add('semestre',EntityType::class,array(
-                'label'=>'Semestre',
-                'class'=>'Masca\EtudiantBundle\Entity\Semestre',
-                'choice_label'=>'intitule',
-                'placeholder'=>'choisissez...'
-            ))
-            ->add('sonFiliere',EntityType::class,array(
-                'label'=>'Filière',
-                'class'=>'Masca\EtudiantBundle\Entity\Filiere',
-                'choice_label'=>'intitule',
-                'placeholder'=>'Choisissez...'
-            ))
-            ->add('sonNiveauEtude',EntityType::class,array(
-                'label'=>'Niveau d\'etude',
-                'class'=>'Masca\EtudiantBundle\Entity\NiveauEtude',
-                'choice_label'=>'intitule',
-                'placeholder'=>'Choisissez...'
-            ))
-            ->add('anneeEtude',IntegerType::class,array(
-                'label'=>'Année d\'etude',
-                'attr'=>array('min'=>1900)
-            ))
-            ->add('dateReinscription',DateType::class,array(
-                'label'=>'Date de réinscription',
-                'format'=>'dd MMMM yyyy',
-                'years'=>range(date('Y')-1,date('Y')+5),
-                'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
-            ));
-        $sonFiliereForm = $sonFiliereFormBuilder->getForm();
+        $sonFiliereForm = $this->createForm(SonFiliereType::class, $sonFiliere);
 
         if($request->getMethod() == 'POST') {
             $personForm->handleRequest($request);
@@ -227,82 +124,8 @@ class UniversiteController extends Controller
      * @Route("/universite/modifier/{id}", name="modifier_universite")
      */
     public function modifierAction(Request $request, Universitaire $universitaire) {
-        $personFormBuilder = $this->createFormBuilder($universitaire->getPerson());
-        $personFormBuilder
-            ->add('numMatricule',TextType::class,array(
-                'label'=>'Numeros matricule',
-                'disabled'=>true,
-                'data'=>$universitaire->getPerson()->getNumMatricule()
-            ))
-            ->add('nom',TextType::class,array(
-                'label'=>'Nom',
-                'disabled'=>true,
-                'data'=>$universitaire->getPerson()->getNom()
-            ))
-            ->add('prenom',TextType::class,array(
-                'label'=>'Prénom',
-                'required'=>false,
-                'disabled'=>true,
-                'data'=>$universitaire->getPerson()->getPrenom()
-            ))
-            ->add('dateNaissance',DateType::class,array(
-                'label'=>'Date de naissance',
-                'format'=>'dd MMMM yyyy',
-                'years'=>range(date('Y')-50,date('Y')),
-                'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois'),
-                'data'=>$universitaire->getPerson()->getDateNaissance(),
-                'disabled'=>true
-
-            ))
-            ->add('lieuNaissance',TextType::class,array(
-                'label'=>'Lieu de Naissance',
-                'data'=>$universitaire->getPerson()->getLieuNaissance(),
-                'disabled'=>true
-            ));
-        $personForm = $personFormBuilder->getForm();
-
-        $infoEtudiantFormBuilder = $this->createFormBuilder($universitaire->getInfoEtudiant());
-        $infoEtudiantFormBuilder
-            ->add('adresse',TextType::class,array(
-                'label'=>'Adresse',
-                'data'=>$universitaire->getInfoEtudiant()->getAdresse()
-            ))
-            ->add('tel',TextType::class,array(
-                'label'=>'Téléphone',
-                'required'=>false,
-                'data'=>$universitaire->getInfoEtudiant()->getTel()
-            ))
-            ->add('email',EmailType::class,array(
-                'label'=>'E-mail',
-                'required'=>false,
-                'data'=>$universitaire->getInfoEtudiant()->getEmail()
-            ))
-            ->add('nomMere',TextType::class,array(
-                'label'=>'Nom de votre mère',
-                'disabled'=>true,
-                'data'=>$universitaire->getInfoEtudiant()->getNomMere()
-            ))
-            ->add('nomPere',TextType::class,array(
-                'label'=>'Nom de votre père',
-                'disabled'=>true,
-                'data'=>$universitaire->getInfoEtudiant()->getNomPere()
-            ))
-            ->add('telParent',TextType::class,array(
-                'label'=>'Contact de votre parent',
-                'required'=>false,
-                'data'=>$universitaire->getInfoEtudiant()->getTelParent()
-            ))
-            ->add('emailParent',EmailType::class,array(
-                'label'=>'E-mail de votre parent',
-                'required'=>false,
-                'data'=>$universitaire->getInfoEtudiant()->getEmailParent()
-            ))
-            ->add('nomTuteur',TextType::class,array(
-                'label'=>'Nom de votre tuteur',
-                'required'=>false,
-                'data'=>$universitaire->getInfoEtudiant()->getNomTuteur()
-            ));
-        $infoEtudiantForm = $infoEtudiantFormBuilder->getForm();
+        $personForm = $this->createForm(PersonType::class, $universitaire->getPerson());
+        $infoEtudiantForm = $this->createForm(InfoEtudiantType::class, $universitaire->getInfoEtudiant());
 
         if($request->getMethod() == 'POST') {
             $personForm->handleRequest($request);

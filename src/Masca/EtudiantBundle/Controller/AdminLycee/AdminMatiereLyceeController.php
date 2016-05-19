@@ -10,6 +10,7 @@ namespace Masca\EtudiantBundle\Controller\AdminLycee;
 
 use Masca\EtudiantBundle\Entity\MatiereLycee;
 use Masca\EtudiantBundle\Repository\MatiereLyceeRepository;
+use Masca\EtudiantBundle\Type\MatiereLyceeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -49,12 +50,9 @@ class AdminMatiereLyceeController extends Controller
      */
     public function ajouterMatiereAction(Request $request) {
         $matiere = new MatiereLycee();
-        $matiereFormBuilder = $this->createFormBuilder($matiere);
-        $matiereFormBuilder->add('intitule',TextType::class, array(
-            'label'=>'Nom du matière'
-        ));
 
-        $matiereForm = $matiereFormBuilder->getForm();
+        $matiereForm = $this->createForm(MatiereLyceeType::class, $matiere);
+
         if($request->getMethod() == 'POST') {
             $matiereForm->handleRequest($request);
             if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:MatiereLycee')
@@ -82,13 +80,7 @@ class AdminMatiereLyceeController extends Controller
      * @Route("/lycee/admin/modifier/matiere/{matiere_id}", name="modifier_matiere_lycee")
      */
     public function modifierMatiereAction(Request $request, MatiereLycee $matiere) {
-        $matiereFormBuilder = $this->createFormBuilder($matiere);
-        $matiereFormBuilder->add('intitule',TextType::class, array(
-            'label'=>'Nom du matière',
-            'data'=>$matiere->getIntitule()
-        ));
-
-        $matiereForm = $matiereFormBuilder->getForm();
+        $matiereForm = $this->createForm(MatiereLyceeType::class, $matiere);
         if($request->getMethod() == 'POST') {
             $matiereForm->handleRequest($request);
             if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:MatiereLycee')

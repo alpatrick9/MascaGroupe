@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\Lycee;
 
 
+use Masca\EtudiantBundle\Entity\DatePayementEcolageLycee;
 use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee;
 use Masca\EtudiantBundle\Entity\Lyceen;
@@ -16,8 +17,6 @@ use Masca\EtudiantBundle\Type\EcolageLyceenType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\Request;
 
 class EcolageLyceenController extends Controller
@@ -45,10 +44,21 @@ class EcolageLyceenController extends Controller
                     'anneeScolaire'=>$lyceen->getAnneeScolaire()
                 ));
 
+        /**
+         * @var $datePayements DatePayementEcolageLycee[]
+         */
+        $datePayements = [];
+
+        foreach ($statusEcolages as $ecolage) {
+            $datePayements[$ecolage->getId()] = $this->getDoctrine()->getManager()
+                ->getRepository('MascaEtudiantBundle:DatePayementEcolageLycee')->findByFraisScolariteLyceen($ecolage);
+        }
+
         return $this->render('MascaEtudiantBundle:Lycee:ecolage.html.twig', array(
             'lyceen'=>$lyceen,
             'statusEcolages'=> $statusEcolages,
-            'montant'=>$motantEcolage->getMontant()
+            'montant'=>$motantEcolage->getMontant(),
+            'datesPayement'=>$datePayements
         ));
     }
 
@@ -82,11 +92,18 @@ class EcolageLyceenController extends Controller
 
         if($request->getMethod() == 'POST') {
             $ecolageFrom->handleRequest($request);
+
+            $datePayement = new DatePayementEcolageLycee();
+            $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
+            $datePayement->setMontant($fraisScolariteLyceen->getMontant());
+
             if($fraisScolariteLyceen->getMontant() == $motantEcolage->getMontant()) {
                 $fraisScolariteLyceen->setStatus(true);
             }
             $em = $this->getDoctrine()->getManager();
             $em->persist($fraisScolariteLyceen);
+            $em->persist($datePayement);
+
             $em->flush();
             return $this->redirect($this->generateUrl('ecolage_lyceen', array('id'=>$lyceen->getId())));
         }
@@ -119,7 +136,7 @@ class EcolageLyceenController extends Controller
             'trait_choices'=>[
                 'mois'=>$this->getParameter('mois'),
                 'annees'=>$choicesAnnee,
-                'max'=>$motantEcolage->getMontant()
+                'max'=>$motantEcolage->getMontant() - $fraisScolariteLyceen->getMontant()
                 ]
         ]);
 
@@ -128,18 +145,37 @@ class EcolageLyceenController extends Controller
         $options['disabled'] = true;
         $ecolageFrom->add('mois',$moisField->getConfig()->getType()->getInnerType(),$options);
 
-        $anneeFied = $ecolageFrom->get('annee');
-        $options = $anneeFied->getConfig()->getOptions();
+        $anneeField = $ecolageFrom->get('annee');
+        $options = $anneeField->getConfig()->getOptions();
         $options['disabled'] = true;
-        $ecolageFrom->add('annee',$anneeFied->getConfig()->getType()->getInnerType(),$options);
+        $ecolageFrom->add('annee',$anneeField->getConfig()->getType()->getInnerType(),$options);
+
+        $montatField = $ecolageFrom->get('montant');
+        $options = $montatField->getConfig()->getOptions();
+        $options['data'] = null;
+        $ecolageFrom->add('montant',$montatField->getConfig()->getType()->getInnerType(),$options);
 
         if($request->getMethod() == 'POST') {
             $oldMontant = $fraisScolariteLyceen->getMontant();
             $ecolageFrom->handleRequest($request);
+
+            $datePayement = new DatePayementEcolageLycee();
+            $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
+            $datePayement->setMontant($fraisScolariteLyceen->getMontant());
+
+            $datePayement = new DatePayementEcolageLycee();
+            $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
+            $datePayement->setMontant($fraisScolariteLyceen->getMontant());
+
             $fraisScolariteLyceen->setMontant($oldMontant + $fraisScolariteLyceen->getMontant());
+
             if($fraisScolariteLyceen->getMontant() == $motantEcolage->getMontant())
                 $fraisScolariteLyceen->setStatus(true);
-            $this->getDoctrine()->getManager()->flush();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($datePayement);
+            $em->flush();
+
             return $this->redirect($this->generateUrl('ecolage_lyceen',array('id'=>$fraisScolariteLyceen->getLyceen()->getId())));
         }
         return $this->render('MascaEtudiantBundle:Lycee:regularisation-reste-ecolage.html.twig', array(

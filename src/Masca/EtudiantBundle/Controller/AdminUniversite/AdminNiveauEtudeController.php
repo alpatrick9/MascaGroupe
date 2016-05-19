@@ -10,6 +10,7 @@ namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
 use Masca\EtudiantBundle\Entity\NiveauEtude;
+use Masca\EtudiantBundle\Type\NiveauEtudeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,11 +36,7 @@ class AdminNiveauEtudeController extends Controller
      */
     public function ajouterNiveauEtudeAction(Request $request) {
         $niveau = new NiveauEtude();
-        $formBuilder = $this->createFormBuilder($niveau);
-        $formBuilder->add('intitule',TextType::class,[
-            'label'=>'Intitulé du niveau'
-        ]);
-        $form = $formBuilder->getForm();
+        $form = $this->createForm(NiveauEtudeType::class, $niveau);
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);

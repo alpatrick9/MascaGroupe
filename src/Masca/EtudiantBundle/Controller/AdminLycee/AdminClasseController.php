@@ -12,6 +12,8 @@ use Masca\EtudiantBundle\Entity\Classe;
 use Masca\EtudiantBundle\Entity\ClasseRepository;
 use Masca\EtudiantBundle\Entity\EmploiDuTempsLycee;
 use Masca\EtudiantBundle\Entity\MatiereLycee;
+use Masca\EtudiantBundle\Type\ClasseType;
+use Masca\EtudiantBundle\Type\EmploiDuTempsLyceeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -51,20 +53,8 @@ class AdminClasseController extends Controller
      */
     public function creerClasseAction(Request $request) {
             $classe = new Classe();
-            $classeFormBuilder = $this->createFormBuilder($classe);
-            $classeFormBuilder
-                ->add('intitule',TextType::class,array(
-                    'label'=> 'Nom du classe',
-                    'attr'=>array('placeholder'=>'2nd B')
-                ))
-                ->add('niveauEtude',EntityType::class,array(
-                    'label'=>'Niveau d\'étude',
-                    'class'=>'Masca\EtudiantBundle\Entity\NiveauEtude',
-                    'choice_label'=>'intitule',
-                    'placeholder'=>"choisissez...",
-                    'empty_data'=>null
-                ));
-            $classeForm = $classeFormBuilder->getForm();
+            
+            $classeForm = $this->createForm(ClasseType::class, $classe);
 
             if($request->getMethod() == 'POST') {
                 $classeForm->handleRequest($request);
@@ -96,22 +86,12 @@ class AdminClasseController extends Controller
      * @Route("/lycee/admin/modifier/classe/{classe_id}", name="modifier_classe_lycee")
      */
     public function modiferClasseAction(Request $request, Classe $classe) {
-        $classeFormBuilder = $this->createFormBuilder($classe);
-        $classeFormBuilder
-            ->add('intitule',TextType::class,array(
-                'label'=> 'Nom du classe',
-                'attr'=>array('placeholder'=>'2nd B'),
-                'data'=>$classe->getIntitule()
-            ))
-            ->add('niveauEtude',EntityType::class,array(
-                'label'=>'Niveau d\'étude',
-                'class'=>'Masca\EtudiantBundle\Entity\NiveauEtude',
-                'choice_label'=>'intitule',
-                'placeholder'=>"choisissez...",
-                'data'=>$classe->getNiveauEtude(),
-                'attr'=>['readonly'=>true]
-            ));
-        $classeForm = $classeFormBuilder->getForm();
+        $classeForm = $this->createForm(ClasseType::class, $classe);
+        
+        $niveauEtudeField = $classeForm->get('niveauEtude');
+        $options = $niveauEtudeField->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $classeForm->add('niveauEtude',EntityType::class,$options);
 
         if($request->getMethod() == 'POST') {
             $classeForm->handleRequest($request);
@@ -183,22 +163,11 @@ class AdminClasseController extends Controller
         $heures = $this->getParameter('heures');
 
         $emploiDuTemps = new EmploiDuTempsLycee();
-        $emploiDuTempsFormBuilder = $this->createFormBuilder($emploiDuTemps);
-        $emploiDuTempsFormBuilder
-            ->add('classe',EntityType::class,array(
-                'label'=>'Classe',
-                'class'=>'Masca\EtudiantBundle\Entity\Classe',
-                'choice_label'=>'intitule',
-                'data'=>$classe,
-                'disabled'=>true
-            ))
-            ->add('matiere',EntityType::class,array(
-                'label'=>'Matiere',
-                'class'=>'Masca\EtudiantBundle\Entity\MatiereLycee',
-                'choice_label'=>'intitule',
-                'placeholder'=>'choisissez...'
-            ));
-        $emploiDuTempsForm = $emploiDuTempsFormBuilder->getForm();
+        $emploiDuTempsForm = $this->createForm(EmploiDuTempsLyceeType::class,$emploiDuTemps,[
+            'trait_choices'=>[
+                'classe'=>$classe
+            ]
+        ]);
 
         if($request->getMethod() == 'POST') {
             $emploiDuTempsForm->handleRequest($request);

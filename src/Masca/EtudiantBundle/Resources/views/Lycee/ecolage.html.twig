@@ -9,11 +9,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="span10">
+        <div class="span12">
             <table class="table table-hover table-bordered table-striped avectri">
                 <thead>
                 <th>Mois</th>
                 <th>Année</th>
+                <th>Historique de payement</th>
                 <th>Status</th>
                 </thead>
                 <tbody>
@@ -21,6 +22,14 @@
                 <tr>
                     <td>{{ ecolage.mois }}</td>
                     <td>{{ ecolage.annee }}</td>
+                    <td>
+                        <ul>
+                            {%  for date in datesPayement[ecolage.id] %}
+                                <li>Somme de {{ date.montant }} versé le {{ date.datePayement | date(' d/m/Y') }}</li>
+                            {% endfor %}
+                        </ul>
+
+                    </td>
                     <td>
                         {% if ecolage.status %}
                             payé
@@ -34,7 +43,7 @@
                     </td>
                 </tr>
                 {% else %}
-                    <tr><td colspan="3">Aucun ecolage enregisté</td></tr>
+                    <tr><td colspan="4">Aucun ecolage enregisté</td></tr>
                 {% endfor %}
                 </tbody>
             </table>

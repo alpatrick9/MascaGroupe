@@ -11,6 +11,7 @@ namespace Masca\EtudiantBundle\Controller\AdminLycee;
 
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLyceeRepository;
+use Masca\EtudiantBundle\Type\GrilleEcolageLyceeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -50,18 +51,8 @@ class AdminEcolageLyceeController extends Controller
      */
     public function creerGrilleEcolageAction(Request $request) {
         $grille = new GrilleFraisScolariteLycee();
-        $grilleFormBuilder = $this->createFormBuilder($grille);
-        $grilleFormBuilder
-            ->add('classe',EntityType::class,array(
-                'label'=>'Classe correspondant',
-                'class'=>'Masca\EtudiantBundle\Entity\Classe',
-                'choice_label'=>'intitule',
-                'placeholder'=>'Choisissez..'
-            ))
-            ->add('montant',NumberType::class,array(
-                'label'=>'Montant en (Ar)'
-            ));
-        $grilleForm = $grilleFormBuilder->getForm();
+
+        $grilleForm = $this->createForm(GrilleEcolageLyceeType::class,$grille);
 
         if($request->getMethod() == 'POST') {
             $grilleForm->handleRequest($request);
@@ -90,21 +81,11 @@ class AdminEcolageLyceeController extends Controller
      * @Route("/lycce/admin/modifier-grille-ecolage/{grille_id}", name="modifier_grille_ecolage_lycee")
      */
     public function modifierGrilleEcolageAction(Request $request, GrilleFraisScolariteLycee $grille) {
-        $grilleFormBuilder = $this->createFormBuilder($grille);
-        $grilleFormBuilder
-            ->add('classe',EntityType::class,array(
-                'label'=>'Classe correspondant',
-                'class'=>'Masca\EtudiantBundle\Entity\Classe',
-                'choice_label'=>'intitule',
-                'placeholder'=>'Choisissez..',
-                'data'=>$grille->getClasse(),
-                'attr'=>['readonly'=>true]
-            ))
-            ->add('montant',NumberType::class,array(
-                'label'=>'Montant en (Ar)',
-                'data'=>$grille->getMontant()
-            ));
-        $grilleForm = $grilleFormBuilder->getForm();
+        $grilleForm = $this->createForm(GrilleEcolageLyceeType::class, $grille);
+        $classeField = $grilleForm->get('classe');
+        $options = $classeField->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $grilleForm->add('classe',EntityType::class,$options);
 
         if($request->getMethod() == 'POST') {
             $grilleForm->handleRequest($request);
