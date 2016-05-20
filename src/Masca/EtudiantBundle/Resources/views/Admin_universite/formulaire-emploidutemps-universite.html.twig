@@ -1,0 +1,13 @@
+{% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
+{% block title %}Ajouter matiere emploi du temps{% endblock %}
+{% block admin_univ_body %}
+    <h5>Création/modification matierer emploi du temps universite</h5>
+    {{ jour }} à {{ heure }}
+    <form method="post">
+        {{ form_widget(form) }}
+        <div class="align-right">
+            <input type="submit" class="btn" value="Enregistrer">
+            <a href="{{ path('voir_emploi_du_temps_universite',{'filiereParNiveau_id':filiere.id}) }}" class="btn">Annuler</a>
+        </div>
+    </form>
+{% endblock %}

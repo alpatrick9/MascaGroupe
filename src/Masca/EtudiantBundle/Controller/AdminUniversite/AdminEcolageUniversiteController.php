@@ -14,7 +14,7 @@ use Masca\EtudiantBundle\Type\GrilleEcolageUniversiteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminEcolageUniversiteController extends Controller
@@ -52,6 +52,34 @@ class AdminEcolageUniversiteController extends Controller
             }
             $em = $this->getDoctrine()->getManager();
             $em->persist($grille);
+            $em->flush();
+            return $this->redirect($this->generateUrl('grille_ecolage_universite'));
+        }
+        return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-grilles-frais-scolarite.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/universite/admin/modifier-grille-ecolage/{grille_id}", name="modifier_grille_ecolage_universite")
+     * @ParamConverter("grilleFraisScolariteUniversite", options={"mapping": {"grille_id":"id"}})
+     */
+    public function modifierGrilleAction(Request $request, GrilleFraisScolariteUniversite $grilleFraisScolariteUniversite) {
+        $form = $this->createForm(GrilleEcolageUniversiteType::class, $grilleFraisScolariteUniversite);
+
+        $options = $form->get('filiere')->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $form->add('filiere',EntityType::class,$options);
+
+        $options = $form->get('niveauEtude')->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $form->add('niveauEtude',EntityType::class,$options);
+
+        if($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirect($this->generateUrl('grille_ecolage_universite'));
         }

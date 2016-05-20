@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ filiere.intitule }}</td>
                 <td>
-                    <a href="" class="btn btn-primary">details</a>
+                    <a href="{{ path('modifier_filiere_univ',{'filiere_id':filiere.id}) }}" class="btn btn-primary">modifier</a>
                 </td>
             </tr>
         {% else %}

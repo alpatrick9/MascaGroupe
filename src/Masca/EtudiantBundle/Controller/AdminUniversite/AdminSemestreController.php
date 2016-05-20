@@ -10,10 +10,12 @@ namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
 use Masca\EtudiantBundle\Entity\Semestre;
+use Masca\EtudiantBundle\Type\SemestreType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class AdminSemestreController extends Controller
 {
@@ -35,17 +37,32 @@ class AdminSemestreController extends Controller
      */
     public function ajouterSemestreAction(Request $request) {
         $semestre = new Semestre();
-        $formBuilder = $this->createFormBuilder($semestre);
-        $formBuilder->add('intitule',TextType::class,[
-            'label'=>'Intituler du semestre',
-            'attr'=>['placeholder'=>'Semestre 1']
-        ]);
-        $form = $formBuilder->getForm();
+        $form = $this->createForm(SemestreType::class, $semestre);
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             $em = $this->getDoctrine()->getManager();
             $em->persist($semestre);
+            $em->flush();
+            return $this->redirect($this->generateUrl('semestre_univ'));
+        }
+        return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-semestre.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/universite/admin/modifier-semestre/{semestre_id}", name="modifier_semestre_univ")
+     * @ParamConverter("semestre", options={"mapping": {"semestre_id":"id"}})
+     */
+    public function midifierSemestreAction(Request $request,Semestre $semestre) {
+        $form = $this->createForm(SemestreType::class, $semestre);
+
+        if($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirect($this->generateUrl('semestre_univ'));
         }

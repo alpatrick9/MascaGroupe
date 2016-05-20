@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ niveauEtude.intitule }}</td>
                 <td>
-                    <a href="" class="btn btn-primary">modifier</a>
+                    <a href="{{ path('modifier_niveau_etude_univ',{'niveau_id':niveauEtude.id}) }}" class="btn btn-primary">modifier</a>
                 </td>
             </tr>
         {% else %}

@@ -19,7 +19,7 @@
                 <td>{{ grille.niveauEtude.intitule }}</td>
                 <td>{{ grille.montant }}</td>
                 <td>
-                    <a href="" class="btn btn-primary">modifier</a>
+                    <a href="{{ path('modifier_grille_ecolage_universite',{'grille_id':grille.id}) }}" class="btn btn-primary">modifier</a>
                 </td>
             </tr>
         {% else %}

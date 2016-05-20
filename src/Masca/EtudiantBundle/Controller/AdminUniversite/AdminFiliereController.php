@@ -15,6 +15,7 @@ use Masca\EtudiantBundle\Type\FiliereType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class AdminFiliereController extends Controller
 {
@@ -48,6 +49,27 @@ class AdminFiliereController extends Controller
      */
     public function ajouterFiliereAction(Request $request) {
         $filiere = new Filiere();
+        $form = $this->createForm(FiliereType::class, $filiere);
+
+        if($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($filiere);
+            $em->flush();
+            return $this->redirect($this->generateUrl('admin_univ_filiere'));
+        }
+        return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-filiere.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/universite/admin/modifier-filiere/{filiere_id}", name="modifier_filiere_univ")
+     * @ParamConverter("filiere", options={"mapping": {"filiere_id":"id"}})
+     */
+    public function modifierFiliereAction(Request $request, Filiere $filiere) {
         $form = $this->createForm(FiliereType::class, $filiere);
 
         if($request->getMethod() == 'POST') {

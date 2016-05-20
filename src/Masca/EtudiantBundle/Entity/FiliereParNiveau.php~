@@ -1,0 +1,50 @@
+<?php
+
+namespace Masca\EtudiantBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * FiliereParNiveau
+ *
+ * @ORM\Table(name="filiere_par_niveau")
+ * @ORM\Entity(repositoryClass="Masca\EtudiantBundle\Repository\FiliereParNiveauRepository")
+ */
+class FiliereParNiveau
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var Filiere
+     *
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $filiere;
+
+    /**
+     * @var NiveauEtude
+     *
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $niveau;
+    
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}
+

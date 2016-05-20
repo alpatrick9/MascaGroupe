@@ -190,9 +190,6 @@ class AdminClasseController extends Controller
 
     /**
      * @param Request $request
-     * @param Classe $classe
-     * @param $jourIndex
-     * @param $heureIndex
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("emploiDuTempsLycee", options={"mapping": {"emploiDuTempsLycee_id":"id"}})
      * @Route("/lycee/admin/emploi-du-temps/modifier-matiere/{emploiDuTempsLycee_id}", name="modifier_matiere_emplois_du_temps_lycee")
@@ -223,16 +220,11 @@ class AdminClasseController extends Controller
 
     /**
      * @param Request $request
-     * @param Classe $classe
-     * @param $jourIndex
-     * @param $heureIndex
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("emploiDuTempsLycee", options={"mapping": {"emploiDuTempsLycee_id":"id"}})
      * @Route("/lycee/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsLycee_id}", name="supprimer_matiere_emplois_du_temps_lycee")
      */
     public function supprimerMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
-        $jours = $this->getParameter('jours');
-        $heures = $this->getParameter('heures');
         $em = $this->getDoctrine()->getManager();
         $em->remove($emploiDuTempsLycee);
         $em->flush();

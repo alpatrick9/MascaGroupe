@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ semestre.intitule }}</td>
                 <td>
-                    <a href="" class="btn btn-primary">modifier</a>
+                    <a href="{{ path('modifier_semestre_univ',{'semestre_id':semestre.id}) }}" class="btn btn-primary">modifier</a>
                 </td>
             </tr>
         {% else %}
