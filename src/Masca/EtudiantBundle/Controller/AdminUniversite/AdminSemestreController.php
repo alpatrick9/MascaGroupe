@@ -49,7 +49,7 @@ class AdminSemestreController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('semestre_univ'));
         }
-        return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-semestre.html.twig',[
+        return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-semestre.html.twig',[
             'form'=>$form->createView()
         ]);
     }

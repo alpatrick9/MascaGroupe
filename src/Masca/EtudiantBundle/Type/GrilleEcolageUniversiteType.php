@@ -27,7 +27,7 @@ class GrilleEcolageUniversiteType extends AbstractType
                 'placeholder'=>'Choisissez'
             ])
             ->add('niveauEtude',EntityType::class,[
-                'label'=>'Niveau d\étude',
+                'label'=>'Niveau d\'étude',
                 'class'=>'Masca\EtudiantBundle\Entity\NiveauEtude',
                 'choice_label'=>'intitule',
                 'placeholder'=>'Choisissez'

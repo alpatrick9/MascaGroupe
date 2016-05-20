@@ -57,8 +57,8 @@ class AdminMatiereLyceeController extends Controller
             $matiereForm->handleRequest($request);
             if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:MatiereLycee')
                     ->findOneBy(['intitule'=>$matiere->getIntitule()]) != null) {
-                return $this->render('MascaEtudiantBundle:Admin_lycee:ajouter-matiere.html.twig', array(
-                    'matiereForm'=>$matiereForm->createView(),
+                return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(
+                    'form'=>$matiereForm->createView(),
                     'error_message'=>'La matière '.$matiere->getIntitule().' existe déjà, choisissez un autre nom'
                 ));
             }
@@ -67,8 +67,8 @@ class AdminMatiereLyceeController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('liste_matieres_lycee'));
         }
-        return $this->render('MascaEtudiantBundle:Admin_lycee:ajouter-matiere.html.twig', array(
-            'matiereForm'=>$matiereForm->createView()
+        return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(
+            'form'=>$matiereForm->createView()
         ));
     }
 
@@ -85,16 +85,16 @@ class AdminMatiereLyceeController extends Controller
             $matiereForm->handleRequest($request);
             if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:MatiereLycee')
                     ->findOneBy(['intitule'=>$matiere->getIntitule()]) != null) {
-                return $this->render('MascaEtudiantBundle:Admin_lycee:ajouter-matiere.html.twig', array(
-                    'matiereForm'=>$matiereForm->createView(),
+                return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(
+                    'form'=>$matiereForm->createView(),
                     'error_message'=>'La matière '.$matiere->getIntitule().' existe déjà ou vous n\'avez pas fait de modification, choisissez un autre nom ou Annuler'
                 ));
             }
             $this->getDoctrine()->getManager()->flush();
             return $this->redirect($this->generateUrl('liste_matieres_lycee'));
         }
-        return $this->render('MascaEtudiantBundle:Admin_lycee:ajouter-matiere.html.twig', array(
-            'matiereForm'=>$matiereForm->createView()
+        return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(
+            'form'=>$matiereForm->createView()
         ));
     }
 }

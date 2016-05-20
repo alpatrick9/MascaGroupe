@@ -3,6 +3,7 @@
 namespace Masca\EtudiantBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * MatiereRepository
@@ -12,4 +13,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class MatiereRepository extends EntityRepository
 {
+    public function getMatieres($nbParPage, $page) {
+        if($page < 1) {
+            throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur: "'.$page.'").');
+        }
+
+        $query = $this->createQueryBuilder('matiere')
+            ->orderBy('matiere.intitule', 'DESC')
+            ->getQuery();
+
+        $query->setFirstResult(($page-1) * $nbParPage)->setMaxResults($nbParPage);
+        return new Paginator($query);
+    }
 }

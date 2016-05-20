@@ -11,14 +11,8 @@ namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 use Masca\EtudiantBundle\Entity\Filiere;
 use Masca\EtudiantBundle\Entity\FiliereRepository;
-use Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite;
-use Masca\EtudiantBundle\Entity\NiveauEtude;
-use Masca\EtudiantBundle\Entity\Semestre;
 use Masca\EtudiantBundle\Type\FiliereType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -54,17 +48,17 @@ class AdminFiliereController extends Controller
      */
     public function ajouterFiliereAction(Request $request) {
         $filiere = new Filiere();
-        $filiereForm = $this->createForm(FiliereType::class, $filiere);
+        $form = $this->createForm(FiliereType::class, $filiere);
 
         if($request->getMethod() == 'POST') {
-            $filiereForm->handleRequest($request);
+            $form->handleRequest($request);
             $em = $this->getDoctrine()->getManager();
             $em->persist($filiere);
             $em->flush();
             return $this->redirect($this->generateUrl('admin_univ_filiere'));
         }
-        return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-filiere.html.twig',[
-            'filiereForm'=>$filiereForm->createView()
+        return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-filiere.html.twig',[
+            'form'=>$form->createView()
         ]);
     }
 

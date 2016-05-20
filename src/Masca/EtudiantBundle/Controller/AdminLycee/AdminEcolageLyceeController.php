@@ -58,8 +58,8 @@ class AdminEcolageLyceeController extends Controller
             $grilleForm->handleRequest($request);
             if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:GrilleFraisScolariteLycee')
                     ->findOneBy(['classe'=>$grille->getClasse()]) != null) {
-                return $this->render('MascaEtudiantBundle:Admin_lycee:creer-grille-ecolage.html.twig', array(
-                    'grilleForm'=>$grilleForm->createView(),
+                return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-grille-ecolage.html.twig', array(
+                    'form'=>$grilleForm->createView(),
                     'error_message'=>'La grille de frais de scolarite de la classe '.$grille->getClasse()->getIntitule().' existe déjà, choisissez une autre classe'
                 ));
             }
@@ -68,8 +68,8 @@ class AdminEcolageLyceeController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('grille_ecolage_lycee'));
         }
-        return $this->render('MascaEtudiantBundle:Admin_lycee:creer-grille-ecolage.html.twig', array(
-            'grilleForm'=>$grilleForm->createView()
+        return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-grille-ecolage.html.twig', array(
+            'form'=>$grilleForm->createView()
         ));
     }
 
@@ -92,8 +92,8 @@ class AdminEcolageLyceeController extends Controller
             $this->getDoctrine()->getManager()->flush();
             return $this->redirect($this->generateUrl('grille_ecolage_lycee'));
         }
-        return $this->render('MascaEtudiantBundle:Admin_lycee:creer-grille-ecolage.html.twig', array(
-            'grilleForm'=>$grilleForm->createView()
+        return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-grille-ecolage.html.twig', array(
+            'form'=>$grilleForm->createView()
         ));
     }
 }

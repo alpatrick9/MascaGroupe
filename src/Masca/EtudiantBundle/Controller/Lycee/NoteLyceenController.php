@@ -93,7 +93,7 @@ class NoteLyceenController extends Controller
                 $js = '<script  type="text/javascript">'.
                     'document.getElementById("DivInfo").style.display = "block";'.
                     '</script>';
-                return $this->render('MascaEtudiantBundle:Lycee:ajoute-note.html.twig', [
+                return $this->render('MascaEtudiantBundle:Lycee:formulaire-note.html.twig', [
                     'form'=>$form->createView(),
                     'lyceen'=>$lyceen,
                     'js'=>$js
@@ -104,7 +104,7 @@ class NoteLyceenController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('liste_notes_lyceen',['lyceen_id'=>$lyceen->getId()]));
         }
-        return $this->render('MascaEtudiantBundle:Lycee:ajoute-note.html.twig', [
+        return $this->render('MascaEtudiantBundle:Lycee:formulaire-note.html.twig', [
             'form'=>$form->createView(),
             'lyceen'=>$lyceen
         ]);
@@ -125,7 +125,7 @@ class NoteLyceenController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('liste_notes_lyceen',['lyceen_id'=>$lyceenNote->getLyceen()->getId()]));
         }
-        return $this->render('MascaEtudiantBundle:Lycee:ajoute-note.html.twig', [
+        return $this->render('MascaEtudiantBundle:Lycee:formulaire-note.html.twig', [
             'form'=>$form->createView(),
             'lyceen'=>$lyceenNote->getLyceen()
         ]);

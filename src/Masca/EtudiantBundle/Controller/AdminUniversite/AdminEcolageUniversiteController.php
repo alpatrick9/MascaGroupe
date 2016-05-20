@@ -45,7 +45,7 @@ class AdminEcolageUniversiteController extends Controller
                 $js = '<script  type="text/javascript">'.
                     'document.getElementById("DivInfo").style.display = "block";'.
                     '</script>';
-                return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-grilles-frais-scolarite.html.twig', [
+                return $this->render('formulaire-grilles-frais-scolarite.html.twig', [
                     'form'=>$form->createView(),
                     'js'=>$js
                 ]);
@@ -55,7 +55,7 @@ class AdminEcolageUniversiteController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('grille_ecolage_universite'));
         }
-        return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-grilles-frais-scolarite.html.twig',[
+        return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-grilles-frais-scolarite.html.twig',[
             'form'=>$form->createView()
         ]);
     }

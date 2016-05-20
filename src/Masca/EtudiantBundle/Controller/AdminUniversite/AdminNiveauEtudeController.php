@@ -45,7 +45,7 @@ class AdminNiveauEtudeController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('niveau_etude_univ'));
         }
-        return $this->render('MascaEtudiantBundle:Admin_universite:ajouter-niveau-etude.html.twig',[
+        return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-niveau-etude.html.twig',[
             'form'=>$form->createView()
         ]);
     }

@@ -61,8 +61,8 @@ class AdminClasseController extends Controller
                 if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:Classe')->findOneBy([
                         'intitule'=>$classe->getIntitule()
                     ]) != null){
-                    return $this->render('MascaEtudiantBundle:Admin_lycee:creer-classe.html.twig', array(
-                        'classeForm'=>$classeForm->createView(),
+                    return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
+                        'form'=>$classeForm->createView(),
                         'error_message'=>'La classe '.$classe->getIntitule().' existe déjà, choisissez une autre'
                     ));
                 }
@@ -73,8 +73,8 @@ class AdminClasseController extends Controller
                 return $this->redirect($this->generateUrl('admin_lycee_classe'));
             }
 
-        return $this->render('MascaEtudiantBundle:Admin_lycee:creer-classe.html.twig', array(
-            'classeForm'=>$classeForm->createView()
+        return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
+            'form'=>$classeForm->createView()
         ));
     }
 
@@ -98,8 +98,8 @@ class AdminClasseController extends Controller
             if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:Classe')->findOneBy([
                     'intitule'=>$classe->getIntitule()
                 ]) != null){
-                return $this->render('MascaEtudiantBundle:Admin_lycee:creer-classe.html.twig', array(
-                    'classeForm'=>$classeForm->createView(),
+                return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
+                    'form'=>$classeForm->createView(),
                     'error_message'=>'La classe '.$classe->getIntitule().' existe déjà ou vous n\'avez pas fais de changement, choisissez une autre nom ou Annuler'
                 ));
             }
@@ -108,8 +108,8 @@ class AdminClasseController extends Controller
             return $this->redirect($this->generateUrl('admin_lycee_classe'));
         }
 
-        return $this->render('MascaEtudiantBundle:Admin_lycee:creer-classe.html.twig', array(
-            'classeForm'=>$classeForm->createView()
+        return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
+            'form'=>$classeForm->createView()
         ));
     }
 
@@ -180,8 +180,8 @@ class AdminClasseController extends Controller
             return $this->redirect($this->generateUrl('emploi_du_temps_lycee',array('id'=>$classe->getId())));
         }
 
-        return $this->render('MascaEtudiantBundle:Admin_lycee:ajouter-matiere-emploidutemps.html.twig', array(
-            'emploiDuTempsForm'=>$emploiDuTempsForm->createView(),
+        return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere-emploidutemps.html.twig', array(
+            'form'=>$emploiDuTempsForm->createView(),
             'jour'=>$jours[$jourIndex],
             'heure'=>$heures[$heureIndex],
             'classeId'=>$classe->getId()
@@ -213,8 +213,8 @@ class AdminClasseController extends Controller
             return $this->redirect($this->generateUrl('emploi_du_temps_lycee',array('id'=>$emploiDuTempsLycee->getClasse()->getId())));
         }
 
-        return $this->render('MascaEtudiantBundle:Admin_lycee:ajouter-matiere-emploidutemps.html.twig', array(
-            'emploiDuTempsForm'=>$emploiDuTempsForm->createView(),
+        return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere-emploidutemps.html.twig', array(
+            'form'=>$emploiDuTempsForm->createView(),
             'jour'=>$jours[$emploiDuTempsLycee->getJourIndex()],
             'heure'=>$heures[$emploiDuTempsLycee->getHeureIndex()],
             'classeId'=>$emploiDuTempsLycee->getClasse()->getId()
