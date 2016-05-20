@@ -11,6 +11,7 @@ namespace Masca\EtudiantBundle\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -48,7 +49,10 @@ class InfoEtudiantType extends AbstractType
             ->add('nomTuteur',TextType::class,array(
                 'label'=>'Nom de votre tuteur',
                 'required'=>false
-            ));
+            ))
+            ->add('reduction',NumberType::class, [
+                'label'=>'somme reduction ecolage'
+            ]);
     }
 
     /**

@@ -72,11 +72,14 @@ class EcolageLyceenController extends Controller
         $anneeData = explode('-',$lyceen->getAnneeScolaire());
         $choicesAnnee = array($anneeData[0]=>$anneeData[0],$anneeData[1]=>$anneeData[1]);
 
+
         /**
          * @var $motantEcolage GrilleFraisScolariteLycee
          */
         $motantEcolage = $this->getDoctrine()->getManager()
             ->getRepository('MascaEtudiantBundle:GrilleFraisScolariteLycee')->findOneByClasse($lyceen->getSonClasse());
+
+        $sommeDue = $motantEcolage->getMontant() - $lyceen->getInfoEtudiant()->getReduction();
 
         $fraisScolariteLyceen = new FraisScolariteLyceen();
         $fraisScolariteLyceen->setAnneeScolaire($lyceen->getAnneeScolaire());
@@ -86,7 +89,7 @@ class EcolageLyceenController extends Controller
             'trait_choices'=>[
                 'mois'=>$this->getParameter('mois'),
                 'annees'=>$choicesAnnee,
-                'max'=>$motantEcolage->getMontant()
+                'max'=>$sommeDue
             ]
         ]);
 
@@ -97,7 +100,7 @@ class EcolageLyceenController extends Controller
             $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
             $datePayement->setMontant($fraisScolariteLyceen->getMontant());
 
-            if($fraisScolariteLyceen->getMontant() == $motantEcolage->getMontant()) {
+            if($fraisScolariteLyceen->getMontant() - $lyceen->getInfoEtudiant()->getReduction() == $motantEcolage->getMontant()) {
                 $fraisScolariteLyceen->setStatus(true);
             }
             $em = $this->getDoctrine()->getManager();
@@ -110,7 +113,8 @@ class EcolageLyceenController extends Controller
         return $this->render('MascaEtudiantBundle:Lycee:payementecolage.html.twig', array(
             'ecolageForm'=>$ecolageFrom->createView(),
             'lyceen'=>$lyceen,
-            'montant'=>$motantEcolage->getMontant()
+            'montant'=>$motantEcolage->getMontant(),
+            'reduction'=>$lyceen->getInfoEtudiant()->getReduction()
         ));
     }
 
@@ -136,7 +140,7 @@ class EcolageLyceenController extends Controller
             'trait_choices'=>[
                 'mois'=>$this->getParameter('mois'),
                 'annees'=>$choicesAnnee,
-                'max'=>$motantEcolage->getMontant() - $fraisScolariteLyceen->getMontant()
+                'max'=>$motantEcolage->getMontant() - $fraisScolariteLyceen->getMontant() -$fraisScolariteLyceen->getLyceen()->getInfoEtudiant()->getReduction()
                 ]
         ]);
 
@@ -169,7 +173,7 @@ class EcolageLyceenController extends Controller
 
             $fraisScolariteLyceen->setMontant($oldMontant + $fraisScolariteLyceen->getMontant());
 
-            if($fraisScolariteLyceen->getMontant() == $motantEcolage->getMontant())
+            if($fraisScolariteLyceen->getMontant() + $fraisScolariteLyceen->getLyceen()->getInfoEtudiant()->getReduction() == $motantEcolage->getMontant())
                 $fraisScolariteLyceen->setStatus(true);
 
             $em = $this->getDoctrine()->getManager();
@@ -181,7 +185,7 @@ class EcolageLyceenController extends Controller
         return $this->render('MascaEtudiantBundle:Lycee:regularisation-reste-ecolage.html.twig', array(
             'form'=>$ecolageFrom->createView(),
             'renseignement'=>$fraisScolariteLyceen,
-            'reste'=>$motantEcolage->getMontant()-$fraisScolariteLyceen->getMontant()
+            'reste'=>$motantEcolage->getMontant()-$fraisScolariteLyceen->getMontant()-$fraisScolariteLyceen->getLyceen()->getInfoEtudiant()->getReduction()
         ));
     }
 

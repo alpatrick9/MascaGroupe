@@ -15,7 +15,7 @@
                     {% else %}
                         <td>
                             {% if matieres[j-1][h-1] != '' %}
-                                <span class="menu_tool" href="#">
+                                <span class="float_menu" href="#">
                                     {{ matieres[j-1][h-1].matiere.intitule }}
                                     <ul class="nav nav-pills">
                                         <li><a href="{{ path('modifier_matiere_emplois_du_temps_lycee',{'emploiDuTempsLycee_id':matieres[j-1][h-1].id}) }}" class="btn-primary">modif</a></li>

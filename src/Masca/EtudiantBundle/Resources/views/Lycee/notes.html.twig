@@ -27,7 +27,7 @@
                         <td class="align-center">{{ note.noteTrimestre1 * note.coefficient}}</td>
                         <td class="align-center">{{ note.noteTrimestre2 * note.coefficient}}</td>
                         <td class="align-center">{{ note.noteTrimestre3 * note.coefficient}}</td>
-                        <td><a href="" class="btn">Modifier</a></td>
+                        <td><a href="{{ path('modifier_note_lyceen',{'lyceenNote_id':note.id}) }}" class="btn">Modifier</a></td>
                     </tr>
                 {% else %}
                     <tr><td colspan="6" class="align-center">Aucun note enregisté</td></tr>

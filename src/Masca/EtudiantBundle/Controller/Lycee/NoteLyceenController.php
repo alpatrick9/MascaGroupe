@@ -110,4 +110,25 @@ class NoteLyceenController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param LyceenNote $lyceenNote
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("lyceenNote", options={"mapping":{"lyceenNote_id":"id"}})
+     * @Route("/lycee/note/modifier/{lyceenNote_id}", name="modifier_note_lyceen")
+     */
+    public function modifierNoteAction(Request $request, LyceenNote $lyceenNote) {
+        $form = $this->createForm(LyceenNoteType::class, $lyceenNote);
+        if($request->getMethod() ==  'POST') {
+            $form->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirect($this->generateUrl('liste_notes_lyceen',['lyceen_id'=>$lyceenNote->getLyceen()->getId()]));
+        }
+        return $this->render('MascaEtudiantBundle:Lycee:ajoute-note.html.twig', [
+            'form'=>$form->createView(),
+            'lyceen'=>$lyceenNote->getLyceen()
+        ]);
+    }
+
 }
