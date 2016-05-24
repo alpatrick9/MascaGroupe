@@ -18,15 +18,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RequestContext;
 
 class EcolageLyceenController extends Controller
 {
     /**
+     * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/lycee/ecolage/accueil/{id}", name="ecolage_lyceen")
      */
-    public function ecolageAction(Lyceen $lyceen) {
+    public function ecolageAction(Request $request,Lyceen $lyceen) {
         /**
          * @var $motantEcolage GrilleFraisScolariteLycee
          */
@@ -35,7 +37,8 @@ class EcolageLyceenController extends Controller
 
         if(empty($motantEcolage)) {
             return $this->render("::message-layout.html.twig",[
-               'message'=>'Veuillez contacter le responsabe car il n\'y a pas un montant d\'écolage attribué à ce classe: '.$lyceen->getSonClasse()->getIntitule()
+               'message'=>'Veuillez contacter le responsabe car il n\'y a pas un montant d\'écolage attribué à ce classe: '.$lyceen->getSonClasse()->getIntitule(),
+                'previousLink'=>$request->headers->get('referer')
             ]);
         }
 
