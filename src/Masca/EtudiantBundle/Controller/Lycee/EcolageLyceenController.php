@@ -33,6 +33,12 @@ class EcolageLyceenController extends Controller
         $motantEcolage = $this->getDoctrine()->getManager()
             ->getRepository('MascaEtudiantBundle:GrilleFraisScolariteLycee')->findOneByClasse($lyceen->getSonClasse());
 
+        if(empty($motantEcolage)) {
+            return $this->render("::message-layout.html.twig",[
+               'message'=>'Veuillez contacter le responsabe car il n\'y a pas un montant d\'écolage attribué à ce classe: '.$lyceen->getSonClasse()->getIntitule()
+            ]);
+        }
+
         /**
          * @var $statusEcolages FraisScolariteLyceen[]
          */

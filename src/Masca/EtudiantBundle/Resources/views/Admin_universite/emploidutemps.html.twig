@@ -19,7 +19,7 @@
                                     {{ matieres[j-1][h-1].matiere.intitule }}
                                     <ul class="nav nav-pills">
                                         <li><a href="{{ path('modifier_emplois_du_temps_universite',{'emploiDuTempsUniv_id':matieres[j-1][h-1].id}) }}" class="btn-primary">modif</a></li>
-                                        <li><a href="{{ path('supprimer_emplois_du_temps_universite',{'emploiDuTempsUniv_id':matieres[j-1][h-1].id}) }}" class="btn-danger" onclick="return confirm('Voulez vous supprimer?')">suppr</a></li>
+                                        <li><a href="{{ path('supprimer_matiere_emplois_du_temps_universite',{'emploiDuTempsUniv_id':matieres[j-1][h-1].id}) }}" class="btn-danger" onclick="return confirm('Voulez vous supprimer?')">suppr</a></li>
                                     </ul>
                                 </span>
                             {% else %}

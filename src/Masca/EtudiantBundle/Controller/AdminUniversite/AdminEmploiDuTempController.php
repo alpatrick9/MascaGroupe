@@ -161,12 +161,24 @@ class AdminEmploiDuTempController extends Controller
      * @param EmploiDuTempsUniv $emploiDuTempsUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @ParamConverter("emploiDuTempsUniv", options={"mapping": {"emploiDuTempsUniv_id":"id"}})
-     * @Route("/universite/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsUniv_id}", name="supprimer_emplois_du_temps_universite")
+     * @Route("/universite/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsUniv_id}", name="supprimer_matiere_emplois_du_temps_universite")
      */
     public function supprimerMatierAction(EmploiDuTempsUniv $emploiDuTempsUniv) {
         $em = $this->getDoctrine()->getManager();
         $em->remove($emploiDuTempsUniv);
         $em->flush();
         return $this->redirect($this->generateUrl('voir_emploi_du_temps_universite',array('filiereParNiveau_id'=>$emploiDuTempsUniv->getFiliereParNiveau()->getId())));
+    }
+
+    /**
+     * @param FiliereParNiveau $filiereParNiveau
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("universite/admin/supprimer-emploi-du-temps/{id}", name="supprimer_emplois_du_temps_universite")
+     */
+    public function supprimerFilierParNiveauAction(FiliereParNiveau $filiereParNiveau) {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($filiereParNiveau);
+        $em->flush();
+        return $this->redirect($this->generateUrl('emploi_du_temps_univerite'));
     }
 }

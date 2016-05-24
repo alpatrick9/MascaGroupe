@@ -97,45 +97,4 @@ class Classe
     {
         return $this->niveauEtude;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->emploiDuTemps = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add emploiDuTemp
-     *
-     * @param \Masca\EtudiantBundle\Entity\EmploiDuTempsLycee $emploiDuTemp
-     *
-     * @return Classe
-     */
-    public function addEmploiDuTemp(\Masca\EtudiantBundle\Entity\EmploiDuTempsLycee $emploiDuTemp)
-    {
-        $this->emploiDuTemps[] = $emploiDuTemp;
-
-        return $this;
-    }
-
-    /**
-     * Remove emploiDuTemp
-     *
-     * @param \Masca\EtudiantBundle\Entity\EmploiDuTempsLycee $emploiDuTemp
-     */
-    public function removeEmploiDuTemp(\Masca\EtudiantBundle\Entity\EmploiDuTempsLycee $emploiDuTemp)
-    {
-        $this->emploiDuTemps->removeElement($emploiDuTemp);
-    }
-
-    /**
-     * Get emploiDuTemps
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEmploiDuTemps()
-    {
-        return $this->emploiDuTemps;
-    }
 }

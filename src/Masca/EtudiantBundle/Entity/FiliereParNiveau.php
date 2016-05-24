@@ -36,6 +36,12 @@ class FiliereParNiveau
      * @ORM\JoinColumn(nullable=false)
      */
     private $niveau;
+
+    /**
+     * @var $emploiDuTemps EmploiDuTempsUniv[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\EmploiDuTempsUniv", mappedBy="filiereParNiveau", cascade={"remove"})
+     */
+    private $emploiDuTemps;
     
     /**
      * Get id
@@ -93,5 +99,46 @@ class FiliereParNiveau
     public function getNiveau()
     {
         return $this->niveau;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->emploiDuTemps = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add emploiDuTemp
+     *
+     * @param \Masca\EtudiantBundle\Entity\EmploiDuTempsUniv $emploiDuTemp
+     *
+     * @return FiliereParNiveau
+     */
+    public function addEmploiDuTemp(\Masca\EtudiantBundle\Entity\EmploiDuTempsUniv $emploiDuTemp)
+    {
+        $this->emploiDuTemps[] = $emploiDuTemp;
+
+        return $this;
+    }
+
+    /**
+     * Remove emploiDuTemp
+     *
+     * @param \Masca\EtudiantBundle\Entity\EmploiDuTempsUniv $emploiDuTemp
+     */
+    public function removeEmploiDuTemp(\Masca\EtudiantBundle\Entity\EmploiDuTempsUniv $emploiDuTemp)
+    {
+        $this->emploiDuTemps->removeElement($emploiDuTemp);
+    }
+
+    /**
+     * Get emploiDuTemps
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEmploiDuTemps()
+    {
+        return $this->emploiDuTemps;
     }
 }

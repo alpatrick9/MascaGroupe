@@ -219,12 +219,11 @@ class AdminClasseController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("emploiDuTempsLycee", options={"mapping": {"emploiDuTempsLycee_id":"id"}})
      * @Route("/lycee/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsLycee_id}", name="supprimer_matiere_emplois_du_temps_lycee")
      */
-    public function supprimerMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
+    public function supprimerMatiereEmploiDuTempsAction(EmploiDuTempsLycee $emploiDuTempsLycee) {
         $em = $this->getDoctrine()->getManager();
         $em->remove($emploiDuTempsLycee);
         $em->flush();
