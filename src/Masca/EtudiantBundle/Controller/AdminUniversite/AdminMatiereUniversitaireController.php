@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\Matiere;
 use Masca\EtudiantBundle\Entity\MatiereRepository;
 use Masca\EtudiantBundle\Type\MatiereUniversitaireType;
@@ -53,12 +54,18 @@ class AdminMatiereUniversitaireController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($matiere);
-            $em->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($matiere);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-matieres.html.twig',[
+                    'form'=>$form->createView(),
+                    'error_message'=>'la matiere '.$matiere->getIntitule().' existe déjà'
+                ]);
+            }
             return $this->redirect($this->generateUrl('list_matieres_universite'));
         }
-
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-matieres.html.twig',[
             'form'=>$form->createView()
         ]);
@@ -75,8 +82,14 @@ class AdminMatiereUniversitaireController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
+             try {
+                 $this->getDoctrine()->getManager()->flush();
+             } catch (ConstraintViolationException $e) {
+                 return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-matieres.html.twig',[
+                     'form'=>$form->createView(),
+                     'error_message'=>'la matiere '.$matiere->getIntitule().' existe déjà'
+                 ]);
+             }
             return $this->redirect($this->generateUrl('list_matieres_universite'));
         }
 

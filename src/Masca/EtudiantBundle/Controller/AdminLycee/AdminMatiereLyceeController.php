@@ -8,6 +8,7 @@
 
 namespace Masca\EtudiantBundle\Controller\AdminLycee;
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\MatiereLycee;
 use Masca\EtudiantBundle\Repository\MatiereLyceeRepository;
 use Masca\EtudiantBundle\Type\MatiereLyceeType;
@@ -16,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
 class AdminMatiereLyceeController extends Controller
 {
@@ -55,16 +57,16 @@ class AdminMatiereLyceeController extends Controller
 
         if($request->getMethod() == 'POST') {
             $matiereForm->handleRequest($request);
-            if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:MatiereLycee')
-                    ->findOneBy(['intitule'=>$matiere->getIntitule()]) != null) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($matiere);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(
                     'form'=>$matiereForm->createView(),
                     'error_message'=>'La matière '.$matiere->getIntitule().' existe déjà, choisissez un autre nom'
                 ));
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($matiere);
-            $em->flush();
             return $this->redirect($this->generateUrl('liste_matieres_lycee'));
         }
         return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(
@@ -83,14 +85,14 @@ class AdminMatiereLyceeController extends Controller
         $matiereForm = $this->createForm(MatiereLyceeType::class, $matiere);
         if($request->getMethod() == 'POST') {
             $matiereForm->handleRequest($request);
-            if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:MatiereLycee')
-                    ->findOneBy(['intitule'=>$matiere->getIntitule()]) != null) {
+            try {
+                $this->getDoctrine()->getManager()->flush();
+            } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(
                     'form'=>$matiereForm->createView(),
-                    'error_message'=>'La matière '.$matiere->getIntitule().' existe déjà ou vous n\'avez pas fait de modification, choisissez un autre nom ou Annuler'
+                    'error_message'=>'La matière '.$matiere->getIntitule().' existe déjà, choisissez un autre nom ou Annuler'
                 ));
             }
-            $this->getDoctrine()->getManager()->flush();
             return $this->redirect($this->generateUrl('liste_matieres_lycee'));
         }
         return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(

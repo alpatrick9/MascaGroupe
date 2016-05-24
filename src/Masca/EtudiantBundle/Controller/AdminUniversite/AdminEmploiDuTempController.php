@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\EmploiDuTempsUniv;
 use Masca\EtudiantBundle\Entity\FiliereParNiveau;
 use Masca\EtudiantBundle\Type\EmploiDuTempsUnivType;
@@ -45,9 +46,17 @@ class AdminEmploiDuTempController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($filierParNiveau);
-            $em->flush();
+            try{
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($filierParNiveau);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-filiere-par-niveau.html.twig',[
+                    'form'=>$form->createView(),
+                    'error_message'=>'L\'emploi du temps pour '.$filierParNiveau->getFiliere()->getIntitule().' de '.$filierParNiveau->getNiveau()->getIntitule().' existe déjà,
+                                veuillez choisir une autre filière ou un autre niveau',
+                ]);
+            }
             return $this->redirect($this->generateUrl('emploi_du_temps_univerite'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-filiere-par-niveau.html.twig',[
@@ -147,7 +156,6 @@ class AdminEmploiDuTempController extends Controller
             $this->getDoctrine()->getManager()->flush();
             return $this->redirect($this->generateUrl('voir_emploi_du_temps_universite',array('filiereParNiveau_id'=>$emploiDuTempsUniv->getFiliereParNiveau()->getId())));
         }
-
 
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-emploidutemps-universite.html.twig', array(
             'form'=>$emploiDuTempsForm->createView(),

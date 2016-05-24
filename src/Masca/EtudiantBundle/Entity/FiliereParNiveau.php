@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FiliereParNiveau
  *
- * @ORM\Table(name="filiere_par_niveau")
+ * @ORM\Table(name="filiere_par_niveau", uniqueConstraints={@ORM\UniqueConstraint(name="idxUnique", columns={"filiere_id", "niveau_id"})})
  * @ORM\Entity(repositoryClass="Masca\EtudiantBundle\Repository\FiliereParNiveauRepository")
  */
 class FiliereParNiveau

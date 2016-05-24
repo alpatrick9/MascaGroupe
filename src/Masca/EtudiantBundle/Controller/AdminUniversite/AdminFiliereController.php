@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\Filiere;
 use Masca\EtudiantBundle\Entity\FiliereRepository;
 use Masca\EtudiantBundle\Type\FiliereType;
@@ -53,9 +54,17 @@ class AdminFiliereController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($filiere);
-            $em->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($filiere);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-filiere.html.twig',[
+                    'form'=>$form->createView(),
+                    'error_message'=>'Le filiere '.$filiere->getIntitule().' existe déjà'
+                ]);
+            }
+
             return $this->redirect($this->generateUrl('admin_univ_filiere'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-filiere.html.twig',[
@@ -74,9 +83,14 @@ class AdminFiliereController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($filiere);
-            $em->flush();
+            try {
+                $this->getDoctrine()->getManager()->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-filiere.html.twig',[
+                    'form'=>$form->createView(),
+                    'error_message'=>'Le filiere '.$filiere->getIntitule().' existe déjà'
+                ]);
+            }
             return $this->redirect($this->generateUrl('admin_univ_filiere'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-filiere.html.twig',[

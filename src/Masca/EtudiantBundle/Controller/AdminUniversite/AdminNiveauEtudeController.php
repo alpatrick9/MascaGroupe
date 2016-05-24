@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\NiveauEtude;
 use Masca\EtudiantBundle\Type\NiveauEtudeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,9 +41,16 @@ class AdminNiveauEtudeController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($niveau);
-            $em->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($niveau);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-niveau-etude.html.twig',[
+                    'form'=>$form->createView(),
+                    'error_message'=>'Le niveau '.$niveau->getIntitule().' existe déjà'
+                ]);
+            }
             return $this->redirect($this->generateUrl('niveau_etude_univ'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-niveau-etude.html.twig',[
@@ -61,8 +69,14 @@ class AdminNiveauEtudeController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
+            try {
+                $this->getDoctrine()->getManager()->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-niveau-etude.html.twig',[
+                    'form'=>$form->createView(),
+                    'error_message'=>'Le niveau '.$niveauEtude->getIntitule().' existe déjà'
+                ]);
+            }
             return $this->redirect($this->generateUrl('niveau_etude_univ'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-niveau-etude.html.twig',[

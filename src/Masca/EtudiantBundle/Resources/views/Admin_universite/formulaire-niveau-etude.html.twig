@@ -1,6 +1,9 @@
 {% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
 {% block admin_univ_body %}
     <h5>Création/modification niveau d'étude</h5>
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
     <form method="post">
         {{ form_widget(form) }}
         <div class="align-right">

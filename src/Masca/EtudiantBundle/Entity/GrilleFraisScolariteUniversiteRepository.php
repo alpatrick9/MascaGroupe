@@ -12,10 +12,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class GrilleFraisScolariteUniversiteRepository extends EntityRepository
 {
-    public function isValid(Filiere $filiere, NiveauEtude $niveauEtude) {
-        $query = $this->createQueryBuilder('grille')
-            ->where('grille.filiere = :filiere')->setParameter('filiere',$filiere)
-            ->andWhere('grille.niveauEtude = :niveau')->setParameter('niveau', $niveauEtude);
-        return $query->getQuery()->getOneOrNullResult() == null;
-    }
 }

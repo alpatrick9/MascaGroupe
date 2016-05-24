@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\AdminLycee;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLyceeRepository;
 use Masca\EtudiantBundle\Type\GrilleEcolageLyceeType;
@@ -56,16 +57,16 @@ class AdminEcolageLyceeController extends Controller
 
         if($request->getMethod() == 'POST') {
             $grilleForm->handleRequest($request);
-            if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:GrilleFraisScolariteLycee')
-                    ->findOneBy(['classe'=>$grille->getClasse()]) != null) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($grille);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-grille-ecolage.html.twig', array(
                     'form'=>$grilleForm->createView(),
                     'error_message'=>'La grille de frais de scolarite de la classe '.$grille->getClasse()->getIntitule().' existe déjà, choisissez une autre classe'
                 ));
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($grille);
-            $em->flush();
             return $this->redirect($this->generateUrl('grille_ecolage_lycee'));
         }
         return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-grille-ecolage.html.twig', array(

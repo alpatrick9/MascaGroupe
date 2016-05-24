@@ -38,7 +38,7 @@ class EmploiDuTempsUniv
     /**
      * @var FiliereParNiveau
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\FiliereParNiveau")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\FiliereParNiveau", inversedBy="emploiDuTemps")
      * @ORM\JoinColumn(nullable=false)
      */
     private $filiereParNiveau;

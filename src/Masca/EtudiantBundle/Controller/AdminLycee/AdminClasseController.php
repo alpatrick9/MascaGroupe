@@ -12,12 +12,10 @@ use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\Classe;
 use Masca\EtudiantBundle\Entity\ClasseRepository;
 use Masca\EtudiantBundle\Entity\EmploiDuTempsLycee;
-use Masca\EtudiantBundle\Entity\MatiereLycee;
 use Masca\EtudiantBundle\Type\ClasseType;
 use Masca\EtudiantBundle\Type\EmploiDuTempsLyceeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -63,14 +61,13 @@ class AdminClasseController extends Controller
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($classe);
                     $em->flush();
-                    return $this->redirect($this->generateUrl('admin_lycee_classe'));
                 }catch (ConstraintViolationException $e) {
-                    return $this->render("::message-layout.html.twig",[
-                        'message'=>'La classe '.$classe->getIntitule().' existe déjà',
-                        'previousLink'=>$request->headers->get('referer')
-                    ]);
+                    return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
+                        'form'=>$classeForm->createView(),
+                        'error_message'=>'La classe '.$classe->getIntitule().' existe déjà '
+                    ));
                 }
-
+                return $this->redirect($this->generateUrl('admin_lycee_classe'));
             }
 
         return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
@@ -95,16 +92,14 @@ class AdminClasseController extends Controller
 
         if($request->getMethod() == 'POST') {
             $classeForm->handleRequest($request);
-            if($this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:Classe')->findOneBy([
-                    'intitule'=>$classe->getIntitule()
-                ]) != null){
+            try {
+                $this->getDoctrine()->getManager()->flush();
+            } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
                     'form'=>$classeForm->createView(),
-                    'error_message'=>'La classe '.$classe->getIntitule().' existe déjà ou vous n\'avez pas fais de changement, choisissez une autre nom ou Annuler'
+                    'error_message'=>'La classe '.$classe->getIntitule().' existe déjà, choisissez une autre nom ou Annuler'
                 ));
             }
-
-            $this->getDoctrine()->getManager()->flush();
             return $this->redirect($this->generateUrl('admin_lycee_classe'));
         }
 

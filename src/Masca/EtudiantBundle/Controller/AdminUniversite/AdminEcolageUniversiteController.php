@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite;
 use Masca\EtudiantBundle\Type\GrilleEcolageUniversiteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -40,19 +41,16 @@ class AdminEcolageUniversiteController extends Controller
         
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            if(!$this->getDoctrine()->getManager()->
-            getRepository('MascaEtudiantBundle:GrilleFraisScolariteUniversite')->isValid($grille->getFiliere(),$grille->getNiveauEtude())) {
-                $js = '<script  type="text/javascript">'.
-                    'document.getElementById("DivInfo").style.display = "block";'.
-                    '</script>';
-                return $this->render('formulaire-grilles-frais-scolarite.html.twig', [
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($grille);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-grilles-frais-scolarite.html.twig',[
                     'form'=>$form->createView(),
-                    'js'=>$js
+                    'error_message'=>'le grille d\'écolage pour '.$grille->getFiliere()->getIntitule().' niveau '.$grille->getNiveauEtude()->getIntitule().' existe déjà'
                 ]);
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($grille);
-            $em->flush();
             return $this->redirect($this->generateUrl('grille_ecolage_universite'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-grilles-frais-scolarite.html.twig',[

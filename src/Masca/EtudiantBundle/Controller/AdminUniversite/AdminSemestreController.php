@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\AdminUniversite;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\Semestre;
 use Masca\EtudiantBundle\Type\SemestreType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -41,9 +42,16 @@ class AdminSemestreController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($semestre);
-            $em->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($semestre);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-semestre.html.twig',[
+                    'form'=>$form->createView(),
+                    'error_message'=>'La semestre '.$semestre->getIntitule().' existe déjà'
+                ]);
+            }
             return $this->redirect($this->generateUrl('semestre_univ'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-semestre.html.twig',[
@@ -62,8 +70,14 @@ class AdminSemestreController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
+            try {
+                $this->getDoctrine()->getManager()->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-semestre.html.twig',[
+                    'form'=>$form->createView(),
+                    'error_message'=>'La semestre '.$semestre->getIntitule().' existe déjà'
+                ]);
+            }
             return $this->redirect($this->generateUrl('semestre_univ'));
         }
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-semestre.html.twig',[
