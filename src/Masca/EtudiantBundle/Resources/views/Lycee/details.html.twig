@@ -103,8 +103,8 @@
             <a href="{{ path('reinscription_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Réinscription</a>
             <a href="{{ path('liste_notes_lyceen', {'lyceen_id':lyceen.id}) }}" class="btn btn-primary">Note d'examen</a>
             <a href="{{ path('ecolage_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Ecolage</a>
-            <a href="" class="btn btn-primary">Absence</a>
-            <a href="" class="btn btn-primary">Retard</a>
+            <a href="{{ path('absence_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Absence</a>
+            <a href="{{ path('retard_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Retard</a>
 
         </div>
     </div>

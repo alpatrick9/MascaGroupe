@@ -2,10 +2,9 @@
 {% block title %}Ajouter note{% endblock %}
 {% block etudiant_body %}
     <h5>Création/modification note</h5>
-    <div id="DivInfo" style="display:none;">
-        <p style="color: red ">Matiere déjà existant</p>
-    </div>
-    {% if (js is defined) %}{{ js|raw }}{% endif %}
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
     <h2>Note de {{ lyceen.person.prenom }} {{ lyceen.person.nom }}</h2>
     <form method="post">
         {{ form_widget(form) }}

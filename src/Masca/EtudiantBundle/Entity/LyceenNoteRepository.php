@@ -12,10 +12,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class LyceenNoteRepository extends EntityRepository
 {
-    public function isValid(Lyceen $l, MatiereLycee $m) {
-        $query = $this->createQueryBuilder('note')
-            ->where('note.lyceen = :lyceen')->setParameter('lyceen',$l)
-            ->andWhere('note.matiere = :matiere')->setParameter('matiere',$m);
-        return $query->getQuery()->getOneOrNullResult() == null;
-    }
 }

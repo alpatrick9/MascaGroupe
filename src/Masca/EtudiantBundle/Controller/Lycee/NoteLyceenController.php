@@ -9,13 +9,12 @@
 namespace Masca\EtudiantBundle\Controller\Lycee;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\Lyceen;
 use Masca\EtudiantBundle\Entity\LyceenNote;
 use Masca\EtudiantBundle\Type\LyceenNoteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -88,20 +87,18 @@ class NoteLyceenController extends Controller
         if($request->getMethod() ==  'POST') {
             $form->handleRequest($request);
             $note->setLyceen($lyceen);
-            if(!$this->getDoctrine()->getManager()
-                ->getRepository('MascaEtudiantBundle:LyceenNote')->isValid($lyceen, $note->getMatiere())) {
-                $js = '<script  type="text/javascript">'.
-                    'document.getElementById("DivInfo").style.display = "block";'.
-                    '</script>';
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($note);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Lycee:formulaire-note.html.twig', [
                     'form'=>$form->createView(),
                     'lyceen'=>$lyceen,
-                    'js'=>$js
+                    'error_message'=>'Matiere '.$note->getMatiere()->getIntitule().' existe déjà'
                 ]);
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($note);
-            $em->flush();
+
             return $this->redirect($this->generateUrl('liste_notes_lyceen',['lyceen_id'=>$lyceen->getId()]));
         }
         return $this->render('MascaEtudiantBundle:Lycee:formulaire-note.html.twig', [
@@ -119,6 +116,11 @@ class NoteLyceenController extends Controller
      */
     public function modifierNoteAction(Request $request, LyceenNote $lyceenNote) {
         $form = $this->createForm(LyceenNoteType::class, $lyceenNote);
+        $matiereField = $form->get('matiere');
+        $options = $matiereField->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $form->add('matiere',EntityType::class,$options);
+
         if($request->getMethod() ==  'POST') {
             $form->handleRequest($request);
             $em = $this->getDoctrine()->getManager();

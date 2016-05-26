@@ -1,0 +1,37 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %} Administration lycée {% endblock %}
+{% block etudiant_body %}
+    <h4>Les retard de {{ lyceen.person.nom }} {{ lyceen.person.prenom }}</h4>
+    <div>
+        <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}" class="btn btn-primary"><<</a>
+        <a href="" class="btn">Nouvelle retard</a>
+    </div>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">Classe</th>
+            <th>Retard le</th>
+            <th>Arriver en cours à</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for retard in listRetard %}
+            <tr>
+                <td>{{ lyceen.sonClasse.intitule }}</td>
+                <td>{{ retard.dateRetard | date('d/m/Y') }}</td>
+                <td>{{ retard.heure }}</td>
+                <td>
+                    <a href="" class="btn btn-primary">modifier</a>
+                    <a href="" class="btn btn-danger">supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun absence enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock%}

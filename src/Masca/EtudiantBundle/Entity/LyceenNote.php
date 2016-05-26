@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LyceenNote
  *
- * @ORM\Table()
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="idxUnique", columns={"lyceen_id", "matiere_id"})})
  * @ORM\Entity(repositoryClass="Masca\EtudiantBundle\Entity\LyceenNoteRepository")
  */
 class LyceenNote

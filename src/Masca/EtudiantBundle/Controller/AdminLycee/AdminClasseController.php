@@ -84,11 +84,6 @@ class AdminClasseController extends Controller
      */
     public function modiferClasseAction(Request $request, Classe $classe) {
         $classeForm = $this->createForm(ClasseType::class, $classe);
-        
-        $niveauEtudeField = $classeForm->get('niveauEtude');
-        $options = $niveauEtudeField->getConfig()->getOptions();
-        $options['disabled'] = true;
-        $classeForm->add('niveauEtude',EntityType::class,$options);
 
         if($request->getMethod() == 'POST') {
             $classeForm->handleRequest($request);

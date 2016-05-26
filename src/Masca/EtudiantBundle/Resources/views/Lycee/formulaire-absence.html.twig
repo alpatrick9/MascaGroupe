@@ -1,0 +1,16 @@
+{% extends 'MascaEtudiantBundle::layout.html.twig' %}
+{% block title %}Nouvelle absence{% endblock %}
+{% block etudiant_body %}
+    <h5>Création/modification absence</h5>
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
+    <h2>Enregistrement absence de {{ lyceen.person.prenom }} {{ lyceen.person.nom }}</h2>
+    <form method="post">
+        {{ form_widget(form) }}
+        <div class="align-right">
+            <input type="submit" value="Enregistrer" class="btn">
+            <a href="{{ path('absence_lyceen',{'id':lyceen.id}) }}" class="btn">Annuler</a>
+        </div>
+    </form>
+{% endblock %}

@@ -211,15 +211,15 @@ table tbody tr td{
 	overflow-y: scroll;
 }
 
-#person_dateNaissance_day,#person_dateDelivranceCin_day , #lyceen_dateReinscription_day, #son_filiere_dateReinscription_day{
+#person_dateNaissance_day,#person_dateDelivranceCin_day , #lyceen_dateReinscription_day, #son_filiere_dateReinscription_day, #absence_lyceen_dateAbsent_day{
 	width: 65px !important;
 	margin: 2.5px !important;
 }
-#person_dateNaissance_month, #person_dateDelivranceCin_month, #lyceen_dateReinscription_month, #son_filiere_dateReinscription_month {
+#person_dateNaissance_month, #person_dateDelivranceCin_month, #lyceen_dateReinscription_month, #son_filiere_dateReinscription_month, #absence_lyceen_dateAbsent_month {
 	width: 100px !important;
 	margin: 2.5px !important;
 }
-#person_dateNaissance_year, #person_dateDelivranceCin_year, #lyceen_dateReinscription_year, #son_filiere_dateReinscription_year  {
+#person_dateNaissance_year, #person_dateDelivranceCin_year, #lyceen_dateReinscription_year, #son_filiere_dateReinscription_year, #absence_lyceen_dateAbsent_year  {
 	width: 100px !important;
 	margin: 2.5px !important;
 }
@@ -264,5 +264,12 @@ input[type="color"],
 }
 .float_menu:hover ul{
 	display: block;
+}
+#absence_lyceen_partieJournee {
+	display: inline-flex;
+}
+
+div#absence_lyceen_partieJournee input, label {
+	margin: 10px;
 }
 
