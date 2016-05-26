@@ -1,0 +1,55 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %} Administration lycée {% endblock %}
+{% block etudiant_body %}
+    <div class="row">
+        <div class="span10">
+            <h3>Suivi d'écolage</h3>
+            <p> {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }} filiere {{ sonFiliere.sonFiliere.intitule }} niveau {{ sonFiliere.sonNiveauEtude.intitule }} </p>
+            <p>Montant: {{ montant }} Ar. Reduction {{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <table class="table table-hover table-bordered table-striped avectri">
+                <thead>
+                <th>Mois</th>
+                <th>Année</th>
+                <th>Status</th>
+                <th>Historique de payement</th>
+                </thead>
+                <tbody>
+                {% for ecolage in statusEcolages %}
+                    <tr>
+                        <td>{{ ecolage.mois }}</td>
+                        <td>{{ ecolage.annee }}</td>
+                        <td>
+                            {% if ecolage.status %}
+                                payé
+                            {% else %}
+                                Somme versée: {{ ecolage.montant }} Ar <br>
+                                reste à payer: {{ montant - ecolage.montant - ecolage.univSonFiliere.universitaire.infoEtudiant.reduction }} Ar <br>
+                                <a href="{{ path('regularisation_rest_ecolage_univesitaire', {'id': ecolage.id}) }}"class="btn">Verser</a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <ul>
+                                {%  for date in datesPayement[ecolage.id] %}
+                                    <li>Somme de {{ date.montant }} versé le {{ date.datePayement | date(' d/m/Y') }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4">Aucun ecolage enregisté</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="clearfix"></div>
+            <div class="align-center">
+                <a href="{{ path('details_etude_universitaire',{'sonFiliere_id': sonFiliere.id}) }}" class="btn btn-primary"><<</a>
+                <a href="{{ path('payer_ecolage_univeristaire',{'id': sonFiliere.id}) }}" class="btn btn-primary">Payer</a>
+            </div>
+        </div>
+
+    </div>
+{% endblock%}

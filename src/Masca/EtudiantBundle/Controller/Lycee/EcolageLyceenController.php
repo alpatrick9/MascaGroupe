@@ -80,7 +80,10 @@ class EcolageLyceenController extends Controller
      */
     public function payerEcolageAction(Request $request, Lyceen $lyceen) {
         $anneeData = explode('-',$lyceen->getAnneeScolaire());
-        $choicesAnnee = array($anneeData[0]=>$anneeData[0],$anneeData[1]=>$anneeData[1]);
+        $choicesAnnee = [];
+        foreach ($anneeData as $annee) {
+            $choicesAnnee[$annee] = $annee;
+        }
 
 
         /**

@@ -66,7 +66,6 @@ class FraisScolariteLyceen
 
     /**
      * FraisScolariteLyceen constructor.
-     * @param bool $status
      */
     public function __construct()
     {
