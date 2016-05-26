@@ -29,7 +29,7 @@ class RetardLyceenController extends Controller
         /**
          * @var $retards RetardLyceen[]
          */
-        $retards = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:RetardLyceen')->findAll();
+        $retards = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:RetardLyceen')->findByLyceen($lyceen);
         
         return $this->render('MascaEtudiantBundle:Lycee:retard.html.twig',[
             'listRetard'=>$retards,

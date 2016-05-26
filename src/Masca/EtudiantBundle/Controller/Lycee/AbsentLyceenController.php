@@ -30,7 +30,7 @@ class AbsentLyceenController extends Controller
         /**
          * @var $listAbs AbsenceLyceen[]
          */
-        $listAbs = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:AbsenceLyceen')->findAll();
+        $listAbs = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:AbsenceLyceen')->findByLyceen($lyceen);
         return $this->render('MascaEtudiantBundle:Lycee:absence.html.twig', [
             'listAbs'=> $listAbs,
             'lyceen'=>$lyceen
