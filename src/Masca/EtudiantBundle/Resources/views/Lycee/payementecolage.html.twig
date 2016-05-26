@@ -1,6 +1,9 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block title %}Regularisation ecolage{% endblock %}
 {% block etudiant_body %}
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
     <div class="row bordered">
         <div class="span12 text-center">
             <h5>Année scolaire {{ lyceen.anneeScolaire }} </h5>

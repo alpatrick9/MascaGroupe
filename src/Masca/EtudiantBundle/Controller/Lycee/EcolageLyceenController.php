@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\Lycee;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\DatePayementEcolageLycee;
 use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee;
@@ -105,18 +106,28 @@ class EcolageLyceenController extends Controller
         if($request->getMethod() == 'POST') {
             $ecolageFrom->handleRequest($request);
 
-            $datePayement = new DatePayementEcolageLycee();
-            $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
-            $datePayement->setMontant($fraisScolariteLyceen->getMontant());
+            try {
+                $datePayement = new DatePayementEcolageLycee();
+                $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
+                $datePayement->setMontant($fraisScolariteLyceen->getMontant());
 
-            if($fraisScolariteLyceen->getMontant() - $lyceen->getInfoEtudiant()->getReduction() == $motantEcolage->getMontant()) {
-                $fraisScolariteLyceen->setStatus(true);
+                if($fraisScolariteLyceen->getMontant() - $lyceen->getInfoEtudiant()->getReduction() == $motantEcolage->getMontant()) {
+                    $fraisScolariteLyceen->setStatus(true);
+                }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($fraisScolariteLyceen);
+                $em->persist($datePayement);
+
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Lycee:payementecolage.html.twig', array(
+                    'ecolageForm'=>$ecolageFrom->createView(),
+                    'lyceen'=>$lyceen,
+                    'montant'=>$motantEcolage->getMontant(),
+                    'reduction'=>$lyceen->getInfoEtudiant()->getReduction(),
+                    'error_message'=>'Vous avez déjà un enregistrement d\'ecolage pour le mois '.$fraisScolariteLyceen->getMois().' de l\'année '.$fraisScolariteLyceen->getAnnee()
+                ));
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fraisScolariteLyceen);
-            $em->persist($datePayement);
-
-            $em->flush();
             return $this->redirect($this->generateUrl('ecolage_lyceen', array('id'=>$lyceen->getId())));
         }
         return $this->render('MascaEtudiantBundle:Lycee:payementecolage.html.twig', array(
