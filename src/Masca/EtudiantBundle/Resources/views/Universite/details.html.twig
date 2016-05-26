@@ -108,8 +108,8 @@
         <div class="align-center">
             <a href="{{ path('accueil_universite')}}" class="btn btn-primary"> << </a>
             <a href="{{ path('modifier_universite', {'id': universitaire.id}) }}" class="btn btn-primary"> Modifier </a>
-            <a href="" class="btn btn-primary">Absence</a>
-            <a href="" class="btn btn-primary">Retard</a>
+            <a href="{{ path('absence_universitaire', {'id': universitaire.id}) }}" class="btn btn-primary">Absence</a>
+            <a href="{{ path('retard_universitaire', {'id': universitaire.id}) }}" class="btn btn-primary">Retard</a>
 
         </div>
     </div>

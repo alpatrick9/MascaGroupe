@@ -1,0 +1,35 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %} Administration lycée {% endblock %}
+{% block etudiant_body %}
+    <h4>Les retard de {{ universitaire.person.nom }} {{ universitaire.person.prenom }}</h4>
+    <div>
+        <a href="{{ path('details_universite',{'id': universitaire.id}) }}" class="btn btn-primary"><<</a>
+        <a href="{{ path('enregistrement_retard_universitaire',{'id': universitaire.id}) }}" class="btn">Nouvelle retard</a>
+    </div>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th>Retard le</th>
+            <th>Arriver en cours à</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for retard in listRetard %}
+            <tr>
+                <td>{{ retard.dateRetard | date('d/m/Y') }}</td>
+                <td>{{ retard.heure | date('h:i')}}</td>
+                <td>
+                    <a href="{{ path('modifier_retard_universitaire', {'id':retard.id}) }}" class="btn btn-primary">modifier</a>
+                    <a href="{{ path('supprimer_retard_universitaire', {'id':retard.id}) }}" class="btn btn-danger" onclick="return confirm('Vous vous supprimer?')">supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun absence enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock%}

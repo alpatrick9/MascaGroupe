@@ -216,7 +216,9 @@ table tbody tr td{
 #lyceen_dateReinscription_day,
 #son_filiere_dateReinscription_day,
 #absence_lyceen_dateAbsent_day,
-#retard_lyceen_dateRetard_day
+#retard_lyceen_dateRetard_day,
+#absence_univ_dateAbsent_day,
+#retard_univ_dateRetard_day
 {
 	width: 65px !important;
 	margin: 2.5px !important;
@@ -226,7 +228,9 @@ table tbody tr td{
 #lyceen_dateReinscription_month,
 #son_filiere_dateReinscription_month,
 #absence_lyceen_dateAbsent_month,
-#retard_lyceen_dateRetard_month  {
+#retard_lyceen_dateRetard_month,
+#absence_univ_dateAbsent_month,
+#retard_univ_dateRetard_month {
 	width: 100px !important;
 	margin: 2.5px !important;
 }
@@ -235,12 +239,17 @@ table tbody tr td{
 #lyceen_dateReinscription_year,
 #son_filiere_dateReinscription_year,
 #absence_lyceen_dateAbsent_year,
-#retard_lyceen_dateRetard_year {
+#retard_lyceen_dateRetard_year,
+#absence_univ_dateAbsent_year,
+#retard_univ_dateRetard_year {
 	width: 100px !important;
 	margin: 2.5px !important;
 }
 
-#retard_lyceen_heure_hour, #retard_lyceen_heure_minute {
+#retard_lyceen_heure_hour,
+#retard_lyceen_heure_minute,
+#retard_univ_heure_hour,
+#retard_univ_heure_minute {
 	width: 100px !important;
 	margin: 2.5px !important;
 }
@@ -286,11 +295,13 @@ input[type="color"],
 .float_menu:hover ul{
 	display: block;
 }
-#absence_lyceen_partieJournee {
+#absence_lyceen_partieJournee,
+#absence_univ_partieJournee {
 	display: inline-flex;
 }
 
-div#absence_lyceen_partieJournee input, label {
+div#absence_lyceen_partieJournee, div#absence_univ_partieJournee
+input, label {
 	margin: 10px;
 }
 
