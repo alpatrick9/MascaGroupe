@@ -211,15 +211,36 @@ table tbody tr td{
 	overflow-y: scroll;
 }
 
-#person_dateNaissance_day,#person_dateDelivranceCin_day , #lyceen_dateReinscription_day, #son_filiere_dateReinscription_day, #absence_lyceen_dateAbsent_day{
+#person_dateNaissance_day,
+#person_dateDelivranceCin_day ,
+#lyceen_dateReinscription_day,
+#son_filiere_dateReinscription_day,
+#absence_lyceen_dateAbsent_day,
+#retard_lyceen_dateRetard_day
+{
 	width: 65px !important;
 	margin: 2.5px !important;
 }
-#person_dateNaissance_month, #person_dateDelivranceCin_month, #lyceen_dateReinscription_month, #son_filiere_dateReinscription_month, #absence_lyceen_dateAbsent_month {
+#person_dateNaissance_month,
+#person_dateDelivranceCin_month,
+#lyceen_dateReinscription_month,
+#son_filiere_dateReinscription_month,
+#absence_lyceen_dateAbsent_month,
+#retard_lyceen_dateRetard_month  {
 	width: 100px !important;
 	margin: 2.5px !important;
 }
-#person_dateNaissance_year, #person_dateDelivranceCin_year, #lyceen_dateReinscription_year, #son_filiere_dateReinscription_year, #absence_lyceen_dateAbsent_year  {
+#person_dateNaissance_year,
+#person_dateDelivranceCin_year,
+#lyceen_dateReinscription_year,
+#son_filiere_dateReinscription_year,
+#absence_lyceen_dateAbsent_year,
+#retard_lyceen_dateRetard_year {
+	width: 100px !important;
+	margin: 2.5px !important;
+}
+
+#retard_lyceen_heure_hour, #retard_lyceen_heure_minute {
 	width: 100px !important;
 	margin: 2.5px !important;
 }

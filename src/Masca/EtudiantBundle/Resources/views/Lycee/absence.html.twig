@@ -24,7 +24,7 @@
                 <td>{{ absence.partieJournee }}</td>
                 <td>
                     <a href="{{ path('absence_modifier_lyceen', {'id':absence.id}) }}" class="btn btn-primary">modifier</a>
-                    <a href="{{ path('absence_supprimer_lyceen', {'id':absence.id}) }}" class="btn btn-danger">supprimer</a>
+                    <a href="{{ path('absence_supprimer_lyceen', {'id':absence.id}) }}" class="btn btn-danger" onclick="return confirm('Vous vous supprimer?')">supprimer</a>
                 </td>
             </tr>
         {% else %}

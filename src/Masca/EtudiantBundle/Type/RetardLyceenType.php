@@ -28,6 +28,7 @@ class RetardLyceenType extends AbstractType
             ])
             ->add('heure', TimeType::class, [
                 'label'=> 'Heure d\'arriver en cours',
+                'placeholder'=>['hour' => 'Heure', 'minute' => 'Minute']
             ]);
     }
 
