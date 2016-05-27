@@ -1,0 +1,12 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% block fos_user_content %}
+    <h5>Ajout/modification rôle utilisateur</h5>
+    {{ user.username }}
+    <form method="post">
+        {{ form_widget(form) }}
+        <div class="align-right">
+            <input type="submit" value="Enregistrer" class="btn">
+            <a href="{{ path('user_lists') }} " class="btn">Annuler</a>
+        </div>
+    </form>
+{% endblock %}

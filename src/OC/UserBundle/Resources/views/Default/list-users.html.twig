@@ -18,16 +18,26 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    {% for role in user.roles %}
-                        {{ role }}
+                    {% for role in user.roles if role != 'ROLE_USER'%}
+                        {% for key, value in roleLabels if value == role%}
+                            {{ key }}
+                        {% endfor %}
                     {% else %}
                         aucun role
                     {% endfor %}
                 </td>
                 <td>
-                    <a href="" class="btn btn-info btn-lg">
+                    <span class="btn btn-info float_menu">
                         Action
-                    </a>
+                    <ul class="nav nav-pills">
+                        <li><a href="" class="btn-primary">modifer</a></li>
+                        {% if user.roles|length == 1 %}
+                            <li><a href="{{ path('ajouter_role',{'id': user.id}) }}" class="btn-primary">ajouter role</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('supprimer_user',{'id': user.id}) }}" class="btn-danger" onclick="return confirm('Voulez vous supprimer?')">suppr</a></li>
+                    </ul>
+
+                    </span>
                 </td>
             </tr>
         {% else %}
