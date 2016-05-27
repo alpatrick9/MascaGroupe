@@ -31,11 +31,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class UniversiteController extends Controller
 {
     /**
+     * @param Request $request
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/accueil/universite/{page}", name="accueil_universite", defaults={"page" = 1})
      */
-    public function indexAction($page) {
+    public function indexAction(Request $request, $page) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = 30;
         /**
          * @var $repository UniversitaireRepository
@@ -60,6 +67,12 @@ class UniversiteController extends Controller
      * @Route("/universite/inscription/", name="inscription_universite")
      */
     public  function inscriptionAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $person = new Person();
         $personForm = $this->createForm(PersonType::class, $person);
         
@@ -106,6 +119,12 @@ class UniversiteController extends Controller
      * @Route("/universite/details/{id}", name="details_universite")
      */
     public function detailsAction(Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         /**
          * @var $sesFilieres UniversitaireSonFiliere[]
          */
@@ -124,6 +143,12 @@ class UniversiteController extends Controller
      * @Route("/universite/modifier/{id}", name="modifier_universite")
      */
     public function modifierAction(Request $request, Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $personForm = $this->createForm(PersonType::class, $universitaire->getPerson());
         $infoEtudiantForm = $this->createForm(InfoEtudiantType::class, $universitaire->getInfoEtudiant());
 

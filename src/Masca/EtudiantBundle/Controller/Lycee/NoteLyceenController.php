@@ -22,12 +22,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class NoteLyceenController extends Controller
 {
     /**
+     * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("lyceen", options={"mapping": {"lyceen_id":"id"}})
      * @Route("/lycee/note/liste/{lyceen_id}", name="liste_notes_lyceen")
      */
-    public function noteAction(Lyceen $lyceen) {
+    public function noteAction(Request $request,Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $totalCoef = 0;
 
         $totalTrimestre1 = 0;
@@ -80,6 +87,12 @@ class NoteLyceenController extends Controller
      * @Route("/lycee/note/ajouter/{lyceen_id}", name="ajouter_note_lyceen")
      */
     public function ajouterNoteAction(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
 
         $note = new LyceenNote();
         $form = $this->createForm(LyceenNoteType::class,$note);
@@ -115,6 +128,12 @@ class NoteLyceenController extends Controller
      * @Route("/lycee/note/modifier/{lyceenNote_id}", name="modifier_note_lyceen")
      */
     public function modifierNoteAction(Request $request, LyceenNote $lyceenNote) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(LyceenNoteType::class, $lyceenNote);
         $matiereField = $form->get('matiere');
         $options = $matiereField->getConfig()->getOptions();

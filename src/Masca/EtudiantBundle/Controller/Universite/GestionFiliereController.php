@@ -28,6 +28,12 @@ class GestionFiliereController extends Controller
      * @Route("/universite/reinscription/{id}", name="reinscription_universite")
      */
     public function reinscriptionAction(Request $request, UniversitaireSonFiliere $sonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $sonFiliereForm = $this->createForm(SonFiliereType::class, $sonFiliere);
 
         if($request->getMethod() == 'POST') {
@@ -51,6 +57,12 @@ class GestionFiliereController extends Controller
      * @Route("/universite/details-etude/{sonFiliere_id}", name="details_etude_universitaire")
      */
     public function detailsEtudeAction(UniversitaireSonFiliere $sonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         return $this->render('MascaEtudiantBundle:Universite:details-etude.html.twig',[
             'sonFiliere'=>$sonFiliere
         ]);

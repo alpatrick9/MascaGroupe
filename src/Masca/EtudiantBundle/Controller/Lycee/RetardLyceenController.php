@@ -21,11 +21,18 @@ use Symfony\Component\HttpFoundation\Request;
 class RetardLyceenController extends Controller
 {
     /**
+     * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/lycee/retard/{id}", name="retard_lyceen")
      */
-    public function indexAction(Lyceen $lyceen) {
+    public function indexAction(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         /**
          * @var $retards RetardLyceen[]
          */
@@ -44,6 +51,12 @@ class RetardLyceenController extends Controller
      * @Route("/lycee/retard/creer/{id}", name="creer_retard_lyceen")
      */
     public function creerRetardAction(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $retard = new RetardLyceen();
         $form = $this->createForm(RetardLyceenType::class,$retard);
 
@@ -76,6 +89,12 @@ class RetardLyceenController extends Controller
      * @Route("/lycee/retard/modifier/{id}", name="modifier_retard_lyceen")
      */
     public function modifierRetardAction(Request $request, RetardLyceen $retardLyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(RetardLyceenType::class,$retardLyceen);
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -97,11 +116,18 @@ class RetardLyceenController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param RetardLyceen $retardLyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/lycee/retard/supprimer/{id}", name="supprimer_retard_lyceen")
      */
-    public function supprimerRetardAction(RetardLyceen $retardLyceen) {
+    public function supprimerRetardAction(Request $request, RetardLyceen $retardLyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($retardLyceen);
         $em->flush();

@@ -104,11 +104,18 @@ class AdminClasseController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param Classe $classe
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/lycee/admin/emploi-du-temps/{id}", name="emploi_du_temps_lycee")
      */
-    public function emploiDuTempsAction(Classe $classe) {
+    public function emploiDuTempsAction(Request $request, Classe $classe) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $jours = $this->getParameter('jours');
         $heures = $this->getParameter('heures');
         /**
@@ -149,6 +156,12 @@ class AdminClasseController extends Controller
      * @Route("/lycee/admin/emploi-du-temps/ajouter-matiere/{classe_id}/{jourIndex}/{heureIndex}", name="ajouter_matiere_emplois_du_temps_lycee")
      */
     public function ajouterMatiereEmploiDuTempsAction(Request $request, Classe $classe,$jourIndex, $heureIndex) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $jours = $this->getParameter('jours');
         $heures = $this->getParameter('heures');
 
@@ -185,6 +198,12 @@ class AdminClasseController extends Controller
      * @Route("/lycee/admin/emploi-du-temps/modifier-matiere/{emploiDuTempsLycee_id}", name="modifier_matiere_emplois_du_temps_lycee")
      */
     public function modifierMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $jours = $this->getParameter('jours');
         $heures = $this->getParameter('heures');
 
@@ -209,11 +228,19 @@ class AdminClasseController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param EmploiDuTempsLycee $emploiDuTempsLycee
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("emploiDuTempsLycee", options={"mapping": {"emploiDuTempsLycee_id":"id"}})
      * @Route("/lycee/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsLycee_id}", name="supprimer_matiere_emplois_du_temps_lycee")
      */
-    public function supprimerMatiereEmploiDuTempsAction(EmploiDuTempsLycee $emploiDuTempsLycee) {
+    public function supprimerMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($emploiDuTempsLycee);
         $em->flush();

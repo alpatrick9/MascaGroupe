@@ -22,11 +22,18 @@ class AbsenceUnivController extends Controller
 {
 
     /**
+     * @param Request $request
      * @param Universitaire $universitaire
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/universite/absence/{id}", name="absence_universitaire")
      */
-    public function indexAction(Universitaire $universitaire) {
+    public function indexAction(Request $request, Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
 
         /**
          * @var $listAbs AbsenceUniv[]
@@ -45,6 +52,12 @@ class AbsenceUnivController extends Controller
      * @Route("/universite/absence/creer/{id}", name="enregistrement_absence_universitaire")
      */
     public function enregistrementAbsenceAction(Request $request, Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $absence = new AbsenceUniv();
         $form = $this->createForm(AbsenceUnivType::class, $absence);
 
@@ -79,6 +92,12 @@ class AbsenceUnivController extends Controller
      * @Route("/universite/absence/modifier/{id}", name="modifier_absence_universitaire")
      */
     public function modificationAbsenceAction(Request $request, AbsenceUniv $absenceUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(AbsenceUnivType::class, $absenceUniv);
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -100,11 +119,18 @@ class AbsenceUnivController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param AbsenceUniv $absenceUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/universite/absence/supprimer/{id}", name="supprimer_absence_universitaire")
      */
-    public function supprimerAbsenceAction(AbsenceUniv $absenceUniv) {
+    public function supprimerAbsenceAction(Request $request, AbsenceUniv $absenceUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($absenceUniv);
         $em->flush();

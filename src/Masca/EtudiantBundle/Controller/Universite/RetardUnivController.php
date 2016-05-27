@@ -22,11 +22,18 @@ class RetardUnivController extends Controller
 {
 
     /**
+     * @param Request $request
      * @param Universitaire $universitaire
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/universite/retard/{id}", name="retard_universitaire")
      */
-    public function indexAction(Universitaire $universitaire) {
+    public function indexAction(Request $request, Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         /**
          * @var $retards RetardUniv[]
          */
@@ -45,6 +52,12 @@ class RetardUnivController extends Controller
      * @Route("/universite/retard/creer/{id}", name="enregistrement_retard_universitaire")
      */
     public function creerRetardAction(Request $request, Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $retard = new RetardUniv();
         $form = $this->createForm(RetardUnivType::class,$retard);
 
@@ -77,6 +90,12 @@ class RetardUnivController extends Controller
      * @Route("/universite/retard/modifier/{id}", name="modifier_retard_universitaire")
      */
     public function modifierRetardAction(Request $request, RetardUniv $retardUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(RetardUnivType::class,$retardUniv);
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -98,11 +117,18 @@ class RetardUnivController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param RetardUniv $retardUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/universite/retard/supprimer/{id}", name="supprimer_retard_universitaire")
      */
-    public function supprimerRetardAction(RetardUniv $retardUniv) {
+    public function supprimerRetardAction(Request $request, RetardUniv $retardUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($retardUniv);
         $em->flush();

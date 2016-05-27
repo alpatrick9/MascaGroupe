@@ -21,12 +21,18 @@ use Symfony\Component\HttpFoundation\Request;
 class AbsentLyceenController extends Controller
 {
     /**
+     * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/lycee/absence/{id}", name="absence_lyceen")
      */
-    public function indexAction(Lyceen $lyceen) {
-
+    public function indexAction(Request $request,Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         /**
          * @var $listAbs AbsenceLyceen[]
          */
@@ -44,6 +50,12 @@ class AbsentLyceenController extends Controller
      * @Route("/lycee/absence/enregistrement/{id}", name="absence_enregistrement_lyceen")
      */
     public function enregistrementAbsenceAction(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $absence = new AbsenceLyceen();
         $form = $this->createForm(AbsenceLyceenType::class, $absence);
 
@@ -77,6 +89,12 @@ class AbsentLyceenController extends Controller
      * @Route("lycee/absence/modifier/{id}", name="absence_modifier_lyceen")
      */
     public function modificationAbsenceAction(Request $request, AbsenceLyceen $absenceLyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(AbsenceLyceenType::class, $absenceLyceen);
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -98,11 +116,18 @@ class AbsentLyceenController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param AbsenceLyceen $absenceLyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("lycee/absence/supprimer/{id}", name="absence_supprimer_lyceen")
      */
-    public function supprimerAbsenceAction(AbsenceLyceen $absenceLyceen) {
+    public function supprimerAbsenceAction(Request $request, AbsenceLyceen $absenceLyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($absenceLyceen);
         $em->flush();

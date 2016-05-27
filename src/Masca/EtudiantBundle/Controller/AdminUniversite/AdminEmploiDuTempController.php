@@ -22,10 +22,17 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminEmploiDuTempController extends Controller
 {
     /**
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/universite/admin/emploi-du-temps/", name="emploi_du_temps_univerite")
      */
-    public function indexAction(){
+    public function indexAction(Request $request){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         /**
          * @var $filierParNiveau FiliereParNiveau[]
          */
@@ -41,6 +48,12 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/universite/admin/emploi-du-temps/creer/", name="creer_emploi_du_temps_universite")
      */
     public function creerEmploiDuTemps(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $filierParNiveau = new FiliereParNiveau();
         $form = $this->createForm(FiliereParNiveauType::class, $filierParNiveau);
 
@@ -65,12 +78,19 @@ class AdminEmploiDuTempController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param FiliereParNiveau $filierParNiveau
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/universite/admin/emploi-du-temps/voir/{filiereParNiveau_id}", name="voir_emploi_du_temps_universite")
      * @ParamConverter("filierParNiveau", options={"mapping": {"filiereParNiveau_id":"id"}})
      */
-    public function voirEmploiDuTempsAction(FiliereParNiveau $filierParNiveau) {
+    public function voirEmploiDuTempsAction(Request $request, FiliereParNiveau $filierParNiveau) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $jours = $this->getParameter('jours');
         $heures = $this->getParameter('heures');
         /**
@@ -111,6 +131,12 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/universite/admin/emploi-du-temps/ajouter-matiere/{filiereParNiveau_id}/{jourIndex}/{heureIndex}", name="ajouter_emplois_du_temps_universite")
      */
     public function ajouterMatiereAction(Request $request, FiliereParNiveau $filiereParNiveau,$jourIndex, $heureIndex) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $jours = $this->getParameter('jours');
         $heures = $this->getParameter('heures');
 
@@ -146,6 +172,12 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/universite/admin/emploi-du-temps/modifier-matiere/{emploiDuTempsUniv_id}", name="modifier_emplois_du_temps_universite")
      */
     public function modifierMatiereAction(Request $request, EmploiDuTempsUniv $emploiDuTempsUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $jours = $this->getParameter('jours');
         $heures = $this->getParameter('heures');
 
@@ -166,12 +198,19 @@ class AdminEmploiDuTempController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param EmploiDuTempsUniv $emploiDuTempsUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @ParamConverter("emploiDuTempsUniv", options={"mapping": {"emploiDuTempsUniv_id":"id"}})
      * @Route("/universite/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsUniv_id}", name="supprimer_matiere_emplois_du_temps_universite")
      */
-    public function supprimerMatierAction(EmploiDuTempsUniv $emploiDuTempsUniv) {
+    public function supprimerMatierAction(Request $request, EmploiDuTempsUniv $emploiDuTempsUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($emploiDuTempsUniv);
         $em->flush();
@@ -179,11 +218,18 @@ class AdminEmploiDuTempController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param FiliereParNiveau $filiereParNiveau
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("universite/admin/supprimer-emploi-du-temps/{id}", name="supprimer_emplois_du_temps_universite")
      */
-    public function supprimerFilierParNiveauAction(FiliereParNiveau $filiereParNiveau) {
+    public function supprimerFilierParNiveauAction(Request $request, FiliereParNiveau $filiereParNiveau) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($filiereParNiveau);
         $em->flush();

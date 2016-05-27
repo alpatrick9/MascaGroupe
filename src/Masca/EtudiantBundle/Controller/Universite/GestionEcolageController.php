@@ -29,6 +29,12 @@ class GestionEcolageController extends Controller
      * @Route("/universite/ecolage/{id}", name="ecolage_universitaire")
      */
     public function indexAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
 
         /**
          * @var $motantEcolage GrilleFraisScolariteUniversite
@@ -77,6 +83,12 @@ class GestionEcolageController extends Controller
      * @Route("/universite/ecolage/payer/{id}", name="payer_ecolage_univeristaire")
      */
     public function payerEcolageAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $anneeData = range($universitaireSonFiliere->getAnneeEtude() - 2, $universitaireSonFiliere->getAnneeEtude()+2);
         $choicesAnnee = [];
         foreach ($anneeData as $annee) {
@@ -147,6 +159,12 @@ class GestionEcolageController extends Controller
      * @Route("/universite/ecolage/regularisation-rest/{id}", name="regularisation_rest_ecolage_univesitaire")
      */
     public function regularisationResteEcolageAction(Request $request, FraisScolariteUniv $fraisScolariteUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $anneeData = range($fraisScolariteUniv->getUnivSonFiliere()->getAnneeEtude() - 2, $fraisScolariteUniv->getUnivSonFiliere()->getAnneeEtude()+2);
         $choicesAnnee = [];
         foreach ($anneeData as $annee) {

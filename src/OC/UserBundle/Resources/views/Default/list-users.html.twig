@@ -30,7 +30,7 @@
                     <span class="btn btn-info float_menu">
                         Action
                     <ul class="nav nav-pills">
-                        <li><a href="" class="btn-primary">modifer</a></li>
+                        <li><a href="{{ path('modifier_mot_de_passe', {'id': user.id}) }}" class="btn-primary">modifer mot de passe</a></li>
                         {% if user.roles|length == 1 %}
                             <li><a href="{{ path('ajouter_role',{'id': user.id}) }}" class="btn-primary">ajouter role</a></li>
                         {% endif %}

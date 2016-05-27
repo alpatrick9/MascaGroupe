@@ -30,6 +30,13 @@ class EcolageLyceenController extends Controller
      * @Route("/lycee/ecolage/accueil/{id}", name="ecolage_lyceen")
      */
     public function ecolageAction(Request $request,Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
         /**
          * @var $motantEcolage GrilleFraisScolariteLycee
          */
@@ -79,6 +86,12 @@ class EcolageLyceenController extends Controller
      * @Route("/lycee/ecolage/payer/{id}", name="payer_ecolage_lyceen")
      */
     public function payerEcolageAction(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $anneeData = explode('-',$lyceen->getAnneeScolaire());
         $choicesAnnee = [];
         foreach ($anneeData as $annee) {
@@ -149,6 +162,12 @@ class EcolageLyceenController extends Controller
      * @Route("/lycee/ecolage/regularisation-reste/{frais_scolarite_id}", name="regularisation_reste_ecolage_lyceen")
      */
     public function regularisationResteEcolageAction(Request $request, FraisScolariteLyceen $fraisScolariteLyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $anneeData = explode('-',$fraisScolariteLyceen->getLyceen()->getAnneeScolaire());
         $choicesAnnee = array($anneeData[0]=>$anneeData[0],$anneeData[1]=>$anneeData[1]);
 
