@@ -1,0 +1,28 @@
+{% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
+{% block admin_univ_body %}
+    <h4>Les unité d'enseignement</h4>
+    <a href="{{ path('creer_ue_universite') }}" class="btn">Nouvelle ue</a>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">Intitulé</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ue in ues %}
+            <tr>
+                <td>{{ ue.intitule }}</td>
+                <td>
+                    <a href="{{ path('modifier_ue_universite',{'id':ue.id}) }}" class="btn btn-primary">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun ue enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

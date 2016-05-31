@@ -9,7 +9,8 @@
                 <li {% if 'grille' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('grille_ecolage_universite') }}">Grille de frais de scolarité</a></li>
                 <li{% if 'matiere' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('list_matieres_universite') }}">Matière</a></li>
                 <li{% if 'temps' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('emploi_du_temps_univerite') }}">Emploi du temps</a></li>
-                <li><a href="">Unité d'enseignement</a></li>
+                <li{% if 'ue' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('ue_universite') }}">Unité d'enseignement</a></li>
+                <li{% if 'repartition' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('repartition_unite_enseignement_univeriste') }}">Repartition ue par filière</a></li>
 
             </ul>
         </div>

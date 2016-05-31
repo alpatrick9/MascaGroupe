@@ -1,0 +1,13 @@
+{% extends 'MascaEtudiantBundle::admin-universite.html.twig' %}
+{% block admin_univ_body%}
+    <h5>Création/modification Matiere par unité d'enseignement </h5>
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
+    <form method="post">
+        {{ form_widget(form) }}
+        <div class="align-right">
+            <input type="submit" value="Enregistrer" class="btn"><a href="{{ path('repartition_unite_enseignement_univeriste') }}" class="btn">Annuler</a>
+        </div>
+    </form>
+{% endblock %}

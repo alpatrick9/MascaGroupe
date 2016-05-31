@@ -1,0 +1,54 @@
+{% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
+{% block admin_univ_body %}
+    <h4>Les unité d'enseignement par filière</h4>
+    <a href="{{ path('creer_repartition_unite_enseignement_universite') }}" class="btn">Nouvelle association</a>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection " data-tri="1" data-type="num">Intitulé de l'UE</th>
+            <th>Filière</th>
+            <th>Niveau d'étude</th>
+            <th>Les matières</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for repartition in repartitions %}
+            <tr>
+                <td>{{ repartition.ue.intitule }}</td>
+                <td>{{ repartition.filiere.intitule }}</td>
+                <td>{{ repartition.niveau.intitule }}</td>
+                <td>
+                    {% for matiere in matieres[repartition.id] %}
+                        <a href="{{ path('suppr_m_repartition_unite_enseignement_universite',{'id': matiere.id}) }}" class="info_bulle" onclick="return confirm('Vous vous supprimer?')">
+                            {{ matiere.matiere.intitule }} <br>
+                            <span>Clique pour supprimer</span>
+                        </a>
+                    {% else %}
+                        aucun matières ajoutées
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('ajouter_m_repartition_unite_enseignement_universite', {'id': repartition.id}) }}" class="btn btn-primary">Ajouter matière</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if repartitions|length > 0 %}
+        <div class="pagination align-center">
+            <ul>
+                {% for p in range(1, nbPage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('repartition_unite_enseignement_univeriste', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

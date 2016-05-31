@@ -295,6 +295,21 @@ input[type="color"],
 .float_menu:hover ul{
 	display: block;
 }
+
+.info_bulle span {
+	display: none;
+	position: absolute;
+	z-index: 10;
+	margin: -2px 0 0 0;
+}
+
+.info_bulle:hover span {
+	display: block;
+	border: 1px;
+	border-radius: 5px;
+	background-color: greenyellow;
+}
+
 #absence_lyceen_partieJournee,
 #absence_univ_partieJournee {
 	display: inline-flex;
@@ -304,4 +319,5 @@ div#absence_lyceen_partieJournee, div#absence_univ_partieJournee
 input, label {
 	margin: 10px;
 }
+
 
