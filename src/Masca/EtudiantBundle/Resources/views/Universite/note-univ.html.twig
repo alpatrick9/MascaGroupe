@@ -1,0 +1,65 @@
+{% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block title %} Note université {% endblock %}
+{% block etudiant_body %}
+    <h4>Les note de {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }}</h4>
+    <p>Semestre: {{ sonFiliere.semestre.intitule }}</p>
+    <div>
+        <a href="{{ path('details_etude_universitaire',{'sonFiliere_id': sonFiliere.id}) }}" class="btn btn-primary"><<</a>
+        <a href="" class="btn">Nouvelle note</a>
+    </div>
+    <hr/>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped">
+        <thead>
+        <tr>
+            <th colspan="2"></th>
+            <th colspan="2">EF</th>
+            <th colspan="2">FC</th>
+            <th colspan="2">NJ</th>
+            <th colspan="3"></th>
+        </tr>
+        <tr>
+            <th>UE</th>
+            <th>Module(EC)</th>
+            <th>/20</th>
+            <th>60%</th>
+            <th>/20</th>
+            <th>30%</th>
+            <th>/20</th>
+            <th>10%</th>
+            <th>Moy</th>
+            <th>Coef</th>
+            <th>Note</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ue in listUe %}
+            {% for matiere in listMatieres[ue.id] %}
+                <tr>
+                    {% if loop.first %}
+                        <td rowspan="{{ listMatieres[ue.id]|length }}">{{ ue.ue.intitule }}</td>
+                    {% endif %}
+                    <td>{{ matiere.matiere.intitule }}</td>
+                    {% if notes[matiere.id] %}
+                        <td>{{ notes[matiere.id].note }}</td>
+                        <td>{{ notes[matiere.id].coefficient }}</td>
+                    {%  else %}
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    {% endif %}
+                    <td>0</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun absence enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock%}

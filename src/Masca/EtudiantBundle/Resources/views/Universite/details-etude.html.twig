@@ -51,7 +51,7 @@
         <div class="align-center">
             <a href="{{ path('details_universite',{'id':sonFiliere.universitaire.id})}}" class="btn btn-primary"> << </a>
             <a href="{{ path('reinscription_universite', {'id':sonFiliere.sonFiliere.id}) }}" class="btn btn-primary">Reinscription</a>
-            <a href="" class="btn btn-primary">Note d'examen</a>
+            <a href="{{ path('note_univeritaire', {'id': sonFiliere.id}) }}" class="btn btn-primary">Note d'examen</a>
             <a href="{{ path('ecolage_universitaire', {'id':sonFiliere.id}) }}" class="btn btn-primary">Ecolage</a>
 
         </div>
