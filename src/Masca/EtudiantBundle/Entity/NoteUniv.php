@@ -22,18 +22,43 @@ class NoteUniv
     private $id;
 
     /**
+     * @var float
+     * @ORM\Column(name="note_ef", type="float", nullable=true, options={"default":0})
+     */
+    private $noteEF;
+
+    /**
+     * @var float
+     * @ORM\Column(name="note_fc", type="float", nullable=true, options={"default":0})
+     */
+    private $noteFC;
+
+    /**
+     * @var float
+     * @ORM\Column(name="note_nj", type="float", nullable=true, options={"default":0})
+     */
+    private $noteNJ;
+
+    /**
      * @var int
      *
-     * @ORM\Column(name="coefficient", type="integer")
+     * @ORM\Column(name="coefficient", type="integer", options={"default":1})
      */
     private $coefficient;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="note", type="float")
+     * @ORM\Column(name="note", type="float", nullable=true, options={"default":0})
      */
     private $note;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="avec_repartition", type="boolean", options={"default":false})
+     */
+    private $avecRepartion;
 
     /**
      * @var UniversitaireSonFiliere
@@ -50,6 +75,19 @@ class NoteUniv
      * @ORM\JoinColumn(nullable=false)
      */
     private $matiere;
+
+    /**
+     * NoteUniv constructor.
+     */
+    public function __construct()
+    {
+        $this->avecRepartion = false;
+        $this->noteEF = 0;
+        $this->noteFC = 0;
+        $this->noteNJ = 0;
+        $this->note = 0;
+    }
+
 
     /**
      * Get id
@@ -155,5 +193,101 @@ class NoteUniv
     public function getMatiere()
     {
         return $this->matiere;
+    }
+
+    /**
+     * Set noteEF
+     *
+     * @param float $noteEF
+     *
+     * @return NoteUniv
+     */
+    public function setNoteEF($noteEF)
+    {
+        $this->noteEF = $noteEF;
+
+        return $this;
+    }
+
+    /**
+     * Get noteEF
+     *
+     * @return float
+     */
+    public function getNoteEF()
+    {
+        return $this->noteEF;
+    }
+
+    /**
+     * Set noteFC
+     *
+     * @param float $noteFC
+     *
+     * @return NoteUniv
+     */
+    public function setNoteFC($noteFC)
+    {
+        $this->noteFC = $noteFC;
+
+        return $this;
+    }
+
+    /**
+     * Get noteFC
+     *
+     * @return float
+     */
+    public function getNoteFC()
+    {
+        return $this->noteFC;
+    }
+
+    /**
+     * Set noteNJ
+     *
+     * @param float $noteNJ
+     *
+     * @return NoteUniv
+     */
+    public function setNoteNJ($noteNJ)
+    {
+        $this->noteNJ = $noteNJ;
+
+        return $this;
+    }
+
+    /**
+     * Get noteNJ
+     *
+     * @return float
+     */
+    public function getNoteNJ()
+    {
+        return $this->noteNJ;
+    }
+
+    /**
+     * Set avecRepartion
+     *
+     * @param boolean $avecRepartion
+     *
+     * @return NoteUniv
+     */
+    public function setAvecRepartion($avecRepartion)
+    {
+        $this->avecRepartion = $avecRepartion;
+
+        return $this;
+    }
+
+    /**
+     * Get avecRepartion
+     *
+     * @return boolean
+     */
+    public function getAvecRepartion()
+    {
+        return $this->avecRepartion;
     }
 }

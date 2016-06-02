@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * NoteUniv
  *
- * @ORM\Table(name="note_univ")
+ * @ORM\Table(name="note_univ",uniqueConstraints={@ORM\UniqueConstraint(name="idxUnique", columns={"son_filiere_id", "matiere_id"})})
  * @ORM\Entity(repositoryClass="Masca\EtudiantBundle\Repository\NoteUnivRepository")
  */
 class NoteUniv
@@ -22,18 +22,43 @@ class NoteUniv
     private $id;
 
     /**
+     * @var float
+     * @ORM\Column(name="note_ef", type="float", nullable=true, options={"default":0})
+     */
+    private $noteEF;
+
+    /**
+     * @var float
+     * @ORM\Column(name="note_fc", type="float", nullable=true, options={"default":0})
+     */
+    private $noteFC;
+
+    /**
+     * @var float
+     * @ORM\Column(name="note_nj", type="float", nullable=true, options={"default":0})
+     */
+    private $noteNJ;
+
+    /**
      * @var int
      *
-     * @ORM\Column(name="coefficient", type="integer")
+     * @ORM\Column(name="coefficient", type="integer", options={"default":1})
      */
     private $coefficient;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="note", type="float")
+     * @ORM\Column(name="note", type="float", nullable=true, options={"default":0})
      */
     private $note;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="avec_repartition", type="boolean", options={"default":false})
+     */
+    private $avecRepartion;
 
     /**
      * @var UniversitaireSonFiliere
@@ -50,6 +75,19 @@ class NoteUniv
      * @ORM\JoinColumn(nullable=false)
      */
     private $matiere;
+
+    /**
+     * NoteUniv constructor.
+     */
+    public function __construct()
+    {
+        $this->avecRepartion = false;
+        $this->noteEF = 0;
+        $this->noteFC = 0;
+        $this->noteNJ = 0;
+        $this->note = 0;
+    }
+
 
     /**
      * Get id
@@ -108,5 +146,148 @@ class NoteUniv
     {
         return $this->note;
     }
-}
 
+    /**
+     * Set sonFiliere
+     *
+     * @param \Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $sonFiliere
+     *
+     * @return NoteUniv
+     */
+    public function setSonFiliere(\Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $sonFiliere)
+    {
+        $this->sonFiliere = $sonFiliere;
+
+        return $this;
+    }
+
+    /**
+     * Get sonFiliere
+     *
+     * @return \Masca\EtudiantBundle\Entity\UniversitaireSonFiliere
+     */
+    public function getSonFiliere()
+    {
+        return $this->sonFiliere;
+    }
+
+    /**
+     * Set matiere
+     *
+     * @param \Masca\EtudiantBundle\Entity\MatiereParUeFiliere $matiere
+     *
+     * @return NoteUniv
+     */
+    public function setMatiere(\Masca\EtudiantBundle\Entity\MatiereParUeFiliere $matiere)
+    {
+        $this->matiere = $matiere;
+
+        return $this;
+    }
+
+    /**
+     * Get matiere
+     *
+     * @return \Masca\EtudiantBundle\Entity\MatiereParUeFiliere
+     */
+    public function getMatiere()
+    {
+        return $this->matiere;
+    }
+
+    /**
+     * Set noteEF
+     *
+     * @param float $noteEF
+     *
+     * @return NoteUniv
+     */
+    public function setNoteEF($noteEF)
+    {
+        $this->noteEF = $noteEF;
+
+        return $this;
+    }
+
+    /**
+     * Get noteEF
+     *
+     * @return float
+     */
+    public function getNoteEF()
+    {
+        return $this->noteEF;
+    }
+
+    /**
+     * Set noteFC
+     *
+     * @param float $noteFC
+     *
+     * @return NoteUniv
+     */
+    public function setNoteFC($noteFC)
+    {
+        $this->noteFC = $noteFC;
+
+        return $this;
+    }
+
+    /**
+     * Get noteFC
+     *
+     * @return float
+     */
+    public function getNoteFC()
+    {
+        return $this->noteFC;
+    }
+
+    /**
+     * Set noteNJ
+     *
+     * @param float $noteNJ
+     *
+     * @return NoteUniv
+     */
+    public function setNoteNJ($noteNJ)
+    {
+        $this->noteNJ = $noteNJ;
+
+        return $this;
+    }
+
+    /**
+     * Get noteNJ
+     *
+     * @return float
+     */
+    public function getNoteNJ()
+    {
+        return $this->noteNJ;
+    }
+
+    /**
+     * Set avecRepartion
+     *
+     * @param boolean $avecRepartion
+     *
+     * @return NoteUniv
+     */
+    public function setAvecRepartion($avecRepartion)
+    {
+        $this->avecRepartion = $avecRepartion;
+
+        return $this;
+    }
+
+    /**
+     * Get avecRepartion
+     *
+     * @return boolean
+     */
+    public function getAvecRepartion()
+    {
+        return $this->avecRepartion;
+    }
+}

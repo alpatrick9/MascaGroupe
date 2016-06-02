@@ -5,7 +5,6 @@
     <p>Semestre: {{ sonFiliere.semestre.intitule }}</p>
     <div>
         <a href="{{ path('details_etude_universitaire',{'sonFiliere_id': sonFiliere.id}) }}" class="btn btn-primary"><<</a>
-        <a href="" class="btn">Nouvelle note</a>
     </div>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped">
@@ -38,10 +37,24 @@
                     {% if loop.first %}
                         <td rowspan="{{ listMatieres[ue.id]|length }}">{{ ue.ue.intitule }}</td>
                     {% endif %}
-                    <td>{{ matiere.matiere.intitule }}</td>
+                    <td>
+                        <span class="float_menu">
+                            {{ matiere.matiere.intitule }}
+                            <ul class="nav nav-pills">
+                                <a href="{{ path('formulaire_note_univeritaire',{'matiere_id': matiere.id,'son_filiere_id': sonFiliere.id}) }}" class="btn btn-primary">modifier</a>
+                            </ul>
+                        </span>
+                    </td>
                     {% if notes[matiere.id] %}
-                        <td>{{ notes[matiere.id].note }}</td>
-                        <td>{{ notes[matiere.id].coefficient }}</td>
+                            <td>{{ notes[matiere.id].noteEf }}</td>
+                            <td></td>
+                            <td>{{ notes[matiere.id].noteFc }}</td>
+                            <td></td>
+                            <td>{{ notes[matiere.id].noteNj }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                     {%  else %}
                         <td>0</td>
                         <td>0</td>
@@ -51,13 +64,13 @@
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
+                        <td>0</td>
                     {% endif %}
-                    <td>0</td>
                 </tr>
             {% endfor %}
         {% else %}
             <tr>
-                <td colspan="3">Aucun absence enregistré</td>
+                <td colspan="11">Aucun absence enregistré</td>
             </tr>
         {% endfor %}
         </tbody>
