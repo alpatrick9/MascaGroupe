@@ -49,16 +49,9 @@ class NoteUniv
     /**
      * @var float
      *
-     * @ORM\Column(name="note", type="float", nullable=true, options={"default":0})
+     * @ORM\Column(name="moyenne", type="float", options={"default": 0})
      */
-    private $note;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="avec_repartition", type="boolean", options={"default":false})
-     */
-    private $avecRepartion;
+    private $moyenne;
 
     /**
      * @var UniversitaireSonFiliere
@@ -81,11 +74,10 @@ class NoteUniv
      */
     public function __construct()
     {
-        $this->avecRepartion = false;
         $this->noteEF = 0;
         $this->noteFC = 0;
         $this->noteNJ = 0;
-        $this->note = 0;
+        $this->coefficient = 1;
     }
 
 
@@ -123,29 +115,6 @@ class NoteUniv
         return $this->coefficient;
     }
 
-    /**
-     * Set note
-     *
-     * @param float $note
-     *
-     * @return NoteUniv
-     */
-    public function setNote($note)
-    {
-        $this->note = $note;
-
-        return $this;
-    }
-
-    /**
-     * Get note
-     *
-     * @return float
-     */
-    public function getNote()
-    {
-        return $this->note;
-    }
 
     /**
      * Set sonFiliere
@@ -267,27 +236,28 @@ class NoteUniv
         return $this->noteNJ;
     }
 
+
     /**
-     * Set avecRepartion
+     * Set moyenne
      *
-     * @param boolean $avecRepartion
+     * @param float $moyenne
      *
      * @return NoteUniv
      */
-    public function setAvecRepartion($avecRepartion)
+    public function setMoyenne($moyenne)
     {
-        $this->avecRepartion = $avecRepartion;
+        $this->moyenne = $moyenne;
 
         return $this;
     }
 
     /**
-     * Get avecRepartion
+     * Get moyenne
      *
-     * @return boolean
+     * @return float
      */
-    public function getAvecRepartion()
+    public function getMoyenne()
     {
-        return $this->avecRepartion;
+        return $this->moyenne;
     }
 }

@@ -21,10 +21,6 @@ class NoteUnivType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('avecRepartion', CheckboxType::class, [
-                'label'=> 'Note unique',
-                'required'=>false
-            ])
             ->add('coefficient',IntegerType::class,[
                 'label'=>'Coefficient de la matière',
                 'attr'=>[
@@ -32,20 +28,13 @@ class NoteUnivType extends AbstractType
                 ]
             ])
             ->add('noteEF',NumberType::class,[
-                'label'=>'EF /20',
-                'required'=>false
+                'label'=>'EF /20'
             ])
             ->add('noteFC',NumberType::class,[
-                'label'=>'FC /20',
-                'required'=>false
+                'label'=>'FC /20'
             ])
             ->add('noteNJ',NumberType::class,[
-                'label'=>'NJ /20',
-                'required'=>false
-            ])
-            ->add('note',NumberType::class,[
-                'label'=>' Note unique',
-                'required'=>false
+                'label'=>'NJ /20'
             ]);
     }
 

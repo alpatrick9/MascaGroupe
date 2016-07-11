@@ -49,23 +49,8 @@ class GestionNoteController extends Controller
          * @var $notes NoteUniv[]
          */
         $notes = [];
-
-        /**
-         * @var float[]
-         */
-        $pourcentageEf = [];
-
-        /**
-         * @var float[]
-         */
-        $pourcentageFc = [];
-
-        /**
-         * @var float[]
-         */
-        $pourcentageNj = [];
-
-        foreach ($matieres as $matiereTab) {
+        
+        foreach ($matieres as $key => $matiereTab) {
             foreach ($matiereTab as $matiere){
                 $notes[$matiere->getId()] = $this->getDoctrine()->getRepository('MascaEtudiantBundle:NoteUniv')->findOneBy([
                     'matiere'=>$matiere,
@@ -73,7 +58,6 @@ class GestionNoteController extends Controller
                 ]);
             }
         }
-
         
         return $this->render('MascaEtudiantBundle:Universite:note-univ.html.twig', [
             'sonFiliere'=>$universitaireSonFiliere,
@@ -112,6 +96,8 @@ class GestionNoteController extends Controller
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             $em = $this->getDoctrine()->getManager();
+            $moyenne = ($note->getNoteEF() * $note->getNoteFC() * $note->getNoteNJ()) / (0.6 * $note->getNoteFC() * $note->getNoteNJ() + 0.3 * $note->getNoteEF() *$note->getNoteNJ() + 0.1 * $note->getNoteEF() * $note->getNoteFC());
+            $note->setMoyenne(number_format($moyenne, 2, '.', ''));
             $em->persist($note);
             $em->flush();
             return $this->redirect($this->generateUrl('note_univeritaire',['id'=>$universitaireSonFiliere->getId()]));
