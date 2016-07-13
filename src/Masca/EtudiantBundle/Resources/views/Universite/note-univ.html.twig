@@ -10,7 +10,7 @@
     <table id="tableshow" class="table  table-hover table-bordered table-striped">
         <thead>
         <tr>
-            <th>UE</th>
+            <th>UE (/20)</th>
             <th>Module(EC)</th>
             <th>EF(60%) /20</th>
             <th>FC(30%) /20</th>
@@ -28,9 +28,11 @@
                     {% if loop.first %}
                         <td rowspan="{{ listMatieres[ue.id]|length }}">
                             {{ ue.ue.intitule }} <br>
-                            {% if notes[matiere.id] %}
-
+                            Note: {{ notesUe[ue.id] }} <br>
+                            {% if  notesUe[ue.id] >= 10 %}
+                                Acquis
                             {% else %}
+                                Non acquis
                             {% endif %}
                         </td>
                     {% endif %}

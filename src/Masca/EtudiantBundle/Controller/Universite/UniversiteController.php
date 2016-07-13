@@ -37,7 +37,7 @@ class UniversiteController extends Controller
      * @Route("/accueil/universite/{page}", name="accueil_universite", defaults={"page" = 1})
      */
     public function indexAction(Request $request, $page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -119,7 +119,7 @@ class UniversiteController extends Controller
      * @Route("/universite/details/{id}", name="details_universite")
      */
     public function detailsAction(Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

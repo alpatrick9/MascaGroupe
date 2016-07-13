@@ -32,7 +32,13 @@ class LyceeController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/accueil/lycee/{page}", name="accueil_lycee", defaults={"page" = 1})
      */
-    public function indexAction($page) {
+    public function indexAction($page, Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = 30;
         /**
          * @var $repository LyceenRepository
@@ -57,6 +63,12 @@ class LyceeController extends Controller
      * @Route("/lycee/inscription/", name="inscription_lycee")
      */
     public function inscriptionAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $person = new Person();
         $personForm = $this->createForm(PersonType::class,$person);
         $personForm
@@ -96,7 +108,13 @@ class LyceeController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/lycee/details/{id}", name="details_lyceen")
      */
-    public function detailsAction(Lyceen $lyceen) {
+    public function detailsAction(Lyceen $lyceen, Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         return $this->render('MascaEtudiantBundle:Lycee:details.html.twig',array(
             'lyceen'=>$lyceen
         ));
@@ -109,6 +127,12 @@ class LyceeController extends Controller
      * @Route("/lycee/modifier/{id}", name="modifier_lyceen")
      */
     public function modifierAction(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $personForm = $this->createForm(PersonType::class,$lyceen->getPerson());
         $personForm
             ->remove('numCin')
@@ -144,7 +168,12 @@ class LyceeController extends Controller
      * @Route("/lycee/reinscription/{id}", name="reinscription_lyceen")
      */
     public function reinscriptionAction(Request $request, Lyceen $lyceen) {
-
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $lyceenForm = $this->createForm(LyceenType::class, $lyceen);
 
         if($request->getMethod() == 'POST') {

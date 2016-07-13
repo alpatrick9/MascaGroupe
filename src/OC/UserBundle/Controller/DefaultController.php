@@ -14,9 +14,11 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
+use OC\UserBundle\Entity\ChandePassword;
 use OC\UserBundle\Entity\Role;
 use OC\UserBundle\Entity\Roles;
 use OC\UserBundle\Entity\User;
+use OC\UserBundle\Type\ChangePasswordType;
 use OC\UserBundle\Type\RoleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -120,45 +122,25 @@ class DefaultController extends Controller
      * @Route("/modifier/mot-de-passe/{id}", name="modifier_mot_de_passe")
      */
     public function changerMotDePasseAction(Request $request, User $user) {
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
+        $changePassword = new ChandePassword();
 
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
+        $form = $this->createForm(ChangePasswordType::class,$changePassword);
 
-        $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_INITIALIZE, $event);
-
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
-
-        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
-        $formFactory = $this->get('fos_user.change_password.form.factory');
-
-        $form = $formFactory->createForm();
-        $form->setData($user);
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
-            $userManager = $this->get('fos_user.user_manager');
-
-            $event = new FormEvent($form, $request);
-            $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $event);
-
-            $userManager->updateUser($user);
-
-            if (null === $response = $event->getResponse()) {
-                $url = $this->generateUrl('fos_user_profile_show');
-                $response = new RedirectResponse($url);
+        if($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if($form->isValid()){
+                if($encoder->encodePassword($changePassword->getCurrentPassword(),$user->getSalt()) == $user->getPassword()){
+                    $user->setPassword($encoder->encodePassword($changePassword->getNewPassword(), $user->getSalt()));
+                    $this->getDoctrine()->getManager()->flush();
+                    return $this->redirect($this->generateUrl('user_lists'));
+                }
+                return $this->render('FOSUserBundle:ChangePassword:changePassword.html.twig', array(
+                    'form' => $form->createView(),
+                    'error_message'=>'L\'ancien mot de passe n\'est pas correct'
+                ));
             }
 
-            $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
-
-            return $response;
         }
 
         return $this->render('FOSUserBundle:ChangePassword:changePassword.html.twig', array(

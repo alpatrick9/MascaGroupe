@@ -26,7 +26,13 @@ class GestionNoteController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/universite/note/{id}", name="note_univeritaire")
      */
-    public function indexAction(UniversitaireSonFiliere $universitaireSonFiliere) {
+    public function indexAction(UniversitaireSonFiliere $universitaireSonFiliere, Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         /**
          * @var $listUe UeParFiliere[]
          */
@@ -49,21 +55,37 @@ class GestionNoteController extends Controller
          * @var $notes NoteUniv[]
          */
         $notes = [];
-        
+
+        /**
+         * @var float
+         *
+         */
+        $notesUe = [];
+
         foreach ($matieres as $key => $matiereTab) {
+            $notesUe[$key] = 0;
+            $countCoef = 0;
             foreach ($matiereTab as $matiere){
-                $notes[$matiere->getId()] = $this->getDoctrine()->getRepository('MascaEtudiantBundle:NoteUniv')->findOneBy([
+                $noteTemp = $this->getDoctrine()->getRepository('MascaEtudiantBundle:NoteUniv')->findOneBy([
                     'matiere'=>$matiere,
                     'sonFiliere'=>$universitaireSonFiliere
                 ]);
+                $notes[$matiere->getId()] = $noteTemp;
+                if($noteTemp) {
+                    $notesUe[$key] =+ $noteTemp->getCoefficient() * $noteTemp->getMoyenne();
+                    $countCoef =+ $noteTemp->getCoefficient();
+                }
             }
+            if($countCoef != 0)
+                $notesUe[$key] = $notesUe[$key] / $countCoef;
         }
         
         return $this->render('MascaEtudiantBundle:Universite:note-univ.html.twig', [
             'sonFiliere'=>$universitaireSonFiliere,
             'listUe'=>$listUe,
             'listMatieres'=>$matieres,
-            'notes'=>$notes
+            'notes'=>$notes,
+            'notesUe'=>$notesUe
         ]);
     }
 
@@ -77,6 +99,12 @@ class GestionNoteController extends Controller
      * @ParamConverter("universitaireSonFiliere", options={"mapping": {"son_filiere_id":"id"}})
      */
     public function modifierNoteAction(Request $request, MatiereParUeFiliere $matiereParUeFiliere, UniversitaireSonFiliere $universitaireSonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         /**
          * @var $note NoteUniv
          */
