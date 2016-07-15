@@ -17,7 +17,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Masca\EtudiantBundle\MascaEtudiantBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new OC\UserBundle\OCUserBundle()
+            new OC\UserBundle\OCUserBundle(),
+            new \Knp\Bundle\SnappyBundle\KnpSnappyBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
