@@ -45,7 +45,7 @@ class LyceeController extends Controller
                 'previousLink'=>$request->headers->get('referer')
             ]);
         }
-        $nbParPage = 2;
+        $nbParPage = 30;
         /**
          * @var $repository LyceenRepository
          */
