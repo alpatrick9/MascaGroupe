@@ -18,6 +18,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class RetardUnivController
+ * @package Masca\EtudiantBundle\Controller\Universite
+ * @Route("/universite/retard")
+ */
 class RetardUnivController extends Controller
 {
 
@@ -25,7 +30,7 @@ class RetardUnivController extends Controller
      * @param Request $request
      * @param Universitaire $universitaire
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/retard/{id}", name="retard_universitaire")
+     * @Route("/{id}", name="retard_universitaire")
      */
     public function indexAction(Request $request, Universitaire $universitaire) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -49,7 +54,7 @@ class RetardUnivController extends Controller
      * @param Request $request
      * @param Universitaire $universitaire
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/retard/creer/{id}", name="enregistrement_retard_universitaire")
+     * @Route("/enregistrement/{id}", name="enregistrement_retard_universitaire")
      */
     public function creerRetardAction(Request $request, Universitaire $universitaire) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -87,7 +92,7 @@ class RetardUnivController extends Controller
      * @param Request $request
      * @param RetardUniv $retardUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/retard/modifier/{id}", name="modifier_retard_universitaire")
+     * @Route("/modifier/{id}", name="modifier_retard_universitaire")
      */
     public function modifierRetardAction(Request $request, RetardUniv $retardUniv) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -120,7 +125,7 @@ class RetardUnivController extends Controller
      * @param Request $request
      * @param RetardUniv $retardUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/universite/retard/supprimer/{id}", name="supprimer_retard_universitaire")
+     * @Route("/supprimer/{id}", name="supprimer_retard_universitaire")
      */
     public function supprimerRetardAction(Request $request, RetardUniv $retardUniv) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){

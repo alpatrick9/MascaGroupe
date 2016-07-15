@@ -21,13 +21,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
 
+/**
+ * Class EcolageLyceenController
+ * @package Masca\EtudiantBundle\Controller\Lycee
+ * @Route("/lycee/ecolage")
+ */
 class EcolageLyceenController extends Controller
 {
     /**
      * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/ecolage/accueil/{id}", name="ecolage_lyceen")
+     * @Route("/accueil/{id}", name="ecolage_lyceen")
      */
     public function ecolageAction(Request $request,Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
@@ -83,7 +88,7 @@ class EcolageLyceenController extends Controller
      * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/ecolage/payer/{id}", name="payer_ecolage_lyceen")
+     * @Route("/payement/{id}", name="payer_ecolage_lyceen")
      */
     public function payerEcolageAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
@@ -159,7 +164,7 @@ class EcolageLyceenController extends Controller
      * @param FraisScolariteLyceen $fraisScolariteLyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("fraisScolariteLyceen", options={"mapping": {"frais_scolarite_id":"id"}})
-     * @Route("/lycee/ecolage/regularisation-reste/{frais_scolarite_id}", name="regularisation_reste_ecolage_lyceen")
+     * @Route("/regularisation-reste/{frais_scolarite_id}", name="regularisation_reste_ecolage_lyceen")
      */
     public function regularisationResteEcolageAction(Request $request, FraisScolariteLyceen $fraisScolariteLyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){

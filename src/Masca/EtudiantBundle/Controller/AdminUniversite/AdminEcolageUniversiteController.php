@@ -18,11 +18,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class AdminEcolageUniversiteController
+ * @package Masca\EtudiantBundle\Controller\AdminUniversite
+ * @Route("/universite/admin/ecolage")
+ */
 class AdminEcolageUniversiteController extends Controller
 {
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/grille-ecolage/", name="grille_ecolage_universite")
+     * @Route("/grille/", name="grille_ecolage_universite")
      */
     public function grilleFraisScolariteAction() {
         return $this->render('MascaEtudiantBundle:Admin_universite:grilles-frais-scolarite.html.twig',[
@@ -33,7 +38,7 @@ class AdminEcolageUniversiteController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/ajouter-grille-ecolage/", name="ajouter_grille_ecolage_universite")
+     * @Route("/ajouter-grille/", name="ajouter_grille_ecolage_universite")
      */
     public function ajouterGrilleAction(Request $request) {
         $grille = new GrilleFraisScolariteUniversite();
@@ -61,7 +66,7 @@ class AdminEcolageUniversiteController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/modifier-grille-ecolage/{grille_id}", name="modifier_grille_ecolage_universite")
+     * @Route("/modifier-grille/{grille_id}", name="modifier_grille_ecolage_universite")
      * @ParamConverter("grilleFraisScolariteUniversite", options={"mapping": {"grille_id":"id"}})
      */
     public function modifierGrilleAction(Request $request, GrilleFraisScolariteUniversite $grilleFraisScolariteUniversite) {

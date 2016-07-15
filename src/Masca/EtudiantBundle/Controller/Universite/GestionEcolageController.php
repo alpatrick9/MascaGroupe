@@ -20,13 +20,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * Class GestionEcolageController
+ * @package Masca\EtudiantBundle\Controller\Universite
+ * @Route("/universite/ecolage")
+ */
 class GestionEcolageController extends Controller
 {
     /**
      * @param Request $request
      * @param UniversitaireSonFiliere $universitaireSonFiliere
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/ecolage/{id}", name="ecolage_universitaire")
+     * @Route("/{id}", name="ecolage_universitaire")
      */
     public function indexAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -80,7 +85,7 @@ class GestionEcolageController extends Controller
      * @param Request $request
      * @param UniversitaireSonFiliere $universitaireSonFiliere
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/ecolage/payer/{id}", name="payer_ecolage_univeristaire")
+     * @Route("/payement/{id}", name="payer_ecolage_univeristaire")
      */
     public function payerEcolageAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -156,7 +161,7 @@ class GestionEcolageController extends Controller
      * @param Request $request
      * @param FraisScolariteUniv $fraisScolariteUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/ecolage/regularisation-rest/{id}", name="regularisation_rest_ecolage_univesitaire")
+     * @Route("/regularisation-reste/{id}", name="regularisation_rest_ecolage_univesitaire")
      */
     public function regularisationResteEcolageAction(Request $request, FraisScolariteUniv $fraisScolariteUniv) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){

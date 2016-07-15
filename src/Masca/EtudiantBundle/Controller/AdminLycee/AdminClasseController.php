@@ -20,12 +20,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * Class AdminClasseController
+ * @package Masca\EtudiantBundle\Controller\AdminLycee
+ * @Route("/lycee/admin")
+ */
 class AdminClasseController extends Controller
 {
     /**
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/admin/{page}", name="admin_lycee_classe", defaults={"page" = 1})
+     * @Route("/{page}", name="admin_lycee_classe", defaults={"page" = 1})
      */
     public function indexAction($page) {
         $nbParPage = 30;
@@ -48,7 +53,7 @@ class AdminClasseController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/admin/classe/ajoute/", name="ajouter_classe_lycee")
+     * @Route("/classe/ajoute/", name="ajouter_classe_lycee")
      */
     public function creerClasseAction(Request $request) {
             $classe = new Classe();
@@ -80,7 +85,7 @@ class AdminClasseController extends Controller
      * @param Classe $classe
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("classe", options={"mapping": {"classe_id":"id"}})
-     * @Route("/lycee/admin/modifier/classe/{classe_id}", name="modifier_classe_lycee")
+     * @Route("/modifier/classe/{classe_id}", name="modifier_classe_lycee")
      */
     public function modiferClasseAction(Request $request, Classe $classe) {
         $classeForm = $this->createForm(ClasseType::class, $classe);
@@ -107,7 +112,7 @@ class AdminClasseController extends Controller
      * @param Request $request
      * @param Classe $classe
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/admin/emploi-du-temps/{id}", name="emploi_du_temps_lycee")
+     * @Route("/emploi-du-temps/{id}", name="emploi_du_temps_lycee")
      */
     public function emploiDuTempsAction(Request $request, Classe $classe) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -153,7 +158,7 @@ class AdminClasseController extends Controller
      * @param $heureIndex
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("classe", options={"mapping": {"classe_id":"id"}})
-     * @Route("/lycee/admin/emploi-du-temps/ajouter-matiere/{classe_id}/{jourIndex}/{heureIndex}", name="ajouter_matiere_emplois_du_temps_lycee")
+     * @Route("/emploi-du-temps/ajouter-matiere/{classe_id}/{jourIndex}/{heureIndex}", name="ajouter_matiere_emplois_du_temps_lycee")
      */
     public function ajouterMatiereEmploiDuTempsAction(Request $request, Classe $classe,$jourIndex, $heureIndex) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -195,7 +200,7 @@ class AdminClasseController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("emploiDuTempsLycee", options={"mapping": {"emploiDuTempsLycee_id":"id"}})
-     * @Route("/lycee/admin/emploi-du-temps/modifier-matiere/{emploiDuTempsLycee_id}", name="modifier_matiere_emplois_du_temps_lycee")
+     * @Route("/emploi-du-temps/modifier-matiere/{emploiDuTempsLycee_id}", name="modifier_matiere_emplois_du_temps_lycee")
      */
     public function modifierMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -232,7 +237,7 @@ class AdminClasseController extends Controller
      * @param EmploiDuTempsLycee $emploiDuTempsLycee
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("emploiDuTempsLycee", options={"mapping": {"emploiDuTempsLycee_id":"id"}})
-     * @Route("/lycee/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsLycee_id}", name="supprimer_matiere_emplois_du_temps_lycee")
+     * @Route("/emploi-du-temps/supprimer-matiere/{emploiDuTempsLycee_id}", name="supprimer_matiere_emplois_du_temps_lycee")
      */
     public function supprimerMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){

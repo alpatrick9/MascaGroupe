@@ -19,13 +19,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * Class GestionFiliereController
+ * @package Masca\EtudiantBundle\Controller\Universite
+ * @Route("/universite/filiere")
+ */
 class GestionFiliereController extends Controller
 {
     /**
      * @param Request $request
      * @param UniversitaireSonFiliere $sonFiliere
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/reinscription/{id}", name="reinscription_universite")
+     * @Route("/reinscription/{id}", name="reinscription_universite")
      */
     public function reinscriptionAction(Request $request, UniversitaireSonFiliere $sonFiliere) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -54,7 +59,7 @@ class GestionFiliereController extends Controller
      * @param UniversitaireSonFiliere $sonFiliere
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("sonFiliere", options={"mapping": {"sonFiliere_id":"id"}})
-     * @Route("/universite/details-etude/{sonFiliere_id}", name="details_etude_universitaire")
+     * @Route("/details-etude/{sonFiliere_id}", name="details_etude_universitaire")
      */
     public function detailsEtudeAction(UniversitaireSonFiliere $sonFiliere) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){

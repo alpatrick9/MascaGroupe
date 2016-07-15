@@ -20,6 +20,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class NoteLyceenController
+ * @package Masca\EtudiantBundle\Controller\Lycee
+ * @Route("/lycee/note")
+ */
 class NoteLyceenController extends Controller
 {
     /**
@@ -27,7 +32,7 @@ class NoteLyceenController extends Controller
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("lyceen", options={"mapping": {"lyceen_id":"id"}})
-     * @Route("/lycee/note/liste/{lyceen_id}", name="liste_notes_lyceen")
+     * @Route("/liste/{lyceen_id}", name="liste_notes_lyceen")
      */
     public function noteAction(Request $request,Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -85,7 +90,7 @@ class NoteLyceenController extends Controller
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("lyceen", options={"mapping":{"lyceen_id":"id"}})
-     * @Route("/lycee/note/ajouter/{lyceen_id}", name="ajouter_note_lyceen")
+     * @Route("/ajouter/{lyceen_id}", name="ajouter_note_lyceen")
      */
     public function ajouterNoteAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -126,7 +131,7 @@ class NoteLyceenController extends Controller
      * @param LyceenNote $lyceenNote
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("lyceenNote", options={"mapping":{"lyceenNote_id":"id"}})
-     * @Route("/lycee/note/modifier/{lyceenNote_id}", name="modifier_note_lyceen")
+     * @Route("/modifier/{lyceenNote_id}", name="modifier_note_lyceen")
      */
     public function modifierNoteAction(Request $request, LyceenNote $lyceenNote) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -156,8 +161,8 @@ class NoteLyceenController extends Controller
     /**
      * @param Request $request
      * @param Lyceen $lyceen
-     * @Route("/print/note/{id}", name="print_notes_lyceen")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/print/{id}", name="print_notes_lyceen")
      *
      */
     public function printNoteAction(Request $request, Lyceen $lyceen) {
@@ -167,48 +172,10 @@ class NoteLyceenController extends Controller
                 'previousLink'=>$request->headers->get('referer')
             ]);
         }
-        $totalCoef = 0;
 
-        $totalTrimestre1 = 0;
-        $totalTrimestre2 = 0;
-        $totalTrimestre3 = 0;
-
-        $moyenneTrimestre1 = 0;
-        $moyenneTrimestre2 = 0;
-        $moyenneTrimestre3 = 0;
-
-        /**
-         * @var $notes LyceenNote[]
-         */
-        $notes = $this->getDoctrine()->getManager()->getRepository("MascaEtudiantBundle:LyceenNote")->findByLyceen($lyceen);
-        foreach($notes as $note) {
-            $totalCoef = $totalCoef + $note->getCoefficient();
-
-            $totalTrimestre1 = $totalTrimestre1 + $note->getCoefficient()*$note->getNoteTrimestre1();
-            $totalTrimestre2 = $totalTrimestre2 + $note->getCoefficient()*$note->getNoteTrimestre2();
-            $totalTrimestre3 = $totalTrimestre3 + $note->getCoefficient()*$note->getNoteTrimestre3();
-
-        }
-
-        if($totalCoef != 0) {
-            $moyenneTrimestre1 = $totalTrimestre1 / $totalCoef;
-            $moyenneTrimestre2 = $totalTrimestre2 / $totalCoef;
-            $moyenneTrimestre3 = $totalTrimestre3 / $totalCoef;
-        }
-
-        $moyenGeneral = ($moyenneTrimestre1 + $moyenneTrimestre2 + $moyenneTrimestre3)/3;
-        $html = $this->renderView('MascaEtudiantBundle:Lycee:notes.html.twig',[
-            'notes'=>$notes,
-            'lyceen'=>$lyceen,
-            'totalCoef'=>$totalCoef,
-            'totalTrimestre1'=>$totalTrimestre1,
-            'totalTrimestre2'=>$totalTrimestre2,
-            'totalTrimestre3'=>$totalTrimestre3,
-            'moyenne1'=>$moyenneTrimestre1,
-            'moyenne2'=>$moyenneTrimestre2,
-            'moyenne3'=>$moyenneTrimestre3,
-            'moyenneGeneral'=>$moyenGeneral
-        ]);
+        $html = $this->forward('MascaEtudiantBundle:Lycee/NoteLyceen:note',[
+            'lyceen'=>$lyceen
+        ])->getContent();
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),

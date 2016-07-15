@@ -19,12 +19,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class GestionNoteController
+ * @package Masca\EtudiantBundle\Controller\Universite
+ * @Route("/universite/note")
+ */
 class GestionNoteController extends Controller
 {
     /**
      * @param UniversitaireSonFiliere $universitaireSonFiliere
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/note/{id}", name="note_univeritaire")
+     * @Route("/{id}", name="note_univeritaire")
      */
     public function indexAction(UniversitaireSonFiliere $universitaireSonFiliere, Request $request) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -94,7 +99,7 @@ class GestionNoteController extends Controller
      * @param MatiereParUeFiliere $matiereParUeFiliere
      * @param UniversitaireSonFiliere $universitaireSonFiliere
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/formulaire-note/{matiere_id}/{son_filiere_id}", name="formulaire_note_univeritaire")
+     * @Route("/modifier/{matiere_id}/{son_filiere_id}", name="formulaire_note_univeritaire")
      * @ParamConverter("matiereParUeFiliere", options={"mapping": {"matiere_id":"id"}})
      * @ParamConverter("universitaireSonFiliere", options={"mapping": {"son_filiere_id":"id"}})
      */

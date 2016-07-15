@@ -18,12 +18,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+/**
+ * Class AdminFiliereController
+ * @package Masca\EtudiantBundle\Controller\AdminUniversite
+ * @Route("/universite/admin/filiere")
+ */
 class AdminFiliereController extends Controller
 {
     /**
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/{page}", name="admin_univ_filiere", defaults={"page"=1})
+     * @Route("/{page}", name="admin_univ_filiere", defaults={"page"=1})
      */
     public function indexAction($page) {
         $nbParPage = 30;
@@ -46,7 +51,7 @@ class AdminFiliereController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/ajoute-filiere/", name="ajouter_filiere_univ")
+     * @Route("/ajoute/", name="ajouter_filiere_univ")
      */
     public function ajouterFiliereAction(Request $request) {
         $filiere = new Filiere();
@@ -75,7 +80,7 @@ class AdminFiliereController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/modifier-filiere/{filiere_id}", name="modifier_filiere_univ")
+     * @Route("/modifier/{filiere_id}", name="modifier_filiere_univ")
      * @ParamConverter("filiere", options={"mapping": {"filiere_id":"id"}})
      */
     public function modifierFiliereAction(Request $request, Filiere $filiere) {

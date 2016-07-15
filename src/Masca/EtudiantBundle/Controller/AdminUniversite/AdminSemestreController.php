@@ -18,11 +18,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+/**
+ * Class AdminSemestreController
+ * @package Masca\EtudiantBundle\Controller\AdminUniversite
+ * @Route("/universite/admin/semestre")
+ */
 class AdminSemestreController extends Controller
 {
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/semestre/", name="semestre_univ")
+     * @Route("/", name="semestre_univ")
      */
     public function semestreAction() {
         return $this->render('MascaEtudiantBundle:Admin_universite:semestre.html.twig',[
@@ -34,7 +39,7 @@ class AdminSemestreController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/ajoute-semestre/", name="ajouter_semestre_univ")
+     * @Route("/ajoute/", name="ajouter_semestre_univ")
      */
     public function ajouterSemestreAction(Request $request) {
         $semestre = new Semestre();
@@ -62,7 +67,7 @@ class AdminSemestreController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/modifier-semestre/{semestre_id}", name="modifier_semestre_univ")
+     * @Route("/modifier/{semestre_id}", name="modifier_semestre_univ")
      * @ParamConverter("semestre", options={"mapping": {"semestre_id":"id"}})
      */
     public function midifierSemestreAction(Request $request,Semestre $semestre) {

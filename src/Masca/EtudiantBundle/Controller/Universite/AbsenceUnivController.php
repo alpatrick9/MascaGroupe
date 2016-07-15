@@ -18,6 +18,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class AbsenceUnivController
+ * @package Masca\EtudiantBundle\Controller\Universite
+ * @Route("/universite/absence")
+ */
 class AbsenceUnivController extends Controller
 {
 
@@ -25,7 +30,7 @@ class AbsenceUnivController extends Controller
      * @param Request $request
      * @param Universitaire $universitaire
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/absence/{id}", name="absence_universitaire")
+     * @Route("/{id}", name="absence_universitaire")
      */
     public function indexAction(Request $request, Universitaire $universitaire) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -49,7 +54,7 @@ class AbsenceUnivController extends Controller
      * @param Request $request
      * @param Universitaire $universitaire
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/absence/creer/{id}", name="enregistrement_absence_universitaire")
+     * @Route("/creer/{id}", name="enregistrement_absence_universitaire")
      */
     public function enregistrementAbsenceAction(Request $request, Universitaire $universitaire) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -89,7 +94,7 @@ class AbsenceUnivController extends Controller
      * @param Request $request
      * @param AbsenceUniv $absenceUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/absence/modifier/{id}", name="modifier_absence_universitaire")
+     * @Route("/modifier/{id}", name="modifier_absence_universitaire")
      */
     public function modificationAbsenceAction(Request $request, AbsenceUniv $absenceUniv) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -122,7 +127,7 @@ class AbsenceUnivController extends Controller
      * @param Request $request
      * @param AbsenceUniv $absenceUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/universite/absence/supprimer/{id}", name="supprimer_absence_universitaire")
+     * @Route("/supprimer/{id}", name="supprimer_absence_universitaire")
      */
     public function supprimerAbsenceAction(Request $request, AbsenceUniv $absenceUniv) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){

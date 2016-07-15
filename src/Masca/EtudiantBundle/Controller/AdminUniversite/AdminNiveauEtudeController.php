@@ -17,11 +17,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class AdminNiveauEtudeController
+ * @package Masca\EtudiantBundle\Controller\AdminUniversite
+ * @Route("/universite/admin/niveau-etude")
+ */
 class AdminNiveauEtudeController extends Controller
 {
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/niveau-etude/", name="niveau_etude_univ")
+     * @Route("/", name="niveau_etude_univ")
      */
     public function niveauEtudeAction() {
         return $this->render('MascaEtudiantBundle:Admin_universite:niveau-etude.html.twig',[
@@ -33,7 +38,7 @@ class AdminNiveauEtudeController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/ajoute-niveau-etude/", name="ajouter_niveau_etude_univ")
+     * @Route("/ajouter/", name="ajouter_niveau_etude_univ")
      */
     public function ajouterNiveauEtudeAction(Request $request) {
         $niveau = new NiveauEtude();
@@ -61,7 +66,7 @@ class AdminNiveauEtudeController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/modifier-niveau-etude/{niveau_id}", name="modifier_niveau_etude_univ")
+     * @Route("/modifier/{niveau_id}", name="modifier_niveau_etude_univ")
      * @ParamConverter("niveauEtude", options={"mapping": {"niveau_id":"id"}})
      */
     public function modifierNiveauEtudeAction(Request $request, NiveauEtude $niveauEtude) {

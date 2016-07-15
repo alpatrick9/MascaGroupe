@@ -20,12 +20,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class AdminEcolageLyceeController
+ * @package Masca\EtudiantBundle\Controller\AdminLycee
+ * @Route("/lycee/admin/ecolage")
+ */
 class AdminEcolageLyceeController extends Controller
 {
     /**
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/admin/grille/ecolage/{page}", name="grille_ecolage_lycee", defaults={"page" = 1})
+     * @Route("/grille/{page}", name="grille_ecolage_lycee", defaults={"page" = 1})
      */
     public function grilleEcolageAction($page) {
         $nbParPage = 30;
@@ -48,7 +53,7 @@ class AdminEcolageLyceeController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/admin/ajouter-grille-ecolage/", name="ajouter_grille_ecolage_lycee")
+     * @Route("/ajouter-grille/", name="ajouter_grille_ecolage_lycee")
      */
     public function creerGrilleEcolageAction(Request $request) {
         $grille = new GrilleFraisScolariteLycee();
@@ -79,7 +84,7 @@ class AdminEcolageLyceeController extends Controller
      * @param GrilleFraisScolariteLycee $grille
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("grille", options={"mapping": {"grille_id": "id"}})
-     * @Route("/lycce/admin/modifier-grille-ecolage/{grille_id}", name="modifier_grille_ecolage_lycee")
+     * @Route("/modifier-grille/{grille_id}", name="modifier_grille_ecolage_lycee")
      */
     public function modifierGrilleEcolageAction(Request $request, GrilleFraisScolariteLycee $grille) {
         $grilleForm = $this->createForm(GrilleEcolageLyceeType::class, $grille);

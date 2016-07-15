@@ -18,13 +18,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class AbsentLyceenController
+ * @package Masca\EtudiantBundle\Controller\Lycee
+ * @Route("/lycee/absence")
+ */
 class AbsentLyceenController extends Controller
 {
     /**
      * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/absence/{id}", name="absence_lyceen")
+     * @Route("/{id}", name="absence_lyceen")
      */
     public function indexAction(Request $request,Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -47,7 +52,7 @@ class AbsentLyceenController extends Controller
      * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/absence/enregistrement/{id}", name="absence_enregistrement_lyceen")
+     * @Route("/enregistrement/{id}", name="absence_enregistrement_lyceen")
      */
     public function enregistrementAbsenceAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -86,7 +91,7 @@ class AbsentLyceenController extends Controller
      * @param Request $request
      * @param AbsenceLyceen $absenceLyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("lycee/absence/modifier/{id}", name="absence_modifier_lyceen")
+     * @Route("/modifier/{id}", name="absence_modifier_lyceen")
      */
     public function modificationAbsenceAction(Request $request, AbsenceLyceen $absenceLyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -119,7 +124,7 @@ class AbsentLyceenController extends Controller
      * @param Request $request
      * @param AbsenceLyceen $absenceLyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("lycee/absence/supprimer/{id}", name="absence_supprimer_lyceen")
+     * @Route("/supprimer/{id}", name="absence_supprimer_lyceen")
      */
     public function supprimerAbsenceAction(Request $request, AbsenceLyceen $absenceLyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){

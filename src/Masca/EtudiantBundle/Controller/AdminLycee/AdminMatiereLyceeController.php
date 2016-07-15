@@ -19,12 +19,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
+/**
+ * Class AdminMatiereLyceeController
+ * @package Masca\EtudiantBundle\Controller\AdminLycee
+ * @Route("/lycee/admin/matiere")
+ */
 class AdminMatiereLyceeController extends Controller
 {
     /**
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/admin/liste/matiere/{page}", name="liste_matieres_lycee", defaults={"page"=1})
+     * @Route("/liste/{page}", name="liste_matieres_lycee", defaults={"page"=1})
      */
     public function listMatieresAction($page) {
         $nbParPage = 30;
@@ -48,7 +53,7 @@ class AdminMatiereLyceeController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/admin/ajouter/matiere", name="ajouter_matiere_lycee")
+     * @Route("/ajouter/", name="ajouter_matiere_lycee")
      */
     public function ajouterMatiereAction(Request $request) {
         $matiere = new MatiereLycee();
@@ -79,7 +84,7 @@ class AdminMatiereLyceeController extends Controller
      * @param MatiereLycee $matiere
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("matiere", options={"mapping": {"matiere_id":"id"}})
-     * @Route("/lycee/admin/modifier/matiere/{matiere_id}", name="modifier_matiere_lycee")
+     * @Route("/modifier/{matiere_id}", name="modifier_matiere_lycee")
      */
     public function modifierMatiereAction(Request $request, MatiereLycee $matiere) {
         $matiereForm = $this->createForm(MatiereLyceeType::class, $matiere);

@@ -28,13 +28,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * Class UniversiteController
+ * @package Masca\EtudiantBundle\Controller\Universite
+ * @Route("/universite")
+ */
 class UniversiteController extends Controller
 {
     /**
      * @param Request $request
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/accueil/universite/{page}", name="accueil_universite", defaults={"page" = 1})
+     * @Route("/accueil/{page}", name="accueil_universite", defaults={"page" = 1})
      */
     public function indexAction(Request $request, $page) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
@@ -64,7 +69,7 @@ class UniversiteController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/inscription/", name="inscription_universite")
+     * @Route("/inscription/", name="inscription_universite")
      */
     public  function inscriptionAction(Request $request) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -114,11 +119,12 @@ class UniversiteController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param Universitaire $universitaire
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/details/{id}", name="details_universite")
+     * @Route("/details/{id}", name="details_universite")
      */
-    public function detailsAction(Universitaire $universitaire) {
+    public function detailsAction(Request $request, Universitaire $universitaire) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -140,7 +146,7 @@ class UniversiteController extends Controller
      * @param Request $request
      * @param Universitaire $universitaire
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/modifier/{id}", name="modifier_universite")
+     * @Route("/modifier/{id}", name="modifier_universite")
      */
     public function modifierAction(Request $request, Universitaire $universitaire) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){

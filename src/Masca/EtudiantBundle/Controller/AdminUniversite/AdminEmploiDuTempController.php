@@ -19,12 +19,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class AdminEmploiDuTempController
+ * @package Masca\EtudiantBundle\Controller\AdminUniversite
+ * @Route("/universite/admin/emploi-du-temps")
+ */
 class AdminEmploiDuTempController extends Controller
 {
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/emploi-du-temps/", name="emploi_du_temps_univerite")
+     * @Route("/", name="emploi_du_temps_univerite")
      */
     public function indexAction(Request $request){
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -45,7 +50,7 @@ class AdminEmploiDuTempController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/emploi-du-temps/creer/", name="creer_emploi_du_temps_universite")
+     * @Route("/creer/", name="creer_emploi_du_temps_universite")
      */
     public function creerEmploiDuTemps(Request $request) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -81,7 +86,7 @@ class AdminEmploiDuTempController extends Controller
      * @param Request $request
      * @param FiliereParNiveau $filierParNiveau
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/universite/admin/emploi-du-temps/voir/{filiereParNiveau_id}", name="voir_emploi_du_temps_universite")
+     * @Route("/voir/{filiereParNiveau_id}", name="voir_emploi_du_temps_universite")
      * @ParamConverter("filierParNiveau", options={"mapping": {"filiereParNiveau_id":"id"}})
      */
     public function voirEmploiDuTempsAction(Request $request, FiliereParNiveau $filierParNiveau) {
@@ -128,7 +133,7 @@ class AdminEmploiDuTempController extends Controller
      * @param $heureIndex
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @ParamConverter("filiereParNiveau", options={"mapping": {"filiereParNiveau_id":"id"}})
-     * @Route("/universite/admin/emploi-du-temps/ajouter-matiere/{filiereParNiveau_id}/{jourIndex}/{heureIndex}", name="ajouter_emplois_du_temps_universite")
+     * @Route("/ajouter-matiere/{filiereParNiveau_id}/{jourIndex}/{heureIndex}", name="ajouter_emplois_du_temps_universite")
      */
     public function ajouterMatiereAction(Request $request, FiliereParNiveau $filiereParNiveau,$jourIndex, $heureIndex) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -169,7 +174,7 @@ class AdminEmploiDuTempController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @ParamConverter("emploiDuTempsUniv", options={"mapping": {"emploiDuTempsUniv_id":"id"}})
-     * @Route("/universite/admin/emploi-du-temps/modifier-matiere/{emploiDuTempsUniv_id}", name="modifier_emplois_du_temps_universite")
+     * @Route("/modifier-matiere/{emploiDuTempsUniv_id}", name="modifier_emplois_du_temps_universite")
      */
     public function modifierMatiereAction(Request $request, EmploiDuTempsUniv $emploiDuTempsUniv) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -202,7 +207,7 @@ class AdminEmploiDuTempController extends Controller
      * @param EmploiDuTempsUniv $emploiDuTempsUniv
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @ParamConverter("emploiDuTempsUniv", options={"mapping": {"emploiDuTempsUniv_id":"id"}})
-     * @Route("/universite/admin/emploi-du-temps/supprimer-matiere/{emploiDuTempsUniv_id}", name="supprimer_matiere_emplois_du_temps_universite")
+     * @Route("/supprimer-matiere/{emploiDuTempsUniv_id}", name="supprimer_matiere_emplois_du_temps_universite")
      */
     public function supprimerMatierAction(Request $request, EmploiDuTempsUniv $emploiDuTempsUniv) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
@@ -221,7 +226,7 @@ class AdminEmploiDuTempController extends Controller
      * @param Request $request
      * @param FiliereParNiveau $filiereParNiveau
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("universite/admin/supprimer-emploi-du-temps/{id}", name="supprimer_emplois_du_temps_universite")
+     * @Route("/supprimer/{id}", name="supprimer_emplois_du_temps_universite")
      */
     public function supprimerFilierParNiveauAction(Request $request, FiliereParNiveau $filiereParNiveau) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){

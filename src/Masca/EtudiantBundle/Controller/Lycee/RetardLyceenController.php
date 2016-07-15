@@ -18,13 +18,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class RetardLyceenController
+ * @package Masca\EtudiantBundle\Controller\Lycee
+ * @Route("/lycee/retard")
+ */
 class RetardLyceenController extends Controller
 {
     /**
      * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/retard/{id}", name="retard_lyceen")
+     * @Route("/{id}", name="retard_lyceen")
      */
     public function indexAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -48,7 +53,7 @@ class RetardLyceenController extends Controller
      * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/retard/creer/{id}", name="creer_retard_lyceen")
+     * @Route("/creer/{id}", name="creer_retard_lyceen")
      */
     public function creerRetardAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -86,7 +91,7 @@ class RetardLyceenController extends Controller
      * @param Request $request
      * @param RetardLyceen $retardLyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/retard/modifier/{id}", name="modifier_retard_lyceen")
+     * @Route("/modifier/{id}", name="modifier_retard_lyceen")
      */
     public function modifierRetardAction(Request $request, RetardLyceen $retardLyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
@@ -119,7 +124,7 @@ class RetardLyceenController extends Controller
      * @param Request $request
      * @param RetardLyceen $retardLyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/lycee/retard/supprimer/{id}", name="supprimer_retard_lyceen")
+     * @Route("/supprimer/{id}", name="supprimer_retard_lyceen")
      */
     public function supprimerRetardAction(Request $request, RetardLyceen $retardLyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){

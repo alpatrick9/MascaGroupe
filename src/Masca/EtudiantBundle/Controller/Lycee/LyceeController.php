@@ -24,13 +24,19 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class LyceeController
+ * @package Masca\EtudiantBundle\Controller\Lycee
+ * @Route("/lycee")
+ */
 class LyceeController extends Controller
 {
     /**
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/accueil/lycee/{page}", name="accueil_lycee", defaults={"page" = 1})
+     * @Route("/accueil/{page}", name="accueil_lycee", defaults={"page" = 1})
      */
     public function indexAction($page, Request $request) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
@@ -39,7 +45,7 @@ class LyceeController extends Controller
                 'previousLink'=>$request->headers->get('referer')
             ]);
         }
-        $nbParPage = 30;
+        $nbParPage = 2;
         /**
          * @var $repository LyceenRepository
          */
@@ -60,7 +66,7 @@ class LyceeController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/inscription/", name="inscription_lycee")
+     * @Route("/inscription/", name="inscription_lycee")
      */
     public function inscriptionAction(Request $request) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
@@ -106,7 +112,7 @@ class LyceeController extends Controller
     /**
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/details/{id}", name="details_lyceen")
+     * @Route("/details/{id}", name="details_lyceen")
      */
     public function detailsAction(Lyceen $lyceen, Request $request) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
@@ -124,7 +130,7 @@ class LyceeController extends Controller
      * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/modifier/{id}", name="modifier_lyceen")
+     * @Route("/modifier/{id}", name="modifier_lyceen")
      */
     public function modifierAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
@@ -165,7 +171,7 @@ class LyceeController extends Controller
      * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/lycee/reinscription/{id}", name="reinscription_lyceen")
+     * @Route("/reinscription/{id}", name="reinscription_lyceen")
      */
     public function reinscriptionAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
@@ -186,5 +192,33 @@ class LyceeController extends Controller
             'lyceenForm'=>$lyceenForm->createView(),
             'lyceen'=>$lyceen
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param $page
+     * @return Response
+     * @Route("/print/{page}", name="print_list_lyceen")
+     */
+    public function printNoteAction(Request $request, $page) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $html = $this->forward('MascaEtudiantBundle:Lycee/Lycee:index',[
+            'page'=>$page
+        ])->getContent();
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('inline; filename="%s"', 'out.pdf'),
+            ]
+        );
     }
 }
