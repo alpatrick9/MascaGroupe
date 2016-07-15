@@ -7,3 +7,5 @@ app/logs/*
 .idea/*
 
 .idea/workspace.xml
+
+/web/sauvegarde_masca_db.sql
