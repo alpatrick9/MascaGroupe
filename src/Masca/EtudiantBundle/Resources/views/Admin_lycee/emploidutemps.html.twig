@@ -1,7 +1,6 @@
 {% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
-{% block title %}Emploi du temps{% endblock %}
 {% block admin_lycee_body %}
-    <h4>Emploi du temps classe de {{ classe.intitule }}</h4>
+    <h3>Emploi du temps classe de {{ classe.intitule }}</h3>
     <table class="table table-hover table-bordered table-striped">
         {% for h in range(0,nbHeures) %}
             <tr>

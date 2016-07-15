@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class GestionNoteController
@@ -140,5 +141,33 @@ class GestionNoteController extends Controller
             'matiere'=>$matiereParUeFiliere,
             'form'=>$form->createView()
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param UniversitaireSonFiliere $universitaireSonFiliere
+     * @return Response
+     * @Route("/print/note/{id}", name="print_note_université")
+     */
+    public function printNoteUnivAction(Request $request,UniversitaireSonFiliere $universitaireSonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $html = $this->forward('MascaEtudiantBundle:Universite/GestionNote:index',[
+            'universitaireSonFiliere'=>$universitaireSonFiliere
+        ])->getContent();
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('inline; filename="%s"', 'out.pdf'),
+            ]
+        );
     }
 }

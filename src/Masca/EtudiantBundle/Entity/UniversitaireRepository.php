@@ -25,4 +25,20 @@ class UniversitaireRepository extends EntityRepository
         $query->setFirstResult(($page-1) * $nbParPage)->setMaxResults($nbParPage);
         return new Paginator($query);
     }
+
+    public function findUniversitaires($nbParPage, $page, $keyword) {
+        if($page < 1) {
+            throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur: "'.$page.'").');
+        }
+
+        $query = $this->createQueryBuilder('universitaire')
+            ->leftJoin('universitaire.person','person')
+            ->where('person.nom like :nom')->setParameter('nom','%'.$keyword.'%')
+            ->orWhere('person.prenom like :prenom')->setParameter('prenom', '%'.$keyword.'%')
+            ->orderBy('universitaire.id', 'DESC')
+            ->getQuery();
+
+        $query->setFirstResult(($page-1) * $nbParPage)->setMaxResults($nbParPage);
+        return new Paginator($query);
+    }
 }

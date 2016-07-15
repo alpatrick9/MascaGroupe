@@ -1,20 +1,16 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %}Regularisation ecolage{% endblock %}
 {% block etudiant_body %}
+    <h3>Page d'enregistrement d'ecolage</h3>
+    <p>Etudiant concerné: <b>{{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }}</b></p>
+    <p>Annee d'etude: <b>{{ sonFiliere.anneeEtude }}</b></p>
+    <p>Le montant d'un mois est {{ montant }} Ar</p>
+    <p>Reduction {{ reduction }} Ar</p>
+    {% if reste is defined %}
+        Reste: {{ reste }}
+    {% endif %}
     {% if error_message is defined %}
         <p style="color: red "> {{ error_message }}</p>
     {% endif %}
-    <div class="row bordered">
-        <div class="span12 text-center">
-            <p>Régularisation d'écolage de {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }}</p>
-            <p>Annee d'etude {{ sonFiliere.anneeEtude }}</p>
-            <p>Le montant d'un mois est {{ montant }} Ar</p>
-            <p>Reduction {{ reduction }} Ar</p>
-            {% if reste is defined %}
-                Reste: {{ reste }}
-            {% endif %}
-        </div>
-    </div>
     <div class="row">
         <div class="span12 text-center">
             <form method="post" class="text-left" style="width:270px; margin:0 auto !important;" id="formpaiement">

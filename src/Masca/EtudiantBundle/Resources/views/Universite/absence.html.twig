@@ -1,7 +1,6 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %} Administration lycée {% endblock %}
 {% block etudiant_body %}
-    <h4>Les absence de {{ universitaire.person.nom }} {{ universitaire.person.prenom }}</h4>
+    <h4>Listes des absences de {{ universitaire.person.nom }} {{ universitaire.person.prenom }}</h4>
     <div>
         <a href="{{ path('details_universite',{'id': universitaire.id}) }}" class="btn btn-primary"><<</a>
         <a href="{{ path('enregistrement_absence_universitaire', {'id': universitaire.id}) }}" class="btn">Nouvelle absence</a>

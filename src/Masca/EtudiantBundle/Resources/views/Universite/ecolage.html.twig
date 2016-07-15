@@ -1,13 +1,10 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %} Administration lycée {% endblock %}
 {% block etudiant_body %}
-    <div class="row">
-        <div class="span10">
-            <h3>Suivi d'écolage</h3>
-            <p> {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }} filiere {{ sonFiliere.sonFiliere.intitule }} niveau {{ sonFiliere.sonNiveauEtude.intitule }} </p>
-            <p>Montant: {{ montant }} Ar. Reduction {{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</p>
-        </div>
-    </div>
+    <h3>Suivi status d'écolage</h3>
+    <p>Etudiant concerné: <b>{{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }} filiere {{ sonFiliere.sonFiliere.intitule }} niveau {{ sonFiliere.sonNiveauEtude.intitule }}</b> </p>
+    <p>Montant: <b>{{ montant }} Ar. </b></p>
+    <p>Reduction: <b>{{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</b></p>
+
     <div class="row">
         <div class="span12">
             <table class="table table-hover table-bordered table-striped avectri">
@@ -48,6 +45,7 @@
             <div class="align-center">
                 <a href="{{ path('details_etude_universitaire',{'sonFiliere_id': sonFiliere.id}) }}" class="btn btn-primary"><<</a>
                 <a href="{{ path('payer_ecolage_univeristaire',{'id': sonFiliere.id}) }}" class="btn btn-primary">Payer</a>
+                <a href="{{ path('print_ecolage_universite',{'id': sonFiliere.id}) }}" class="btn btn-danger" target="_blank">Imprimer</a>
             </div>
         </div>
 

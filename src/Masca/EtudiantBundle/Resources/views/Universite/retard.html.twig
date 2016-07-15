@@ -1,7 +1,6 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %} Administration lycée {% endblock %}
 {% block etudiant_body %}
-    <h4>Les retard de {{ universitaire.person.nom }} {{ universitaire.person.prenom }}</h4>
+    <h3>Listes de retards de {{ universitaire.person.nom }} {{ universitaire.person.prenom }}</h3>
     <div>
         <a href="{{ path('details_universite',{'id': universitaire.id}) }}" class="btn btn-primary"><<</a>
         <a href="{{ path('enregistrement_retard_universitaire',{'id': universitaire.id}) }}" class="btn">Nouvelle retard</a>

@@ -1,11 +1,11 @@
 {% extends 'MascaEtudiantBundle::layout.html.twig' %}
-{% block title %}Enregistrement note{% endblock %}
 {% block etudiant_body %}
-    <h5>Création/modification note de {{ matiere.matiere.intitule }}</h5>
+    <h3>Page d'ajout/modification d'un note</h3>
+    Etudiant concerné: <b>{{ sonFiliere.universitaire.person.prenom }} {{ sonFiliere.universitaire.person.nom }}</b>
     {% if error_message is defined %}
         <p style="color: red "> {{ error_message }}</p>
     {% endif %}
-    <h2>Enregistrement note de de {{ sonFiliere.universitaire.person.prenom }} {{ sonFiliere.universitaire.person.nom }}</h2>
+
     <form method="post">
         {{ form_widget(form) }}
         <div class="align-right">

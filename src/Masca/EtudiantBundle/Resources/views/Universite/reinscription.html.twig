@@ -1,11 +1,11 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block title %}Reinscription universitaire{% endblock %}
 {% block etudiant_body %}
-    <h4>{{ fullEtudantName }}</h4>
+    <h3> Page de reinscription de {{ fullEtudantName }} </h3>
     <div class="row">
         <div class="span12">
             <fieldset>
-                <legend>Infos Etudie</legend>
+                <legend>Étude</legend>
                 <form method="post">
                     {{ form_widget(sonFiliereForm) }}
                     <div class="align-right">

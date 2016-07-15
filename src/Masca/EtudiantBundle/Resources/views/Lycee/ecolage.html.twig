@@ -1,14 +1,9 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %}Ecolage{% endblock %}
 {% block etudiant_body %}
-    <div class="row">
-        <div class="span10">
-            <h3>Suivi d'écolage</h3>
-            <h5>Année scolaire {{ lyceen.anneeScolaire }}</h5>
-            <p> {{ lyceen.person.nom }} {{ lyceen.person.prenom }} en classe de {{ lyceen.sonClasse.intitule }} n° {{ lyceen.numeros }}</p>
-            <p>Reduction {{ lyceen.infoEtudiant.reduction }} Ar</p>
-        </div>
-    </div>
+    <h3>Suivi status d'écolage</h3>
+    <h5>Année scolaire {{ lyceen.anneeScolaire }}</h5>
+    <p> {{ lyceen.person.nom }} {{ lyceen.person.prenom }} en classe de {{ lyceen.sonClasse.intitule }} n° {{ lyceen.numeros }}</p>
+    <p>Reduction {{ lyceen.infoEtudiant.reduction }} Ar</p>
     <div class="row">
         <div class="span12">
             <table class="table table-hover table-bordered table-striped avectri">
@@ -51,6 +46,7 @@
             <div class="align-center">
                 <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}" class="btn btn-primary"><<</a>
                 <a href="{{ path('payer_ecolage_lyceen', {'id': lyceen.id}) }}" class="btn btn-primary">Payer</a>
+                <a href="{{ path('print_ecolage', {'id': lyceen.id}) }}" class="btn btn-danger" target="_blank">Imprimer</a>
             </div>
         </div>
 

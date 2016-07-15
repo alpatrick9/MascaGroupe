@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class GestionEcolageController
@@ -244,5 +245,33 @@ class GestionEcolageController extends Controller
             'reduction'=>$fraisScolariteUniv->getUnivSonFiliere()->getUniversitaire()->getInfoEtudiant()->getReduction(),
             'reste'=>$motantEcolage->getMontant()-$fraisScolariteUniv->getMontant()-$fraisScolariteUniv->getUnivSonFiliere()->getUniversitaire()->getInfoEtudiant()->getReduction()
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param UniversitaireSonFiliere $universitaireSonFiliere
+     * @return Response
+     * @Route("/print/ecolage/{id}", name="print_ecolage_universite")
+     */
+    public function printEcolageUnivAction(Request $request,UniversitaireSonFiliere $universitaireSonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $html = $this->forward('MascaEtudiantBundle:Universite/GestionEcolage:index',[
+            'universitaireSonFiliere'=>$universitaireSonFiliere
+        ])->getContent();
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('inline; filename="%s"', 'out.pdf'),
+            ]
+        );
     }
 }

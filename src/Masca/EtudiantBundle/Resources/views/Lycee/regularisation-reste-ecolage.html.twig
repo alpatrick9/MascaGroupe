@@ -1,13 +1,10 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %}Regularisation ecolage{% endblock %}
 {% block etudiant_body %}
-    <div class="row">
-        <div class="span10">
-            <h5>Année scolaire {{ renseignement.lyceen.anneeScolaire }} </h5>
-            <p>Régularisation d'écolage de {{ renseignement.lyceen.person.nom }} {{ renseignement.lyceen.person.prenom }}</p>
-            <p>Reste à payer {{ reste }} Ar</p>
-        </div>
-    </div>
+    <h3>Page de régularisation d'ecolage</h3>
+    <h5>Année scolaire {{ renseignement.lyceen.anneeScolaire  }} </h5>
+    <p>Etudiant concerné: <b>{{ renseignement.lyceen.person.nom }} {{ renseignement.lyceen.person.prenom }}</b> </p>
+    <p>Reste à payer <b>{{ reste }} Ar</b></p>
+
     <div class="row">
         <div class="span10">
             <form method="post">

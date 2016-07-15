@@ -1,17 +1,17 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %}Modification université{% endblock %}
 {% block etudiant_body %}
+    <h3>Page de modification des informations concernant l'étudiant</h3>
     <form method="post">
         <div class="row">
             <div class="span6">
                 <fieldset>
-                    <legend>Infos personnelle</legend>
+                    <legend>Etat civil</legend>
                     {{ form_widget(personForm) }}
                 </fieldset>
             </div>
             <div class="span6">
                 <fieldset>
-                    <legend>Infos conmplementaire</legend>
+                    <legend>Complémentaire</legend>
                     {{ form_widget(infoEtudiantForm) }}
                 </fieldset>
             </div>

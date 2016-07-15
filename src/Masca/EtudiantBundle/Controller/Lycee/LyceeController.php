@@ -56,6 +56,9 @@ class LyceeController extends Controller
          */
         $lyceens = $repository->getLyceens($nbParPage,$page);
 
+        if($request->getMethod() == 'POST') {
+            $lyceens = $repository->findLyceens($nbParPage,$page,$request->get('key_word'));
+        }
         return $this->render('MascaEtudiantBundle:Lycee:index.html.twig',array(
             'lyceens'=>$lyceens,
             'page'=> $page,

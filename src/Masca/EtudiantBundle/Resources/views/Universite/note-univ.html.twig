@@ -1,10 +1,10 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %} Note université {% endblock %}
 {% block etudiant_body %}
-    <h4>Les note de {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }}</h4>
-    <p>Semestre: {{ sonFiliere.semestre.intitule }}</p>
+    <h3>Resultat d'examen de {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }}</h3>
+    <p>Semestre: <b>{{ sonFiliere.semestre.intitule }}</b></p>
     <div>
         <a href="{{ path('details_etude_universitaire',{'sonFiliere_id': sonFiliere.id}) }}" class="btn btn-primary"><<</a>
+        <a href="{{ path('print_note_université',{'id': sonFiliere.id}) }}" class="btn btn-danger" target="_blank">Imprimer</a>
     </div>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped">

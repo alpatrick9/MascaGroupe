@@ -27,6 +27,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UniversiteController
@@ -58,6 +59,10 @@ class UniversiteController extends Controller
          * @var $universitaires Universitaire[]
          */
         $universitaires = $repository->getUniversitiares($nbParPage,$page);
+
+        if($request->getMethod() == 'POST') {
+            $universitaires = $repository->findUniversitaires($nbParPage,$page,$request->get('key_word'));
+        }
 
         return $this->render('MascaEtudiantBundle:Universite:index.html.twig',array(
             'universitaires'=>$universitaires,
@@ -174,5 +179,32 @@ class UniversiteController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @param $page
+     * @return Response
+     * @Route("/print/list/{page}", name="print_liste_universite")
+     */
+    public function printListeAction(Request $request,$page) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $html = $this->forward('MascaEtudiantBundle:Universite/Universite:index',[
+            'page'=>$page
+        ])->getContent();
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('inline; filename="%s"', 'out.pdf'),
+            ]
+        );
+    }
 
 }

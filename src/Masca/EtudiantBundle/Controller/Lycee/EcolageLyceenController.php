@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RequestContext;
 
 /**
@@ -234,6 +235,34 @@ class EcolageLyceenController extends Controller
             'renseignement'=>$fraisScolariteLyceen,
             'reste'=>$motantEcolage->getMontant()-$fraisScolariteLyceen->getMontant()-$fraisScolariteLyceen->getLyceen()->getInfoEtudiant()->getReduction()
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param Lyceen $lyceen
+     * @return Response
+     * @Route("/print/{id}", name="print_ecolage")
+     */
+    public function printEcolageAction(Request $request,Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $html = $this->forward('MascaEtudiantBundle:Lycee/EcolageLyceen:ecolage',[
+            'lyceen'=>$lyceen
+        ])->getContent();
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('inline; filename="%s"', 'out.pdf'),
+            ]
+        );
     }
 
 }

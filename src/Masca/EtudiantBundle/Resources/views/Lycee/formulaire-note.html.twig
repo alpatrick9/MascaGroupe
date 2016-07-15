@@ -1,11 +1,10 @@
 {% extends 'MascaEtudiantBundle::layout.html.twig' %}
-{% block title %}Ajouter note{% endblock %}
 {% block etudiant_body %}
-    <h5>Création/modification note</h5>
+    <h3>Page d'ajout/modification d'un note</h3>
     {% if error_message is defined %}
         <p style="color: red "> {{ error_message }}</p>
     {% endif %}
-    <h2>Note de {{ lyceen.person.prenom }} {{ lyceen.person.nom }}</h2>
+    <p>Etudiant concerné: <b>{{ lyceen.person.prenom }} {{ lyceen.person.nom }}</b></p>
     <form method="post">
         {{ form_widget(form) }}
         <div class="align-right">

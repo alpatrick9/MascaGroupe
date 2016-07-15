@@ -1,23 +1,23 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block title %}Inscription lyceen{% endblock %}
 {% block etudiant_body %}
+    <h3>Information pour l'inscription</h3>
     <form method="post">
         <div class="row">
             <div class="span4">
                 <fieldset>
-                    <legend>Infos personnelle</legend>
+                    <legend>Etat civil</legend>
                     {{ form_widget(personForm) }}
                 </fieldset>
             </div>
             <div class="span4">
                 <fieldset>
-                    <legend>Infos Etudie</legend>
+                    <legend>Étude</legend>
                     {{ form_widget(etudeForm) }}
                 </fieldset>
             </div>
             <div class="span4">
                 <fieldset>
-                    <legend>Infos conmplementaire</legend>
+                    <legend>Complémentaires</legend>
                     {{ form_widget(infoEtudiantForm) }}
                 </fieldset>
             </div>

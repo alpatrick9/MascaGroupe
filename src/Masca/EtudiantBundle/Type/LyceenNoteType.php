@@ -28,7 +28,7 @@ class LyceenNoteType extends AbstractType
                 'placeholder'=>'choisissez...'
             ])
             ->add('coefficient',IntegerType::class,[
-                'label'=>'Coefficient',
+                'label'=>'Coeficient',
                 'attr'=>[
                     'min'=>1,
                     'max'=>10
