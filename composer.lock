@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "075bba93be4e52cc65ee22542876901a",
-    "content-hash": "e2bad4e732528453e4977b3e50ef50a9",
+    "hash": "2856b53e1f2940defec88b6468e4caa9",
+    "content-hash": "667bc0b002becd50dc9914a02834bea7",
     "packages": [
         {
             "name": "dg/mysql-dump",
@@ -2497,6 +2497,57 @@
                 "templating"
             ],
             "time": "2016-05-30 09:11:59"
+        },
+        {
+            "name": "wemersonjanuario/wkhtmltopdf-windows",
+            "version": "0.12.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wemersonjanuario/wkhtmltopdf-windows.git",
+                "reference": "90fcd3487cad5931287742113c449b926e9e48d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wemersonjanuario/wkhtmltopdf-windows/zipball/90fcd3487cad5931287742113c449b926e9e48d8",
+                "reference": "90fcd3487cad5931287742113c449b926e9e48d8",
+                "shasum": ""
+            },
+            "suggest": {
+                "h4cc/wkhtmltopdf-amd64": "*",
+                "h4cc/wkhtmltopdf-i386": "*",
+                "wemersonjanuario/laravelpdf": "1.0.*"
+            },
+            "bin": [
+                "bin/32bit/wkhtmltopdf.exe",
+                "bin/32bit/wkhtmltoimage.exe",
+                "bin/64bit/wkhtmltopdf.exe",
+                "bin/64bit/wkhtmltoimage.exe"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Wemerson Januario",
+                    "email": "wemerson.januario@gmail.com",
+                    "homepage": "http://wemersonjanuario.com.br"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit). Static linked windows binary for 32 bit and 64 bit systems.",
+            "homepage": "http://wkhtmltopdf.org/",
+            "keywords": [
+                "binary",
+                "convert",
+                "htmltoimage",
+                "htmltopdf",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2015-06-30 20:19:22"
         }
     ],
     "packages-dev": [

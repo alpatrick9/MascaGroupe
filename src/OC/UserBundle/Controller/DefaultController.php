@@ -154,8 +154,8 @@ class DefaultController extends Controller
      * @Route("/dump", name="backup_db")
      */
     public function createBackUpDbAction() {
-        $dump = new \MySQLDump(new \mysqli('localhost','root','root','masca_db'));
-        $dump->save('sauvegarde_masca_db.sql');
+        $dump = new \MySQLDump(new \mysqli('localhost','root','','masca_db'));
+        $dump->save('sql/sauvegarde_masca_db.sql');
         return $this->render('@OCUser/Default/success-db-backup.html.twig');
     }
 

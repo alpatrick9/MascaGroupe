@@ -8,4 +8,4 @@ app/logs/*
 
 .idea/workspace.xml
 
-/web/sauvegarde_masca_db.sql
+/web/sql/sauvegarde_masca_db.sql
