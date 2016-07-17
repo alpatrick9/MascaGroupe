@@ -6,9 +6,16 @@
     <h5>Création/modification matiere lycée</h5>
     <form method="post">
         {{ form_widget(form) }}
-        <div class="align-right">
-            <input type="submit" class="btn" value="Enregistre">
-            <a href="{{ path('liste_matieres_lycee') }}" class="btn">Annulers</a>
+        <div class="submit-style">
+            <div class="floatleft">
+                <a href="{{ path('liste_matieres_lycee') }}">
+                    <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                </a>
+
+            </div>
+            <div class="floatright">
+                <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+            </div>
         </div>
     </form>
 {% endblock %}

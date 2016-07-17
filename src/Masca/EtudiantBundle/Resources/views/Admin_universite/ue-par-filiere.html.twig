@@ -1,7 +1,9 @@
 {% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
 {% block admin_univ_body %}
     <h4>Les unités d'enseignement par filière</h4>
-    <a href="{{ path('creer_repartition_unite_enseignement_universite') }}" class="btn">Nouvelle association</a>
+    <a href="{{ path('creer_repartition_unite_enseignement_universite') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+    </a>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
         <thead>
@@ -30,7 +32,11 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <a href="{{ path('ajouter_m_repartition_unite_enseignement_universite', {'id': repartition.id}) }}" class="btn btn-primary">Ajouter matière</a>
+                    <div class="align-center">
+                        <a href="{{ path('ajouter_m_repartition_unite_enseignement_universite', {'id': repartition.id}) }}">
+                            <img title="Ajouter des matières" src="{{ asset('assets/add-item.png') }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}

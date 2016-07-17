@@ -12,9 +12,16 @@
         <div class="span12 text-center">
             <form method="post" class="text-left" style="width:270px; margin:0 auto !important;" id="formpaiement">
                 {{ form_widget(ecolageForm) }}
-                <div class="align-center">
-                    <input type="submit" value="Enregistrer" class="btn btn-primary">
-                    <a href="{{ path('ecolage_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Annuler</a>
+                <div class="submit-style">
+                    <div class="floatleft">
+                        <a href="{{ path('ecolage_lyceen', {'id':lyceen.id}) }}">
+                            <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                        </a>
+
+                    </div>
+                    <div class="floatright">
+                        <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+                    </div>
                 </div>
             </form>
         </div>

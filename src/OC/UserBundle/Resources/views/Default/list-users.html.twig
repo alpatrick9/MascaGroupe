@@ -1,7 +1,15 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 {% block fos_user_content %}
-    <a href="{{ path('fos_user_registration_register') }}" class="btn">Creer utilisateur</a>
-    <a href="{{ path('backup_db') }}" class="btn">creer sauvegarde</a>
+    <div class="floatleft">
+        <a href="{{ path('fos_user_registration_register') }}">
+            <img title="Creer utilisateur" src="{{ asset('assets/add-user.png') }}">
+        </a>
+    </div>
+    <div class="floatright">
+        <a href="{{ path('backup_db') }}" onclick="return confirm('Voulez creer une sauvegarde de votre base de données!') ">
+            <img title="Creer une sauvegarde" src="{{ asset('assets/backup.png') }}">
+        </a>
+    </div>
     <br/>
     <br/>
     <table id="tableshow" class="table table-hover table-striped avectri">
@@ -31,11 +39,23 @@
                     <span class="btn btn-info float_menu">
                         Action
                     <ul class="nav nav-pills">
-                        <li><a href="{{ path('modifier_mot_de_passe', {'id': user.id}) }}" class="btn-primary">modifer mot de passe</a></li>
                         {% if user.roles|length == 1 %}
-                            <li><a href="{{ path('ajouter_role',{'id': user.id}) }}" class="btn-primary">ajouter role</a></li>
+                            <li>
+                                <a href="{{ path('ajouter_role',{'id': user.id}) }}">
+                                    <img title="Ajouter rôle" src="{{ asset('assets/add-item.png') }}">
+                                </a>
+                            </li>
                         {% endif %}
-                        <li><a href="{{ path('supprimer_user',{'id': user.id}) }}" class="btn-danger" onclick="return confirm('Voulez vous supprimer?')">suppr</a></li>
+                        <li>
+                            <a href="{{ path('modifier_mot_de_passe', {'id': user.id}) }}">
+                                <img title="Modifier mot de passe" src="{{ asset('assets/edit-password.png') }}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('supprimer_user',{'id': user.id}) }}" onclick="return confirm('Voulez vous supprimer?')">
+                                <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                            </a>
+                        </li>
                     </ul>
 
                     </span>

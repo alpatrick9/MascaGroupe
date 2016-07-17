@@ -34,9 +34,16 @@
             <legend>Étude</legend>
             <form method="post">
                 {{ form_widget(lyceenForm) }}
-                <div class="align-right">
-                    <input type="submit" value="Enregistrer" class="btn btn-primary">
-                    <a href="{{ path('details_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Annuler</a>
+                <div class="submit-style">
+                    <div class="floatleft">
+                        <a href="{{ path('details_lyceen', {'id':lyceen.id}) }}">
+                            <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                        </a>
+
+                    </div>
+                    <div class="floatright">
+                        <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+                    </div>
                 </div>
             </form>
         </fieldset>

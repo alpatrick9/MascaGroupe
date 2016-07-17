@@ -2,8 +2,12 @@
 {% block etudiant_body %}
     <h3>Liste des absences de {{ lyceen.person.nom }} {{ lyceen.person.prenom }}</h3>
     <div>
-        <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}" class="btn btn-primary"><<</a>
-        <a href="{{ path('absence_enregistrement_lyceen', {'id': lyceen.id}) }}" class="btn">Nouvelle absence</a>
+        <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}">
+            <img title="Retour" src="{{ asset('assets/cancel.png') }}">
+        </a>
+        <a href="{{ path('absence_enregistrement_lyceen', {'id': lyceen.id}) }}" >
+            <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+        </a>
     </div>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">

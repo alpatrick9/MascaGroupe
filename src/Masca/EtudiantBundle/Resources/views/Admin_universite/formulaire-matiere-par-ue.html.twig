@@ -6,8 +6,16 @@
     {% endif %}
     <form method="post">
         {{ form_widget(form) }}
-        <div class="align-right">
-            <input type="submit" value="Enregistrer" class="btn"><a href="{{ path('repartition_unite_enseignement_univeriste') }}" class="btn">Annuler</a>
+        <div class="submit-style">
+            <div class="floatleft">
+                <a href="{{ path('repartition_unite_enseignement_univeriste') }}">
+                    <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                </a>
+
+            </div>
+            <div class="floatright">
+                <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+            </div>
         </div>
     </form>
 {% endblock %}

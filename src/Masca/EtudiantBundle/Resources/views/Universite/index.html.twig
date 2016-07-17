@@ -8,12 +8,14 @@
         <a href="{{ path('admin_univ_filiere') }}"  class="btn btn-info btn-lg">
             Administration
         </a>
-        <a href="{{ path('print_liste_universite', {'page':page}) }}" target="_blank" class="btn btn-danger">Imprimer liste</a>
+        <a href="{{ path('print_liste_universite', {'page':page}) }}" target="_blank">
+            <img title="Imprimer" src="{{ absolute_url(asset('assets/printer.png')) }}">
+        </a>
     </div>
     <div class="row link-text floatright">
         <form method="post">
             <input id="search" placeholder="Entrez un nom ou prénom" name="key_word">
-            <input type="submit" value="recherche" class="btn btn-info">
+            <input type="image" src="{{ absolute_url(asset('assets/find.png')) }}">
         </form>
     </div>
     <div class="clearfix"></div>
@@ -31,9 +33,11 @@
                 <td>{{ universite.person.nom }}</td>
                 <td>{{ universite.person.prenom }}</td>
                 <td>
-                    <a href="{{ path('details_universite', {'id':universite.id}) }}" class="btn btn-info btn-lg">
-                        details
-                    </a>
+                    <div class="align-center">
+                        <a href="{{ path('details_universite', {'id':universite.id}) }}">
+                            <img title="Plus de details" src="{{ absolute_url(asset('assets/plus-info.png')) }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
             {% else %}

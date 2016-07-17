@@ -1,9 +1,11 @@
 {% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
 {% block admin_lycee_body %}
     <h4>Les grilles de frais de scolarité du lycée</h4>
-    <a href="{{ path('ajouter_grille_ecolage_lycee') }}" class="btn">Nouvelle grille</a>
+    <a href="{{ path('ajouter_grille_ecolage_lycee') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+    </a>
     <hr/>
-    <table id="tableshow" class="table table-hover table-striped avectri">
+    <table id="tableshow" class="table table-hover table-bordered table-striped avectri">
         <thead>
         <tr>
             <th class="selection" data-tri="1" data-type="num">grille</th>
@@ -16,7 +18,16 @@
             <tr>
                 <td>{{ grille.classe.intitule }}</td>
                 <td>{{ grille.montant }}</td>
-                <td><a href="{{ path('modifier_grille_ecolage_lycee',{'grille_id': grille.id}) }}" class="btn btn-primary">modifier</a></td>
+                <td>
+                    <div class="align-center">
+                        <a href="{{ path('modifier_grille_ecolage_lycee',{'grille_id': grille.id}) }}">
+                            <img title="Modification" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                        <a href="{{ path('supprimer_grille_ecolage_lycee', {'id': grille.id}) }}" onclick="return confirm('Voulez vous supprimer la grille d\'écolage de la classe {{ grille.classe.intitule }}?')">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
+                    </div>
+                </td>
             </tr>
         {% else %}
             <tr>

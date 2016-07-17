@@ -1,7 +1,9 @@
 {% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
 {% block admin_univ_body %}
     <h4>Les grilles de frais de scolarité de l'université</h4>
-    <a href="{{ path('ajouter_grille_ecolage_universite') }}" class="btn">Nouvelle grille</a>
+    <a href="{{ path('ajouter_grille_ecolage_universite') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+    </a>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
         <thead>
@@ -19,7 +21,11 @@
                 <td>{{ grille.niveauEtude.intitule }}</td>
                 <td>{{ grille.montant }}</td>
                 <td>
-                    <a href="{{ path('modifier_grille_ecolage_universite',{'grille_id':grille.id}) }}" class="btn btn-primary">modifier</a>
+                    <div class="align-center">
+                        <a href="{{ path('modifier_grille_ecolage_universite',{'grille_id':grille.id}) }}">
+                            <img title="Modification" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}

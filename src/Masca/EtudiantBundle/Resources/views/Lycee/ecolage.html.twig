@@ -12,6 +12,7 @@
                 <th>Année</th>
                 <th>Status</th>
                 <th>Historique de payement</th>
+                <th>Action</th>
                 </thead>
                 <tbody>
                 {% for ecolage in statusEcolages %}
@@ -23,11 +24,13 @@
                             payé
                         {% else %}
                             Somme versée: {{ ecolage.montant }} Ar <br>
-                            reste à payer: {{ montant - ecolage.montant - ecolage.lyceen.infoEtudiant.reduction }} Ar <br>
-                            <a href="{{ path('regularisation_reste_ecolage_lyceen',{'frais_scolarite_id': ecolage.id})}}"class="btn">Verser</a>
+                            reste à payer: {{ montant - ecolage.montant - ecolage.lyceen.infoEtudiant.reduction }} Ar
+                            <div class="align-center">
+                                <a href="{{ path('regularisation_reste_ecolage_lyceen',{'frais_scolarite_id': ecolage.id})}}">
+                                    <img title="Rérularisation reste" src="{{ absolute_url(asset('assets/reste-ecolage.png')) }}">
+                                </a>
+                            </div>
                         {% endif %}
-                        <!--<a href="" class="btn btn-info btn-lg" data-dismiss="modal" data-toggle="modal"
-                           data-target="#paiementEcolageLycee">Payé</a>-->
                     </td>
                     <td>
                         <ul>
@@ -36,17 +39,30 @@
                             {% endfor %}
                         </ul>
                     </td>
+                    <td>
+                        <div class="align-center">
+                            <a href="{{ path('supprimer_ecolage_lyceen', {'id': ecolage.id}) }}" onclick="return confirm('Voulez vous supprimer cette ligne?')">
+                                <img title="Supprimer" src="{{ absolute_url(asset('assets/delete.png')) }}">
+                            </a>
+                        </div>
+                    </td>
                 </tr>
                 {% else %}
-                    <tr><td colspan="4">Aucun ecolage enregisté</td></tr>
+                    <tr><td colspan="5">Aucun ecolage enregisté</td></tr>
                 {% endfor %}
                 </tbody>
             </table>
             <div class="clearfix"></div>
             <div class="align-center">
-                <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}" class="btn btn-primary"><<</a>
-                <a href="{{ path('payer_ecolage_lyceen', {'id': lyceen.id}) }}" class="btn btn-primary">Payer</a>
-                <a href="{{ path('print_ecolage', {'id': lyceen.id}) }}" class="btn btn-danger" target="_blank">Imprimer</a>
+                <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}">
+                    <img title="Retour" src="{{ absolute_url(asset('assets/cancel.png')) }}">
+                </a>
+                <a href="{{ path('payer_ecolage_lyceen', {'id': lyceen.id}) }}">
+                    <img title="Payer" src="{{ absolute_url(asset('assets/payer.png')) }}">
+                </a>
+                <a href="{{ path('print_ecolage', {'id': lyceen.id}) }}" target="_blank">
+                    <img title="Imprimer" src="{{ absolute_url(asset('assets/printer.png')) }}">
+                </a>
             </div>
         </div>
 

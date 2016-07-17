@@ -28,11 +28,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class AdminClasseController extends Controller
 {
     /**
+     * @param Request $request
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/{page}", name="admin_lycee_classe", defaults={"page" = 1})
      */
-    public function indexAction($page) {
+    public function indexAction(Request $request,$page) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = 30;
         /**
          * @var $repository ClasseRepository
@@ -56,24 +63,30 @@ class AdminClasseController extends Controller
      * @Route("/classe/ajoute/", name="ajouter_classe_lycee")
      */
     public function creerClasseAction(Request $request) {
-            $classe = new Classe();
-            
-            $classeForm = $this->createForm(ClasseType::class, $classe);
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $classe = new Classe();
 
-            if($request->getMethod() == 'POST') {
-                $classeForm->handleRequest($request);
-                try{
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($classe);
-                    $em->flush();
-                }catch (ConstraintViolationException $e) {
-                    return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
-                        'form'=>$classeForm->createView(),
-                        'error_message'=>'La classe '.$classe->getIntitule().' existe déjà '
-                    ));
-                }
-                return $this->redirect($this->generateUrl('admin_lycee_classe'));
+        $classeForm = $this->createForm(ClasseType::class, $classe);
+
+        if($request->getMethod() == 'POST') {
+            $classeForm->handleRequest($request);
+            try{
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($classe);
+                $em->flush();
+            }catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
+                    'form'=>$classeForm->createView(),
+                    'error_message'=>'La classe '.$classe->getIntitule().' existe déjà '
+                ));
             }
+            return $this->redirect($this->generateUrl('admin_lycee_classe'));
+        }
 
         return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-classe.html.twig', array(
             'form'=>$classeForm->createView()
@@ -88,6 +101,12 @@ class AdminClasseController extends Controller
      * @Route("/modifier/classe/{classe_id}", name="modifier_classe_lycee")
      */
     public function modiferClasseAction(Request $request, Classe $classe) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $classeForm = $this->createForm(ClasseType::class, $classe);
 
         if($request->getMethod() == 'POST') {
@@ -250,6 +269,25 @@ class AdminClasseController extends Controller
         $em->remove($emploiDuTempsLycee);
         $em->flush();
         return $this->redirect($this->generateUrl('emploi_du_temps_lycee',array('id'=>$emploiDuTempsLycee->getClasse()->getId())));
+    }
+
+    /**
+     * @param Request $request
+     * @param Classe $classe
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/supprimer-classe/{id}", name="supprimer_classe_lycee")
+     */
+    public function deleteClasseAction(Request $request, Classe $classe){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($classe);
+        $em->flush();
+        return $this->redirect($this->generateUrl('admin_lycee_classe'));
     }
 
 }

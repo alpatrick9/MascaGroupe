@@ -27,11 +27,18 @@ use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 class AdminMatiereLyceeController extends Controller
 {
     /**
+     * @param Request $request
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/liste/{page}", name="liste_matieres_lycee", defaults={"page"=1})
      */
-    public function listMatieresAction($page) {
+    public function listMatieresAction(Request $request,$page) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = 30;
         /**
          * @var $repository MatiereLyceeRepository
@@ -56,6 +63,12 @@ class AdminMatiereLyceeController extends Controller
      * @Route("/ajouter/", name="ajouter_matiere_lycee")
      */
     public function ajouterMatiereAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $matiere = new MatiereLycee();
 
         $matiereForm = $this->createForm(MatiereLyceeType::class, $matiere);
@@ -87,6 +100,12 @@ class AdminMatiereLyceeController extends Controller
      * @Route("/modifier/{matiere_id}", name="modifier_matiere_lycee")
      */
     public function modifierMatiereAction(Request $request, MatiereLycee $matiere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $matiereForm = $this->createForm(MatiereLyceeType::class, $matiere);
         if($request->getMethod() == 'POST') {
             $matiereForm->handleRequest($request);
@@ -103,5 +122,24 @@ class AdminMatiereLyceeController extends Controller
         return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-matiere.html.twig', array(
             'form'=>$matiereForm->createView()
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param MatiereLycee $matiereLycee
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/supprimer/{id}", name="supprime_matiere_lycee")
+     */
+    public function deleteMatiereLyceeAction(Request $request, MatiereLycee $matiereLycee) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($matiereLycee);
+        $em->flush();
+        return $this->redirect($this->generateUrl('liste_matieres_lycee'));
     }
 }

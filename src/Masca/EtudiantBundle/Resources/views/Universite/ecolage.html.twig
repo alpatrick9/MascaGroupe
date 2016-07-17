@@ -24,8 +24,12 @@
                                 payé
                             {% else %}
                                 Somme versée: {{ ecolage.montant }} Ar <br>
-                                reste à payer: {{ montant - ecolage.montant - ecolage.univSonFiliere.universitaire.infoEtudiant.reduction }} Ar <br>
-                                <a href="{{ path('regularisation_rest_ecolage_univesitaire', {'id': ecolage.id}) }}"class="btn">Verser</a>
+                                reste à payer: {{ montant - ecolage.montant - ecolage.univSonFiliere.universitaire.infoEtudiant.reduction }} Ar
+                                <div class="align-center">
+                                    <a href="{{ path('regularisation_rest_ecolage_univesitaire', {'id': ecolage.id}) }}">
+                                        <img title="Rérularisation reste" src="{{ absolute_url(asset('assets/reste-ecolage.png')) }}">
+                                    </a>
+                                </div>
                             {% endif %}
                         </td>
                         <td>
@@ -43,9 +47,15 @@
             </table>
             <div class="clearfix"></div>
             <div class="align-center">
-                <a href="{{ path('details_etude_universitaire',{'sonFiliere_id': sonFiliere.id}) }}" class="btn btn-primary"><<</a>
-                <a href="{{ path('payer_ecolage_univeristaire',{'id': sonFiliere.id}) }}" class="btn btn-primary">Payer</a>
-                <a href="{{ path('print_ecolage_universite',{'id': sonFiliere.id}) }}" class="btn btn-danger" target="_blank">Imprimer</a>
+                <a href="{{ path('details_etude_universitaire',{'sonFiliere_id': sonFiliere.id}) }}">
+                    <img title="Retour" src="{{ absolute_url(asset('assets/cancel.png')) }}">
+                </a>
+                <a href="{{ path('payer_ecolage_univeristaire',{'id': sonFiliere.id}) }}">
+                    <img title="Payer" src="{{ absolute_url(asset('assets/payer.png')) }}">
+                </a>
+                <a href="{{ path('print_ecolage_universite',{'id': sonFiliere.id}) }}" target="_blank">
+                    <img title="Imprimer" src="{{ absolute_url(asset('assets/printer.png')) }}">
+                </a>
             </div>
         </div>
 

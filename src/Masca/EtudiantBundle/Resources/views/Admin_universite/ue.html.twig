@@ -1,7 +1,9 @@
 {% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
 {% block admin_univ_body %}
     <h4>Les unités d'enseignement</h4>
-    <a href="{{ path('creer_ue_universite') }}" class="btn">Nouvelle ue</a>
+    <a href="{{ path('creer_ue_universite') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+    </a>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
         <thead>
@@ -15,7 +17,11 @@
             <tr>
                 <td>{{ ue.intitule }}</td>
                 <td>
-                    <a href="{{ path('modifier_ue_universite',{'id':ue.id}) }}" class="btn btn-primary">modifier</a>
+                    <div class="align-center">
+                        <a href="{{ path('modifier_ue_universite',{'id':ue.id}) }}">
+                            <img title="Modification" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}

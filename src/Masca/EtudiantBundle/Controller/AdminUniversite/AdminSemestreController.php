@@ -30,6 +30,12 @@ class AdminSemestreController extends Controller
      * @Route("/", name="semestre_univ")
      */
     public function semestreAction() {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         return $this->render('MascaEtudiantBundle:Admin_universite:semestre.html.twig',[
             'semestres'=>$this->getDoctrine()->getManager()
                 ->getRepository('MascaEtudiantBundle:Semestre')->findAll()
@@ -42,6 +48,12 @@ class AdminSemestreController extends Controller
      * @Route("/ajoute/", name="ajouter_semestre_univ")
      */
     public function ajouterSemestreAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $semestre = new Semestre();
         $form = $this->createForm(SemestreType::class, $semestre);
 
@@ -71,6 +83,12 @@ class AdminSemestreController extends Controller
      * @ParamConverter("semestre", options={"mapping": {"semestre_id":"id"}})
      */
     public function midifierSemestreAction(Request $request,Semestre $semestre) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(SemestreType::class, $semestre);
 
         if($request->getMethod() == 'POST') {

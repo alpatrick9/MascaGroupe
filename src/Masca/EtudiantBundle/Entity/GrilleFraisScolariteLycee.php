@@ -30,7 +30,7 @@ class GrilleFraisScolariteLycee
 
     /**
      * @var $classe Classe
-     * @ORM\OneToOne(targetEntity="Masca\EtudiantBundle\Entity\Classe")
+     * @ORM\OneToOne(targetEntity="Masca\EtudiantBundle\Entity\Classe", inversedBy="grillesEcolages")
      * @ORM\JoinColumn(nullable=false)
      */
     private $classe;

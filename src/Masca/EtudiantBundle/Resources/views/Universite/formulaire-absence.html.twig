@@ -5,11 +5,21 @@
     {% if error_message is defined %}
         <p style="color: red "> {{ error_message }}</p>
     {% endif %}
-    <form method="post">
-        {{ form_widget(form) }}
-        <div class="align-right">
-            <input type="submit" value="Enregistrer" class="btn">
-            <a href="{{ path('absence_universitaire',{'id':universitaire.id}) }}" class="btn">Annuler</a>
-        </div>
-    </form>
+    <div class="row span12">
+        <form method="post">
+            {{ form_widget(form) }}
+            <div class="submit-style">
+                <div class="floatleft">
+                    <a href="{{ path('absence_universitaire',{'id':universitaire.id}) }}">
+                        <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                    </a>
+
+                </div>
+                <div class="floatright">
+                    <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+                </div>
+            </div>
+        </form>
+    </div>
+
 {% endblock %}

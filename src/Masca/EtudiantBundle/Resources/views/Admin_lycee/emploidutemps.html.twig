@@ -17,12 +17,20 @@
                                 <span class="float_menu" href="#">
                                     {{ matieres[j-1][h-1].matiere.intitule }}
                                     <ul class="nav nav-pills">
-                                        <li><a href="{{ path('modifier_matiere_emplois_du_temps_lycee',{'emploiDuTempsLycee_id':matieres[j-1][h-1].id}) }}" class="btn-primary">modif</a></li>
-                                        <li><a href="{{ path('supprimer_matiere_emplois_du_temps_lycee',{'emploiDuTempsLycee_id':matieres[j-1][h-1].id}) }}" class="btn-danger" onclick="return confirm('Voulez vous supprimer?')">suppr</a></li>
+                                        <li><a href="{{ path('modifier_matiere_emplois_du_temps_lycee',{'emploiDuTempsLycee_id':matieres[j-1][h-1].id}) }}">
+                                                <img title="Modification" src="{{ asset('assets/edit.png') }}">
+                                            </a></li>
+                                        <li><a href="{{ path('supprimer_matiere_emplois_du_temps_lycee',{'emploiDuTempsLycee_id':matieres[j-1][h-1].id}) }}" onclick="return confirm('Voulez vous supprimer?')">
+                                                <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                                            </a></li>
                                     </ul>
                                 </span>
                             {% else %}
-                                <a href="{{ path('ajouter_matiere_emplois_du_temps_lycee',{'classe_id':classe.id, 'jourIndex':j-1, 'heureIndex':h-1}) }}">libre</a>
+                                <div class="align-center">
+                                    <a href="{{ path('ajouter_matiere_emplois_du_temps_lycee',{'classe_id':classe.id, 'jourIndex':j-1, 'heureIndex':h-1}) }}">
+                                        <img title="Ajouter une matière" src="{{ asset('assets/add-item-icon.png') }}">
+                                    </a>
+                                </div>
                             {% endif %}
                         </td>
                     {% endif %}

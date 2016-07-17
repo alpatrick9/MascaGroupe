@@ -37,10 +37,22 @@ class Classe
     private $niveauEtude;
 
     /**
+     * @var $lyceens Lyceen[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\Lyceen", mappedBy="sonClasse", cascade={"remove"})
+     */
+    private $lyceens;
+
+    /**
      * @var $emploiDuTemps EmploiDuTempsLycee[]
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\EmploiDuTempsLycee", mappedBy="classe", cascade={"remove"})
      */
     private $emploiDuTemps;
+
+    /**
+     * @var $grillesEcolages GrilleFraisScolariteLycee[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee", mappedBy="classe", cascade={"remove"})
+     */
+    private $grillesEcolages;
 
     /**
      * Get id
@@ -96,5 +108,80 @@ class Classe
     public function getNiveauEtude()
     {
         return $this->niveauEtude;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->emploiDuTemps = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add emploiDuTemp
+     *
+     * @param \Masca\EtudiantBundle\Entity\EmploiDuTempsLycee $emploiDuTemp
+     *
+     * @return Classe
+     */
+    public function addEmploiDuTemp(\Masca\EtudiantBundle\Entity\EmploiDuTempsLycee $emploiDuTemp)
+    {
+        $this->emploiDuTemps[] = $emploiDuTemp;
+
+        return $this;
+    }
+
+    /**
+     * Remove emploiDuTemp
+     *
+     * @param \Masca\EtudiantBundle\Entity\EmploiDuTempsLycee $emploiDuTemp
+     */
+    public function removeEmploiDuTemp(\Masca\EtudiantBundle\Entity\EmploiDuTempsLycee $emploiDuTemp)
+    {
+        $this->emploiDuTemps->removeElement($emploiDuTemp);
+    }
+
+    /**
+     * Get emploiDuTemps
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEmploiDuTemps()
+    {
+        return $this->emploiDuTemps;
+    }
+
+    /**
+     * Add lyceen
+     *
+     * @param \Masca\EtudiantBundle\Entity\Lyceen $lyceen
+     *
+     * @return Classe
+     */
+    public function addLyceen(\Masca\EtudiantBundle\Entity\Lyceen $lyceen)
+    {
+        $this->lyceens[] = $lyceen;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lyceen
+     *
+     * @param \Masca\EtudiantBundle\Entity\Lyceen $lyceen
+     */
+    public function removeLyceen(\Masca\EtudiantBundle\Entity\Lyceen $lyceen)
+    {
+        $this->lyceens->removeElement($lyceen);
+    }
+
+    /**
+     * Get lyceens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLyceens()
+    {
+        return $this->lyceens;
     }
 }

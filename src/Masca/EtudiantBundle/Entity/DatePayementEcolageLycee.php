@@ -40,7 +40,7 @@ class DatePayementEcolageLycee
     /**
      * @var $fraisScolariteLyceen FraisScolariteLyceen
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\FraisScolariteLyceen")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\FraisScolariteLyceen", inversedBy="historiquePayements")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fraisScolariteLyceen;

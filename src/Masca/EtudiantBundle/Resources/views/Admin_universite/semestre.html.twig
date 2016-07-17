@@ -1,7 +1,9 @@
 {% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
 {% block admin_univ_body %}
     <h4>Listes des semestres</h4>
-    <a href="{{ path('ajouter_semestre_univ') }}" class="btn">Nouvelle semestre</a>
+    <a href="{{ path('ajouter_semestre_univ') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+    </a>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
         <thead>
@@ -15,7 +17,11 @@
             <tr>
                 <td>{{ semestre.intitule }}</td>
                 <td>
-                    <a href="{{ path('modifier_semestre_univ',{'semestre_id':semestre.id}) }}" class="btn btn-primary">modifier</a>
+                    <div class="align-center">
+                        <a href="{{ path('modifier_semestre_univ',{'semestre_id':semestre.id}) }}">
+                            <img title="Modification" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}

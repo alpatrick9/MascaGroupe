@@ -26,10 +26,17 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminEcolageUniversiteController extends Controller
 {
     /**
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/grille/", name="grille_ecolage_universite")
      */
-    public function grilleFraisScolariteAction() {
+    public function grilleFraisScolariteAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         return $this->render('MascaEtudiantBundle:Admin_universite:grilles-frais-scolarite.html.twig',[
             'grilles'=>$this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:GrilleFraisScolariteUniversite')->findAll()
         ]);
@@ -41,6 +48,12 @@ class AdminEcolageUniversiteController extends Controller
      * @Route("/ajouter-grille/", name="ajouter_grille_ecolage_universite")
      */
     public function ajouterGrilleAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $grille = new GrilleFraisScolariteUniversite();
         $form = $this->createForm(GrilleEcolageUniversiteType::class, $grille);
         
@@ -70,6 +83,12 @@ class AdminEcolageUniversiteController extends Controller
      * @ParamConverter("grilleFraisScolariteUniversite", options={"mapping": {"grille_id":"id"}})
      */
     public function modifierGrilleAction(Request $request, GrilleFraisScolariteUniversite $grilleFraisScolariteUniversite) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(GrilleEcolageUniversiteType::class, $grilleFraisScolariteUniversite);
 
         $options = $form->get('filiere')->getConfig()->getOptions();

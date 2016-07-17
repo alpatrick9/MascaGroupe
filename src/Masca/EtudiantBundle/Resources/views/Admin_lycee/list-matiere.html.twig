@@ -1,21 +1,30 @@
 {% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
 {% block admin_lycee_body %}
     <h3>Liste des matières</h3>
-    <a href="{{ path('ajouter_matiere_lycee') }}" class="btn">Nouvelle matière</a>
+    <a href="{{ path('ajouter_matiere_lycee') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+    </a>
     <hr/>
-    <table id="tableshow" class="table table-hover table-striped avectri">
+    <table id="tableshow" class="table table-hover table-bordered table-striped avectri">
         <thead>
-        <tr>
-            <th class="selection" data-tri="1" data-type="num">Nom du matière</th>
-            <th>Action</th>
-        </tr>
-        </thead>
+            <tr>
+                <th class="selection" data-tri="1" data-type="num">Nom du matière</th>
+                <th>Action</th>
+            </tr>
+            </thead>
         <tbody>
         {% for matiere in matieres %}
             <tr>
                 <td>{{ matiere.intitule }}</td>
                 <td>
-                    <a href="{{ path('modifier_matiere_lycee',{'matiere_id':matiere.id}) }}" class="btn">modifier</a>
+                    <div class="align-center">
+                        <a href="{{ path('modifier_matiere_lycee',{'matiere_id':matiere.id}) }}">
+                            <img title="Modification" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                        <a href="{{ path("supprime_matiere_lycee",{'id': matiere.id}) }}" onclick="return confirm('Voulez vous supprimer la matière {{ matiere.intitule }}? Si oui les information concernant cette matière seront supprimer!')">
+                            <img title="Suppression" src="{{ asset('assets/delete.png') }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}

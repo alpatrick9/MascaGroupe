@@ -37,10 +37,22 @@ class Classe
     private $niveauEtude;
 
     /**
+     * @var $lyceens Lyceen[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\Lyceen", mappedBy="sonClasse", cascade={"remove"})
+     */
+    private $lyceens;
+
+    /**
      * @var $emploiDuTemps EmploiDuTempsLycee[]
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\EmploiDuTempsLycee", mappedBy="classe", cascade={"remove"})
      */
     private $emploiDuTemps;
+
+    /**
+     * @var $grillesEcolages GrilleFraisScolariteLycee[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee", mappedBy="classe", cascade={"remove"})
+     */
+    private $grillesEcolages;
 
     /**
      * Get id
@@ -137,5 +149,73 @@ class Classe
     public function getEmploiDuTemps()
     {
         return $this->emploiDuTemps;
+    }
+
+    /**
+     * Add lyceen
+     *
+     * @param \Masca\EtudiantBundle\Entity\Lyceen $lyceen
+     *
+     * @return Classe
+     */
+    public function addLyceen(\Masca\EtudiantBundle\Entity\Lyceen $lyceen)
+    {
+        $this->lyceens[] = $lyceen;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lyceen
+     *
+     * @param \Masca\EtudiantBundle\Entity\Lyceen $lyceen
+     */
+    public function removeLyceen(\Masca\EtudiantBundle\Entity\Lyceen $lyceen)
+    {
+        $this->lyceens->removeElement($lyceen);
+    }
+
+    /**
+     * Get lyceens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLyceens()
+    {
+        return $this->lyceens;
+    }
+
+    /**
+     * Add grillesEcolage
+     *
+     * @param \Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee $grillesEcolage
+     *
+     * @return Classe
+     */
+    public function addGrillesEcolage(\Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee $grillesEcolage)
+    {
+        $this->grillesEcolages[] = $grillesEcolage;
+    
+        return $this;
+    }
+
+    /**
+     * Remove grillesEcolage
+     *
+     * @param \Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee $grillesEcolage
+     */
+    public function removeGrillesEcolage(\Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee $grillesEcolage)
+    {
+        $this->grillesEcolages->removeElement($grillesEcolage);
+    }
+
+    /**
+     * Get grillesEcolages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGrillesEcolages()
+    {
+        return $this->grillesEcolages;
     }
 }

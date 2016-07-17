@@ -6,12 +6,14 @@
             Inscription
         </a>
         <a href="{{ path('admin_lycee_classe')}}" class="btn btn-info btn-lg">Administration </a>
-        <a href="{{ path('print_list_lyceen', {'page':page}) }}" target="_blank" class="btn btn-danger">Imprimer liste</a>
+        <a href="{{ path('print_list_lyceen', {'page':page}) }}" target="_blank">
+            <img title="Imprimer" src="{{ absolute_url(asset('assets/printer.png')) }}">
+        </a>
     </div>
     <div class="row link-text floatright">
         <form method="post">
             <input id="search" placeholder="Entrez un nom ou prénom" name="key_word">
-            <input type="submit" value="recherche" class="btn btn-info">
+            <input type="image" src="{{ absolute_url(asset('assets/find.png')) }}">
         </form>
     </div>
     <div class="clearfix"></div>
@@ -33,10 +35,14 @@
                         <td>{{ lyceen.person.prenom }}</td>
                         <td>{{ lyceen.sonClasse.intitule }}</td>
                         <td>
-                            <a href="{{ path('details_lyceen',{ 'id': lyceen.id }) }}" class="btn btn-info btn-lg paramLycee">
-                                details
-                                <!--<img class="thumbs" title="infos" src="{##}{ asset('assets/pers-nonpermanent.png') }}">-->
-                            </a>
+                            <div class="align-center">
+                                <a href="{{ path('details_lyceen',{ 'id': lyceen.id }) }}">
+                                    <img title="Plus de details" src="{{ absolute_url(asset('assets/plus-info.png')) }}">
+                                </a>
+                                <a href="{{ path('supprimer_lyceen',{ 'id': lyceen.id }) }}" onclick="return confirm('Voulez vous supprimer {{ lyceen.person.nom }} {{ lyceen.person.prenom }}? si OUI, tous les renseignement concernant cet élève serons supprimer!')">
+                                    <img title="Supprimer" src="{{ absolute_url(asset('assets/delete.png')) }}">
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 {% else %}

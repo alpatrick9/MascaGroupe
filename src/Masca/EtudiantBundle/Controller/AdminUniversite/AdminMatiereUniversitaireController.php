@@ -26,11 +26,18 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminMatiereUniversitaireController extends Controller
 {
     /**
+     * @param Request $request
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/list/{page}", name="list_matieres_universite", defaults={"page" = 1})
      */
-    public function listMatierAction($page) {
+    public function listMatierAction(Request $request,$page) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = 30;
         /**
          * @var $repository MatiereRepository
@@ -54,6 +61,12 @@ class AdminMatiereUniversitaireController extends Controller
      * @Route("/ajouter/", name="ajouter_matiere_universite")
      */
     public function ajouterMatiereAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $matiere = new Matiere();
         $form = $this->createForm(MatiereUniversitaireType::class, $matiere);
 
@@ -83,6 +96,12 @@ class AdminMatiereUniversitaireController extends Controller
      * @ParamConverter("matiere", options={"mapping": {"matiere_id":"id"}})
      */
     public function modifierMatiereAction(Request $request, Matiere $matiere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(MatiereUniversitaireType::class, $matiere);
 
         if($request->getMethod() == 'POST') {

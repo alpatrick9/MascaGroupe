@@ -1,7 +1,9 @@
 {% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
 {% block admin_univ_body %}
     <h4>Emploi du temps</h4>
-    <a href="{{ path('creer_emploi_du_temps_universite') }}" class="btn">Nouvelle emploi du temps</a>
+    <a href="{{ path('creer_emploi_du_temps_universite') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add-calendar.png') }}">
+    </a>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
         <thead>
@@ -17,8 +19,14 @@
                 <td>{{ filiere.filiere.intitule }}</td>
                 <td>{{ filiere.niveau.intitule }}</td>
                 <td>
-                    <a href="{{ path('voir_emploi_du_temps_universite',{'filiereParNiveau_id':filiere.id}) }}" class="btn btn-primary">voir</a>
-                    <a href="{{ path('supprimer_emplois_du_temps_universite',{'id':filiere.id}) }}" class="btn btn-danger" onclick="return confirm('Voulez vous supprimer?')">supprimer</a>
+                    <div class="align-center">
+                        <a href="{{ path('voir_emploi_du_temps_universite',{'filiereParNiveau_id':filiere.id}) }}">
+                            <img title="Voir" src="{{ asset('assets/view-calendar.png') }}">
+                        </a>
+                        <a href="{{ path('supprimer_emplois_du_temps_universite',{'id':filiere.id}) }}" onclick="return confirm('Voulez vous supprimer?')">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}

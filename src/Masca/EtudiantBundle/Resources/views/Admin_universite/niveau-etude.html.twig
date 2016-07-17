@@ -1,7 +1,9 @@
 {% extends "MascaEtudiantBundle::admin-universite.html.twig" %}
 {% block admin_univ_body %}
     <h4>Les niveau d'étude</h4>
-    <a href="{{ path('ajouter_niveau_etude_univ') }}" class="btn">Nouvelle niveau d'étude</a>
+    <a href="{{ path('ajouter_niveau_etude_univ') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+    </a>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
         <thead>
@@ -15,7 +17,11 @@
             <tr>
                 <td>{{ niveauEtude.intitule }}</td>
                 <td>
-                    <a href="{{ path('modifier_niveau_etude_univ',{'niveau_id':niveauEtude.id}) }}" class="btn btn-primary">modifier</a>
+                    <div class="align-center">
+                        <a href="{{ path('modifier_niveau_etude_univ',{'niveau_id':niveauEtude.id}) }}">
+                            <img title="Modification" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}

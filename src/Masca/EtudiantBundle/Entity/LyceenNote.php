@@ -50,7 +50,7 @@ class LyceenNote
     /**
      * @var $lyceen Lyceen
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Lyceen")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Lyceen", inversedBy="sesNotes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $lyceen;
@@ -58,7 +58,7 @@ class LyceenNote
     /**
      * @var $matiere MatiereLycee
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\MatiereLycee")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\MatiereLycee", inversedBy="notes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $matiere;

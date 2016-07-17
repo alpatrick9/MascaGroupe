@@ -239,6 +239,25 @@ class EcolageLyceenController extends Controller
 
     /**
      * @param Request $request
+     * @param FraisScolariteLyceen $fraisScolariteLyceen
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/delete/{id}", name="supprimer_ecolage_lyceen")
+     */
+    public function deleteEcolageAction(Request $request, FraisScolariteLyceen $fraisScolariteLyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($fraisScolariteLyceen);
+        $em->flush();
+        return $this->redirect($this->generateUrl('ecolage_lyceen',array('id'=>$fraisScolariteLyceen->getLyceen()->getId())));
+    }
+
+    /**
+     * @param Request $request
      * @param Lyceen $lyceen
      * @return Response
      * @Route("/print/{id}", name="print_ecolage")

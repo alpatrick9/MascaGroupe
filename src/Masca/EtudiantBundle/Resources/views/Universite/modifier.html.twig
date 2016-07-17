@@ -16,9 +16,16 @@
                 </fieldset>
             </div>
         </div>
-        <div class="align-right">
-            <input type="submit" value="Enregistrer" class="btn btn-primary">
-            <a href="{{ path('details_universite', {'id':universiteId}) }}" class="btn btn-primary">Annuler</a>
+        <div class="submit-style">
+            <div class="floatleft">
+                <a href="{{ path('details_universite', {'id':universiteId}) }}">
+                    <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                </a>
+
+            </div>
+            <div class="floatright">
+                <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+            </div>
         </div>
     </form>
 {% endblock %}

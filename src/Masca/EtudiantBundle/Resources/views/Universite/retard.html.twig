@@ -2,8 +2,12 @@
 {% block etudiant_body %}
     <h3>Listes de retards de {{ universitaire.person.nom }} {{ universitaire.person.prenom }}</h3>
     <div>
-        <a href="{{ path('details_universite',{'id': universitaire.id}) }}" class="btn btn-primary"><<</a>
-        <a href="{{ path('enregistrement_retard_universitaire',{'id': universitaire.id}) }}" class="btn">Nouvelle retard</a>
+        <a href="{{ path('details_universite',{'id': universitaire.id}) }}" >
+            <img title="Retour" src="{{ asset('assets/cancel.png') }}">
+        </a>
+        <a href="{{ path('enregistrement_retard_universitaire',{'id': universitaire.id}) }}">
+            <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+        </a>
     </div>
     <hr/>
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">

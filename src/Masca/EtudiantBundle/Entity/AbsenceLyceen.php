@@ -38,7 +38,7 @@ class AbsenceLyceen
     /**
      * @var Lyceen
      * 
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Lyceen")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Lyceen", inversedBy="sesAbsences")
      * @ORM\JoinColumn(nullable=false)
      */
     private $lyceen;

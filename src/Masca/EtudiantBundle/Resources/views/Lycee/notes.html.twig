@@ -22,7 +22,16 @@
                         <td class="align-center">{{ note.noteTrimestre1 * note.coefficient}}</td>
                         <td class="align-center">{{ note.noteTrimestre2 * note.coefficient}}</td>
                         <td class="align-center">{{ note.noteTrimestre3 * note.coefficient}}</td>
-                        <td><a href="{{ path('modifier_note_lyceen',{'lyceenNote_id':note.id}) }}" class="btn">Modifier</a></td>
+                        <td>
+                            <div class="align-center">
+                                <a href="{{ path('modifier_note_lyceen',{'lyceenNote_id':note.id}) }}">
+                                    <img title="Modification" src="{{ absolute_url(asset('assets/edit.png')) }}">
+                                </a>
+                                <a href="{{ path('supprimer_note_lyceen',{'id': note.id}) }}" onclick="return confirm('Voulez vous effacer la note de {{ note.matiere.intitule }}?')">
+                                    <img title="Suppression" src="{{ absolute_url(asset('assets/delete.png')) }}">
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 {% else %}
                     <tr><td colspan="6" class="align-center">Aucun note enregisté</td></tr>
@@ -50,9 +59,15 @@
             </table>
             <div class="clearfix"></div>
             <div class="align-center">
-                <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}" class="btn btn-primary"><<</a>
-                <a href=" {{ path('ajouter_note_lyceen',{'lyceen_id':lyceen.id}) }}" class="btn btn-primary">Ajouter</a>
-                <a href="{{ path('print_notes_lyceen',{'id': lyceen.id}) }}" class="btn btn-danger" target="_blank">Imprimer</a>
+                <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}">
+                    <img title="Retour" src="{{ absolute_url(asset('assets/cancel.png')) }}">
+                </a>
+                <a href=" {{ path('ajouter_note_lyceen',{'lyceen_id':lyceen.id}) }}">
+                    <img title="Ajouter" src="{{ absolute_url(asset('assets/add.png')) }}">
+                </a>
+                <a href="{{ path('print_notes_lyceen',{'id': lyceen.id}) }}" target="_blank">
+                    <img title="Imprimer" src="{{ absolute_url(asset('assets/printer.png')) }}">
+                </a>
             </div>
         </div>
 

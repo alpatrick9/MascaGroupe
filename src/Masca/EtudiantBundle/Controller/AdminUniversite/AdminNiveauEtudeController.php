@@ -25,10 +25,17 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminNiveauEtudeController extends Controller
 {
     /**
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/", name="niveau_etude_univ")
      */
-    public function niveauEtudeAction() {
+    public function niveauEtudeAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         return $this->render('MascaEtudiantBundle:Admin_universite:niveau-etude.html.twig',[
             'niveauEtudes'=> $this->getDoctrine()->getManager()
                 ->getRepository('MascaEtudiantBundle:NiveauEtude')->findAll()
@@ -41,6 +48,12 @@ class AdminNiveauEtudeController extends Controller
      * @Route("/ajouter/", name="ajouter_niveau_etude_univ")
      */
     public function ajouterNiveauEtudeAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $niveau = new NiveauEtude();
         $form = $this->createForm(NiveauEtudeType::class, $niveau);
 
@@ -70,6 +83,12 @@ class AdminNiveauEtudeController extends Controller
      * @ParamConverter("niveauEtude", options={"mapping": {"niveau_id":"id"}})
      */
     public function modifierNiveauEtudeAction(Request $request, NiveauEtude $niveauEtude) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(NiveauEtudeType::class, $niveauEtude);
 
         if($request->getMethod() == 'POST') {

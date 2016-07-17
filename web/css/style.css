@@ -294,6 +294,7 @@ input[type="color"],
 }
 .float_menu:hover ul{
 	display: block;
+	background: #c9e2b3;
 }
 
 .info_bulle span {
@@ -320,4 +321,10 @@ input, label {
 	margin: 10px;
 }
 
+.submit-style {
+	margin: 25px;
+}
 
+.custom-margin {
+	margin: 5px;
+}

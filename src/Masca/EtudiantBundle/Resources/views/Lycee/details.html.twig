@@ -98,13 +98,27 @@
     </div>
     <div class="row">
         <div class="align-center">
-            <a href="{{ path('accueil_lycee')}}" class="btn btn-primary"> << </a>
-            <a href="{{ path('modifier_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary"> Modifier </a>
-            <a href="{{ path('reinscription_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Réinscription</a>
-            <a href="{{ path('liste_notes_lyceen', {'lyceen_id':lyceen.id}) }}" class="btn btn-primary">Note d'examen</a>
-            <a href="{{ path('ecolage_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Ecolage</a>
-            <a href="{{ path('absence_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Absence</a>
-            <a href="{{ path('retard_lyceen', {'id':lyceen.id}) }}" class="btn btn-primary">Retard</a>
+            <a href="{{ path('accueil_lycee')}}">
+                <img title="Retour" src="{{ asset('assets/cancel.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('modifier_lyceen', {'id':lyceen.id}) }}" >
+                <img title="Modification" src="{{ asset('assets/edit.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('reinscription_lyceen', {'id':lyceen.id}) }}">
+                <img title="Reinscription" src="{{ asset('assets/reinscription.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('liste_notes_lyceen', {'lyceen_id':lyceen.id}) }}">
+                <img title="Note d'examen" src="{{ asset('assets/note.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('ecolage_lyceen', {'id':lyceen.id}) }}">
+                <img title="Ecolage" src="{{ asset('assets/ecolage.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('absence_lyceen', {'id':lyceen.id}) }}" >
+                <img title="Absence" src="{{ asset('assets/presence.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('retard_lyceen', {'id':lyceen.id}) }}">
+                <img title="Retard" src="{{ asset('assets/retard.png') }}" class="custom-margin">
+            </a>
 
         </div>
     </div>

@@ -4,9 +4,16 @@
     {{ jour }} à {{ heure }}
     <form method="post">
         {{ form_widget(form) }}
-        <div class="align-right">
-            <input type="submit" class="btn" value="Enregistrer">
-            <a href="{{ path('voir_emploi_du_temps_universite',{'filiereParNiveau_id':filiere.id}) }}" class="btn">Annuler</a>
+        <div class="submit-style">
+            <div class="floatleft">
+                <a href="{{ path('voir_emploi_du_temps_universite',{'filiereParNiveau_id':filiere.id}) }}">
+                    <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                </a>
+
+            </div>
+            <div class="floatright">
+                <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+            </div>
         </div>
     </form>
 {% endblock %}

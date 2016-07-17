@@ -199,6 +199,26 @@ class LyceeController extends Controller
 
     /**
      * @param Request $request
+     * @param Lyceen $lyceen
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/supprimer/{id}", name="supprimer_lyceen")
+     */
+    public function deleteLyceenAction(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($lyceen);
+        $em->flush();
+        return $this->redirect($this->generateUrl('accueil_lycee'));
+    }
+
+    /**
+     * @param Request $request
      * @param $page
      * @return Response
      * @Route("/print/{page}", name="print_list_lyceen")

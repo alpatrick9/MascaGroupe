@@ -29,11 +29,17 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminUeController extends Controller
 {
     /**
-     * @param $page
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/", name="ue_universite")
      */
-    public function indexAction() {
+    public function indexAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         /**
          * @var $ues Ue[]
          */
@@ -49,6 +55,12 @@ class AdminUeController extends Controller
      * @Route("/creer/", name="creer_ue_universite")
      */
     public function creerUeAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $ue = new Ue();
         $form = $this->createForm(UeType::class, $ue);
 
@@ -79,6 +91,12 @@ class AdminUeController extends Controller
      * @Route("/modifier/{id}", name="modifier_ue_universite")
      */
     public function modifierUeAction(Request $request, Ue $ue) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $form = $this->createForm(UeType::class, $ue);
 
         if($request->getMethod() == 'POST') {
@@ -103,6 +121,12 @@ class AdminUeController extends Controller
      * @Route("/repartition/{page}",name="repartition_unite_enseignement_univeriste", defaults={"page" = 1})
      */
     public function repartionUeParFiliereAction($page) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = 30;
         /**
          * @var $repartions UeParFiliere[]
@@ -130,6 +154,12 @@ class AdminUeController extends Controller
      * @Route("/repartion/creer/", name="creer_repartition_unite_enseignement_universite")
      */
     public function creationRepartitionUeAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $repartion = new UeParFiliere();
         $form = $this->createForm(UeParFiliereType::class,$repartion);
 
@@ -159,6 +189,12 @@ class AdminUeController extends Controller
      * @Route("/repartion/matiere/{id}", name="ajouter_m_repartition_unite_enseignement_universite")
      */
     public function ajouterMatiereUeAction(Request $request, UeParFiliere $ueParFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $matiere = new MatiereParUeFiliere();
         $form = $this->createForm(MatiereParUeFiliereType::class,$matiere);
         if($request->getMethod() == "POST") {
@@ -183,12 +219,19 @@ class AdminUeController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param MatiereParUeFiliere $matiereParUeFiliere
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/repartion/matiere/supprimer/{id}", name="suppr_m_repartition_unite_enseignement_universite")
      * 
      */
-    public function supprimerMatiereUeAction(MatiereParUeFiliere $matiereParUeFiliere) {
+    public function supprimerMatiereUeAction(Request $request, MatiereParUeFiliere $matiereParUeFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($matiereParUeFiliere);
         $em->flush();

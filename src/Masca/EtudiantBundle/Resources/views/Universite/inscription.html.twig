@@ -1,31 +1,42 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block etudiant_body %}
-    <h3>Information pour l'inscription</h3>
-    <form method="post" id="inscriptionuniv">
-        <div class="row">
-            <div class="span4">
-                <fieldset>
-                    <legend>Etat civil</legend>
-                    {{ form_widget(personForm) }}
-                </fieldset>
+<h3>Information pour l'inscription</h3>
+<div class="row">
+    <div class="span12">
+        <form method="post" id="inscriptionuniv">
+            <div class="row">
+                <div class="span4">
+                    <fieldset>
+                        <legend>Etat civil</legend>
+                        {{ form_widget(personForm) }}
+                    </fieldset>
+                </div>
+                <div class="span4">
+                    <fieldset>
+                        <legend>Étude</legend>
+                        {{ form_widget(universitaireForm) }}
+                        {{ form_widget(etudeForm) }}
+                    </fieldset>
+                </div>
+                <div class="span4">
+                    <fieldset>
+                        <legend>Complémentaire</legend>
+                        {{ form_widget(infoEtudiantForm) }}
+                    </fieldset>
+                </div>
             </div>
-            <div class="span4">
-                <fieldset>
-                    <legend>Étude</legend>
-                    {{ form_widget(universitaireForm) }}
-                    {{ form_widget(etudeForm) }}
-                </fieldset>
+            <div class="submit-style">
+                <div class="floatleft">
+                    <a href="{{ path('accueil_universite') }}">
+                        <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                    </a>
+
+                </div>
+                <div class="floatright">
+                    <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+                </div>
             </div>
-            <div class="span4">
-                <fieldset>
-                    <legend>Complémentaire</legend>
-                    {{ form_widget(infoEtudiantForm) }}
-                </fieldset>
-            </div>
-        </div>
-        <div class="align-right">
-            <input type="submit" value="Enregistrer" class="btn btn-primary">
-            <a href="{{ path('accueil_universite') }}" class="btn btn-primary">Annuler</a>
-        </div>
-    </form>
+        </form>
+    </div>
+</div>
 {% endblock %}

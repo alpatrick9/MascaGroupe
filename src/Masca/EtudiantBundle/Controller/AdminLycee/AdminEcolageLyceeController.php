@@ -28,11 +28,18 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminEcolageLyceeController extends Controller
 {
     /**
+     * @param Request $request
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/grille/{page}", name="grille_ecolage_lycee", defaults={"page" = 1})
      */
-    public function grilleEcolageAction($page) {
+    public function grilleEcolageAction(Request $request,$page) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = 30;
         /**
          * @var $repository GrilleFraisScolariteLyceeRepository
@@ -56,6 +63,12 @@ class AdminEcolageLyceeController extends Controller
      * @Route("/ajouter-grille/", name="ajouter_grille_ecolage_lycee")
      */
     public function creerGrilleEcolageAction(Request $request) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $grille = new GrilleFraisScolariteLycee();
 
         $grilleForm = $this->createForm(GrilleEcolageLyceeType::class,$grille);
@@ -87,6 +100,12 @@ class AdminEcolageLyceeController extends Controller
      * @Route("/modifier-grille/{grille_id}", name="modifier_grille_ecolage_lycee")
      */
     public function modifierGrilleEcolageAction(Request $request, GrilleFraisScolariteLycee $grille) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $grilleForm = $this->createForm(GrilleEcolageLyceeType::class, $grille);
         $classeField = $grilleForm->get('classe');
         $options = $classeField->getConfig()->getOptions();
@@ -101,5 +120,24 @@ class AdminEcolageLyceeController extends Controller
         return $this->render('MascaEtudiantBundle:Admin_lycee:formulaire-grille-ecolage.html.twig', array(
             'form'=>$grilleForm->createView()
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param GrilleFraisScolariteLycee $grille
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/supprimer-griller/{id}", name="supprimer_grille_ecolage_lycee")
+     */
+    public function deleteGrilleEcolageAction(Request $request, GrilleFraisScolariteLycee $grille){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($grille);
+        $em->flush();
+        return $this->redirect($this->generateUrl('grille_ecolage_lycee'));
     }
 }

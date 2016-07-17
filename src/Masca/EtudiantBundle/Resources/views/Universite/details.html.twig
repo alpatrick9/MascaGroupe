@@ -93,7 +93,13 @@
                             <td>{{ filiere.semestre.intitule }}</td>
                             <td>{{ filiere.anneeEtude }}</td>
                             <td>{{ filiere.dateReinscription | date('d M Y')}}</td>
-                            <td><a href="{{ path('details_etude_universitaire', {'sonFiliere_id':filiere.id}) }}" class="btn btn-primary">Plus d'information</a></td>
+                            <td>
+                                <div class="align-center">
+                                    <a href="{{ path('details_etude_universitaire', {'sonFiliere_id':filiere.id}) }}">
+                                        <img title="Details" src="{{ asset('assets/details.png') }}">
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                     {% else %}
                         <tr>
@@ -106,10 +112,18 @@
     </div>
     <div class="row">
         <div class="align-center">
-            <a href="{{ path('accueil_universite')}}" class="btn btn-primary"> << </a>
-            <a href="{{ path('modifier_universite', {'id': universitaire.id}) }}" class="btn btn-primary"> Modifier </a>
-            <a href="{{ path('absence_universitaire', {'id': universitaire.id}) }}" class="btn btn-primary">Absence</a>
-            <a href="{{ path('retard_universitaire', {'id': universitaire.id}) }}" class="btn btn-primary">Retard</a>
+            <a href="{{ path('accueil_universite')}}">
+                <img title="Retour" src="{{ asset('assets/cancel.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('modifier_universite', {'id': universitaire.id}) }}">
+                <img title="Modification" src="{{ asset('assets/edit.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('absence_universitaire', {'id': universitaire.id}) }}">
+                <img title="Absence" src="{{ asset('assets/presence.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('retard_universitaire', {'id': universitaire.id}) }}">
+                <img title="Retard" src="{{ asset('assets/retard.png') }}" class="custom-margin">
+            </a>
 
         </div>
     </div>

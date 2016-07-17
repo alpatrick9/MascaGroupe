@@ -1,5 +1,10 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+    <h3>Information pour l'enregistrement d'un utilisateur</h3>
+    <div class="row">
+        <div class="span12">
+            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+        </div>
+    </div>
 {% endblock fos_user_content %}

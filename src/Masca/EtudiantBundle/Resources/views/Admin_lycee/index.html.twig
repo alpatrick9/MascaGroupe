@@ -1,9 +1,11 @@
 {% extends "MascaEtudiantBundle::admin-lycee.html.twig" %}
 {% block admin_lycee_body %}
     <h3>Liste des classes</h3>
-    <a href="{{ path('ajouter_classe_lycee') }}" class="btn">Nouvelle classe</a>
+    <a href="{{ path('ajouter_classe_lycee') }}">
+        <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+    </a>
     <hr/>
-    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+    <table id="tableshow" class="table table-hover table-bordered table-striped avectri">
         <thead>
         <tr>
             <th class="selection" data-tri="1" data-type="num">Classe</th>
@@ -17,8 +19,18 @@
                 <td>{{ classe.intitule }}</td>
                 <td>{{ classe.niveauEtude.intitule }}</td>
                 <td>
-                    <a href="{{ path('modifier_classe_lycee',{'classe_id':classe.id}) }}" class="btn btn-primary">modifier</a>
-                    <a href="{{ path('emploi_du_temps_lycee',{'id':classe.id}) }}" class="btn">Emploi du temps</a>
+                    <div class="align-center">
+                        <a href="{{ path('modifier_classe_lycee',{'classe_id':classe.id}) }}">
+                            <img title="Modification" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                        <a href="{{ path('emploi_du_temps_lycee',{'id':classe.id}) }}">
+                            <img title="Emploi du temps" src="{{ asset('assets/view-calendar.png') }}">
+                        </a>
+                        <a href="{{ path('supprimer_classe_lycee',{'id': classe.id}) }}" onclick="return confirm('Voulez vous supprimer la classe {{ classe.intitule }}? Si oui tous les informations liées à cette classe seront supprimées!')">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
+                    </div>
+
                 </td>
             </tr>
         {% else %}

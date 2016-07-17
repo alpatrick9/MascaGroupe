@@ -160,10 +160,29 @@ class NoteLyceenController extends Controller
 
     /**
      * @param Request $request
+     * @param LyceenNote $lyceenNote
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/supprimer/{id}", name="supprimer_note_lyceen")
+     */
+    public function deleteNoteLyceenAction(Request $request, LyceenNote $lyceenNote) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($lyceenNote);
+        $em->flush();
+        return $this->redirect($this->generateUrl('liste_notes_lyceen',['lyceen_id'=>$lyceenNote->getLyceen()->getId()]));
+    }
+
+    /**
+     * @param Request $request
      * @param Lyceen $lyceen
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/print/{id}", name="print_notes_lyceen")
-     *
      */
     public function printNoteAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
