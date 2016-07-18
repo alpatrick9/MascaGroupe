@@ -36,29 +36,17 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <span class="btn btn-info float_menu">
-                        Action
-                    <ul class="nav nav-pills">
-                        {% if user.roles|length == 1 %}
-                            <li>
-                                <a href="{{ path('ajouter_role',{'id': user.id}) }}">
-                                    <img title="Ajouter rôle" src="{{ asset('assets/add-item.png') }}">
-                                </a>
-                            </li>
-                        {% endif %}
-                        <li>
-                            <a href="{{ path('modifier_mot_de_passe', {'id': user.id}) }}">
-                                <img title="Modifier mot de passe" src="{{ asset('assets/edit-password.png') }}">
+                    {% if user.roles|length == 1 %}
+                            <a href="{{ path('ajouter_role',{'id': user.id}) }}" class="custom-margin">
+                                <img title="Ajouter rôle" src="{{ asset('assets/add-item.png') }}">
                             </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('supprimer_user',{'id': user.id}) }}" onclick="return confirm('Voulez vous supprimer?')">
-                                <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
-                            </a>
-                        </li>
-                    </ul>
-
-                    </span>
+                    {% endif %}
+                        <a href="{{ path('modifier_mot_de_passe', {'id': user.id}) }}" class="custom-margin">
+                            <img title="Modifier mot de passe" src="{{ asset('assets/edit-password.png') }}">
+                        </a>
+                        <a href="{{ path('supprimer_user',{'id': user.id}) }}" onclick="return confirm('Voulez vous supprimer?')" class="custom-margin">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
                 </td>
             </tr>
         {% else %}
