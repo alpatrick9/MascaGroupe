@@ -1,6 +1,8 @@
 <?php
 
 namespace Masca\EtudiantBundle\Repository;
+use Masca\EtudiantBundle\Entity\Universitaire;
+use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
 
 /**
  * FraisScolariteUnivRepository
@@ -10,4 +12,13 @@ namespace Masca\EtudiantBundle\Repository;
  */
 class FraisScolariteUnivRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function statusEcolage(Universitaire $universitaire) {
+        $query = $this->createQueryBuilder('ecolage')
+            ->leftJoin('ecolage.univSonFiliere','univSonFiliere')
+            ->leftJoin('univSonFiliere.universitaire','universitaire')
+            ->where('universitaire = :universitaire')->setParameter('universitaire',$universitaire)
+            ->andWhere('ecolage.status = :status')->setParameter('status', 0)
+            ->getQuery();
+        return $query->getOneOrNullResult() != null;
+    }
 }

@@ -26,10 +26,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class AdminSemestreController extends Controller
 {
     /**
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/", name="semestre_univ")
      */
-    public function semestreAction() {
+    public function semestreAction(Request $request) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -106,6 +107,25 @@ class AdminSemestreController extends Controller
         return $this->render('MascaEtudiantBundle:Admin_universite:formulaire-semestre.html.twig',[
             'form'=>$form->createView()
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Semestre $semestre
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/supprimer/{id}", name="supprimer_semestre_univ")
+     */
+    public function supprimerSemestreAction(Request $request, Semestre $semestre) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($semestre);
+        $em->flush();
+        return $this->redirect($this->generateUrl('semestre_univ'));
     }
 
 }

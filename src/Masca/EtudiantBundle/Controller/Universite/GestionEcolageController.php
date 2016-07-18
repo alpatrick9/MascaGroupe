@@ -249,6 +249,24 @@ class GestionEcolageController extends Controller
 
     /**
      * @param Request $request
+     * @param FraisScolariteUniv $fraisScolariteUniv
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/supprimer-ecolage/{id}", name="supprimer_ecolage_univ")
+     */
+    public function supprimerEcolageUnivAction(Request $request, FraisScolariteUniv $fraisScolariteUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($fraisScolariteUniv);
+        $em->flush();
+        return $this->redirect($this->generateUrl('ecolage_universitaire', array('id'=>$fraisScolariteUniv->getUnivSonFiliere()->getId())));
+    }
+    /**
+     * @param Request $request
      * @param UniversitaireSonFiliere $universitaireSonFiliere
      * @return Response
      * @Route("/print/ecolage/{id}", name="print_ecolage_universite")

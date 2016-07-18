@@ -31,7 +31,7 @@ class Classe
     /**
      * @var $niveauEtude NiveauEtude
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude", inversedBy="lesClasses")
      * @ORM\JoinColumn(nullable=false)
      */
     private $niveauEtude;

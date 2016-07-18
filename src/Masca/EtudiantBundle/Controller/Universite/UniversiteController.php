@@ -9,11 +9,13 @@
 namespace Masca\EtudiantBundle\Controller\Universite;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\InfoEtudiant;
 use Masca\EtudiantBundle\Entity\Person;
 use Masca\EtudiantBundle\Entity\Universitaire;
 use Masca\EtudiantBundle\Entity\UniversitaireRepository;
 use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
+use Masca\EtudiantBundle\Repository\FraisScolariteUnivRepository;
 use Masca\EtudiantBundle\Type\InfoEtudiantType;
 use Masca\EtudiantBundle\Type\PersonType;
 use Masca\EtudiantBundle\Type\SonFiliereType;
@@ -21,6 +23,7 @@ use Masca\EtudiantBundle\Type\UniversitaireType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -104,13 +107,24 @@ class UniversiteController extends Controller
             $universitaire->setPerson($person);
             $universitaire->setInfoEtudiant($infoEtudiant);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($universitaire);
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($universitaire);
 
-            $sonFiliere->setUniversitaire($universitaire);
-            $em->persist($sonFiliere);
+                $sonFiliere->setUniversitaire($universitaire);
+                $em->persist($sonFiliere);
 
-            $em->flush();
+                $em->flush();
+            }  catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Universite:inscription.html.twig',array(
+                    'personForm'=>$personForm->createView(),
+                    'infoEtudiantForm'=>$infoEtudiantForm->createView(),
+                    'etudeForm'=>$sonFiliereForm->createView(),
+                    'universitaireForm'=>$universitaireForm->createView(),
+                    'error_message'=>'Le numero matricule '.$universitaire->getPerson()->getNumMatricule().' existe déjà! Veuillez le remplacer svp!'
+                ));
+            }
+
 
             return $this->redirect($this->generateUrl('accueil_universite'));
 
@@ -163,6 +177,18 @@ class UniversiteController extends Controller
         $personForm = $this->createForm(PersonType::class, $universitaire->getPerson());
         $infoEtudiantForm = $this->createForm(InfoEtudiantType::class, $universitaire->getInfoEtudiant());
 
+        /**
+         * @var $ecolageRepository FraisScolariteUnivRepository
+         */
+        $ecolageRepository = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:FraisScolariteUniv');
+        
+        if($ecolageRepository->statusEcolage($universitaire)) {
+            $reductionField = $infoEtudiantForm->get('reduction');
+            $options = $reductionField->getConfig()->getOptions();
+            $options['disabled']=true;
+            $infoEtudiantForm->add('reduction',NumberType::class,$options);
+        }
+
         if($request->getMethod() == 'POST') {
             $personForm->handleRequest($request);
             $infoEtudiantForm->handleRequest($request);
@@ -181,12 +207,32 @@ class UniversiteController extends Controller
 
     /**
      * @param Request $request
+     * @param Universitaire $universitaire
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/supprimer-etudiant/{id}", name="supprimer_etudiant_univ")
+     */
+    public function supprimerDetailsEtudiantAction(Request $request, Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($universitaire);
+        $em->flush();
+        return $this->redirect($this->generateUrl('accueil_universite'));
+    }
+
+    /**
+     * @param Request $request
      * @param $page
      * @return Response
      * @Route("/print/list/{page}", name="print_liste_universite")
      */
     public function printListeAction(Request $request,$page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

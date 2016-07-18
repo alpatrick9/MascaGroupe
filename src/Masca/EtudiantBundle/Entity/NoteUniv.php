@@ -56,7 +56,7 @@ class NoteUniv
     /**
      * @var UniversitaireSonFiliere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\UniversitaireSonFiliere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\UniversitaireSonFiliere", inversedBy="sesNotes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sonFiliere;
@@ -64,7 +64,7 @@ class NoteUniv
     /**
      * @var MatiereParUeFiliere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\MatiereParUeFiliere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\MatiereParUeFiliere", inversedBy="sesNotes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $matiere;

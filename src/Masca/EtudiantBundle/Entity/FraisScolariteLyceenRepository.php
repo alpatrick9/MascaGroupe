@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class FraisScolariteLyceenRepository extends EntityRepository
 {
+    public function statusEcolage(Lyceen $lyceen) {
+        $query = $this->createQueryBuilder('ecolage')
+            ->where('ecolage.lyceen = :lyceen')->setParameter('lyceen',$lyceen)
+            ->andWhere('ecolage.status = :status')->setParameter('status', 0)
+            ->getQuery();
+        return $query->getOneOrNullResult() != null;
+    }
 }

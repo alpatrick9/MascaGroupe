@@ -52,10 +52,16 @@ class FraisScolariteUniv
     /**
      * @var $univSonFiliere UniversitaireSonFiliere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\UniversitaireSonFiliere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\UniversitaireSonFiliere", inversedBy="sesEcolages")
      * @ORM\JoinColumn(nullable=false)
      */
     private $univSonFiliere;
+
+    /**
+     * @var $historiquePayements DatePayementEcolageUniv[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\DatePayementEcolageUniv", mappedBy="fraisScolariteUniv", cascade={"remove"})
+     */
+    private $historiquePayements;
 
     /**
      * FraisScolariteUniv constructor.
@@ -193,5 +199,39 @@ class FraisScolariteUniv
     public function getUnivSonFiliere()
     {
         return $this->univSonFiliere;
+    }
+
+    /**
+     * Add historiquePayement
+     *
+     * @param \Masca\EtudiantBundle\Entity\DatePayementEcolageUniv $historiquePayement
+     *
+     * @return FraisScolariteUniv
+     */
+    public function addHistoriquePayement(\Masca\EtudiantBundle\Entity\DatePayementEcolageUniv $historiquePayement)
+    {
+        $this->historiquePayements[] = $historiquePayement;
+
+        return $this;
+    }
+
+    /**
+     * Remove historiquePayement
+     *
+     * @param \Masca\EtudiantBundle\Entity\DatePayementEcolageUniv $historiquePayement
+     */
+    public function removeHistoriquePayement(\Masca\EtudiantBundle\Entity\DatePayementEcolageUniv $historiquePayement)
+    {
+        $this->historiquePayements->removeElement($historiquePayement);
+    }
+
+    /**
+     * Get historiquePayements
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHistoriquePayements()
+    {
+        return $this->historiquePayements;
     }
 }

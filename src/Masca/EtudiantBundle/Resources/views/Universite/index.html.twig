@@ -37,6 +37,9 @@
                         <a href="{{ path('details_universite', {'id':universite.id}) }}">
                             <img title="Plus de details" src="{{ absolute_url(asset('assets/plus-info.png')) }}">
                         </a>
+                        <a href="{{ path('supprimer_etudiant_univ', {'id':universite.id}) }}" onclick="return confirm('Voulez vous supprimer les informations sur {{ universite.person.nom }} {{ universite.person.prenom }}? Si oui, tous les informations concernants cette personne seront supprimer!')">
+                            <img title="Supprimer" src="{{ absolute_url(asset('assets/delete.png')) }}">
+                        </a>
                     </div>
                 </td>
             </tr>

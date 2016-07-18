@@ -30,14 +30,14 @@ class GrilleFraisScolariteUniversite
 
     /**
      * @var $filiere Filiere
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere", inversedBy="lesEcolages")
      * @ORM\JoinColumn(nullable=false)
      */
     private $filiere;
 
     /**
      * @var $niveauEtude NiveauEtude
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude", inversedBy="lesEcolages")
      * @ORM\JoinColumn(nullable=false)
      */
     private $niveauEtude;

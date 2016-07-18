@@ -46,7 +46,7 @@ class EmploiDuTempsUniv
     /**
      * @var Matiere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Matiere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Matiere", inversedBy="lesEmploiDuTemps")
      * @ORM\JoinColumn(nullable=false)
      */
     private $matiere;

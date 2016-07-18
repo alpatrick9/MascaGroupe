@@ -21,6 +21,9 @@
                         <a href="{{ path('modifier_ue_universite',{'id':ue.id}) }}">
                             <img title="Modification" src="{{ asset('assets/edit.png') }}">
                         </a>
+                        <a href="{{ path('supprimer_ue_univ', {'id': ue.id}) }}"  onclick="return confirm('Voulez vous supprimer l\'ue {{ ue.intitule }}? Si oui, toutes les informations liées à cette ue seront supprimées!')">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
                     </div>
                 </td>
             </tr>

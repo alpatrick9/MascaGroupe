@@ -109,4 +109,23 @@ class AdminEcolageUniversiteController extends Controller
             'form'=>$form->createView()
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param GrilleFraisScolariteUniversite $grilleFraisScolariteUniversite
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/supprimer/{id}", name="supprimer_grille_univ")
+     */
+    public function supprimerGrilleEcolageAction(Request $request, GrilleFraisScolariteUniversite $grilleFraisScolariteUniversite) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($grilleFraisScolariteUniversite);
+        $em->flush();
+        return $this->redirect($this->generateUrl('grille_ecolage_universite'));
+    }
 }

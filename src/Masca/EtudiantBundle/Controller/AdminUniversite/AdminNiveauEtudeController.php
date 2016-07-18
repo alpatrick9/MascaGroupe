@@ -107,4 +107,23 @@ class AdminNiveauEtudeController extends Controller
             'form'=>$form->createView()
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param NiveauEtude $niveauEtude
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/supprimer/{id}", name="supprimer_niveau_univ")
+     */
+    public function supprimerNiveauAction(Request $request, NiveauEtude $niveauEtude) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($niveauEtude);
+        $em->flush();
+        return $this->redirect($this->generateUrl('niveau_etude_univ'));
+    }
 }

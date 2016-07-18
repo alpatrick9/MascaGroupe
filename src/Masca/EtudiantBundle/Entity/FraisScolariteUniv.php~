@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FraisScolariteUniv
  *
- * @ORM\Table(name="frais_scolarite_univ", uniqueConstraints={@ORM\UniqueConstraint(name="idxUnique", columns={"mois", "annee", "univSonFiliere_id"})})
+ * @ORM\Table(name="frais_scolarite_univ", uniqueConstraints={@ORM\UniqueConstraint(name="idxUnique", columns={"mois", "annee", "univ_son_filiere_id"})})
  * @ORM\Entity(repositoryClass="Masca\EtudiantBundle\Repository\FraisScolariteUnivRepository")
  */
 class FraisScolariteUniv
@@ -56,6 +56,12 @@ class FraisScolariteUniv
      * @ORM\JoinColumn(nullable=false)
      */
     private $univSonFiliere;
+
+    /**
+     * @var $historiquePayements DatePayementEcolageUniv[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\DatePayementEcolageUniv", mappedBy="fraisScolariteUniv", cascade={"remove"})
+     */
+    private $historiquePayements;
 
     /**
      * FraisScolariteUniv constructor.
@@ -170,5 +176,28 @@ class FraisScolariteUniv
     {
         return $this->status;
     }
-}
 
+    /**
+     * Set univSonFiliere
+     *
+     * @param \Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $univSonFiliere
+     *
+     * @return FraisScolariteUniv
+     */
+    public function setUnivSonFiliere(\Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $univSonFiliere)
+    {
+        $this->univSonFiliere = $univSonFiliere;
+
+        return $this;
+    }
+
+    /**
+     * Get univSonFiliere
+     *
+     * @return \Masca\EtudiantBundle\Entity\UniversitaireSonFiliere
+     */
+    public function getUnivSonFiliere()
+    {
+        return $this->univSonFiliere;
+    }
+}

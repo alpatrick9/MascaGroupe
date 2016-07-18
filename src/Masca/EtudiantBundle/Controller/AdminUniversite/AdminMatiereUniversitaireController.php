@@ -121,4 +121,23 @@ class AdminMatiereUniversitaireController extends Controller
             'form'=>$form->createView()
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param Matiere $matiere
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/supprimer/{id}", name="supprimer_matiere_universite")
+     */
+    public function supprimerMatiereAction(Request $request, Matiere $matiere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($matiere);
+        $em->flush();
+        return $this->redirect($this->generateUrl('list_matieres_universite'));
+    }
 }

@@ -28,6 +28,24 @@ class Matiere
      */
     private $intitule;
 
+    /**
+     * @var $lesEmploiDuTemps EmploiDuTempsUniv[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\EmploiDuTempsUniv", mappedBy="matiere", cascade={"remove"})
+     */
+    private $lesEmploiDuTemps;
+
+    /**
+     * @var $lesInformations InfoMatiereUniversite[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\InfoMatiereUniversite", mappedBy="matiere", cascade={"remove"})
+     */
+    private $lesInformations;
+
+    /**
+     * @var $lesUeFiliere MatiereParUeFiliere[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\MatiereParUeFiliere", mappedBy="matiere", cascade={"remove"})
+     */
+    private $lesUeFilieres;
+
 
     /**
      * Get id
@@ -60,5 +78,116 @@ class Matiere
     public function getIntitule()
     {
         return $this->intitule;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lesEmploiDuTemps = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lesInformations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lesUeFilieres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add lesEmploiDuTemp
+     *
+     * @param \Masca\EtudiantBundle\Entity\EmploiDuTempsUniv $lesEmploiDuTemp
+     *
+     * @return Matiere
+     */
+    public function addLesEmploiDuTemp(\Masca\EtudiantBundle\Entity\EmploiDuTempsUniv $lesEmploiDuTemp)
+    {
+        $this->lesEmploiDuTemps[] = $lesEmploiDuTemp;
+
+        return $this;
+    }
+
+    /**
+     * Remove lesEmploiDuTemp
+     *
+     * @param \Masca\EtudiantBundle\Entity\EmploiDuTempsUniv $lesEmploiDuTemp
+     */
+    public function removeLesEmploiDuTemp(\Masca\EtudiantBundle\Entity\EmploiDuTempsUniv $lesEmploiDuTemp)
+    {
+        $this->lesEmploiDuTemps->removeElement($lesEmploiDuTemp);
+    }
+
+    /**
+     * Get lesEmploiDuTemps
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLesEmploiDuTemps()
+    {
+        return $this->lesEmploiDuTemps;
+    }
+
+    /**
+     * Add lesInformation
+     *
+     * @param \Masca\EtudiantBundle\Entity\InfoMatiereUniversite $lesInformation
+     *
+     * @return Matiere
+     */
+    public function addLesInformation(\Masca\EtudiantBundle\Entity\InfoMatiereUniversite $lesInformation)
+    {
+        $this->lesInformations[] = $lesInformation;
+
+        return $this;
+    }
+
+    /**
+     * Remove lesInformation
+     *
+     * @param \Masca\EtudiantBundle\Entity\InfoMatiereUniversite $lesInformation
+     */
+    public function removeLesInformation(\Masca\EtudiantBundle\Entity\InfoMatiereUniversite $lesInformation)
+    {
+        $this->lesInformations->removeElement($lesInformation);
+    }
+
+    /**
+     * Get lesInformations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLesInformations()
+    {
+        return $this->lesInformations;
+    }
+
+    /**
+     * Add lesUeFiliere
+     *
+     * @param \Masca\EtudiantBundle\Entity\MatiereParUeFiliere $lesUeFiliere
+     *
+     * @return Matiere
+     */
+    public function addLesUeFiliere(\Masca\EtudiantBundle\Entity\MatiereParUeFiliere $lesUeFiliere)
+    {
+        $this->lesUeFilieres[] = $lesUeFiliere;
+
+        return $this;
+    }
+
+    /**
+     * Remove lesUeFiliere
+     *
+     * @param \Masca\EtudiantBundle\Entity\MatiereParUeFiliere $lesUeFiliere
+     */
+    public function removeLesUeFiliere(\Masca\EtudiantBundle\Entity\MatiereParUeFiliere $lesUeFiliere)
+    {
+        $this->lesUeFilieres->removeElement($lesUeFiliere);
+    }
+
+    /**
+     * Get lesUeFilieres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLesUeFilieres()
+    {
+        return $this->lesUeFilieres;
     }
 }

@@ -24,7 +24,7 @@ class FiliereParNiveau
     /**
      * @var Filiere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere", inversedBy="lesNiveaux")
      * @ORM\JoinColumn(nullable=false)
      */
     private $filiere;
@@ -32,7 +32,7 @@ class FiliereParNiveau
     /**
      * @var NiveauEtude
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude", inversedBy="lesFilieres")
      * @ORM\JoinColumn(nullable=false)
      */
     private $niveau;

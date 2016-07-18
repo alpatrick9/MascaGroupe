@@ -44,6 +44,12 @@ class UeParFiliere
      * @ORM\JoinColumn(nullable=false)
      */
     private $niveau;
+
+    /**
+     * @var $matieres MatiereParUeFiliere[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\MatiereParUeFiliere", mappedBy="ueParFiliere", cascade={"remove"})
+     */
+    private $matieres;
     /**
      * Get id
      *
@@ -98,5 +104,29 @@ class UeParFiliere
     public function getFiliere()
     {
         return $this->filiere;
+    }
+
+    /**
+     * Set niveau
+     *
+     * @param \Masca\EtudiantBundle\Entity\NiveauEtude $niveau
+     *
+     * @return UeParFiliere
+     */
+    public function setNiveau(\Masca\EtudiantBundle\Entity\NiveauEtude $niveau)
+    {
+        $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    /**
+     * Get niveau
+     *
+     * @return \Masca\EtudiantBundle\Entity\NiveauEtude
+     */
+    public function getNiveau()
+    {
+        return $this->niveau;
     }
 }

@@ -98,6 +98,9 @@
                                     <a href="{{ path('details_etude_universitaire', {'sonFiliere_id':filiere.id}) }}">
                                         <img title="Details" src="{{ asset('assets/details.png') }}">
                                     </a>
+                                    <a href="{{ path('supprimer_detail_filiere_univ', {'id': filiere.id}) }}" onclick="return confirm('Voulez vous supprimer les details sur {{ filiere.sonFiliere.intitule }}? Si oui, tous les informations concernant ce filière seront supprimer!')">
+                                        <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -117,6 +120,9 @@
             </a>
             <a href="{{ path('modifier_universite', {'id': universitaire.id}) }}">
                 <img title="Modification" src="{{ asset('assets/edit.png') }}" class="custom-margin">
+            </a>
+            <a href="{{ path('ajouter_filiere_etudiant_univ', {'id': universitaire.id}) }}">
+                <img title="Ajouter filière" src="{{ asset('assets/add-item.png') }}" class="custom-margin">
             </a>
             <a href="{{ path('absence_universitaire', {'id': universitaire.id}) }}">
                 <img title="Absence" src="{{ asset('assets/presence.png') }}" class="custom-margin">

@@ -9,6 +9,8 @@
 namespace Masca\EtudiantBundle\Controller\Universite;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
+use Masca\EtudiantBundle\Entity\Universitaire;
 use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
 use Masca\EtudiantBundle\Type\SonFiliereType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -56,12 +58,13 @@ class GestionFiliereController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param UniversitaireSonFiliere $sonFiliere
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("sonFiliere", options={"mapping": {"sonFiliere_id":"id"}})
      * @Route("/details-etude/{sonFiliere_id}", name="details_etude_universitaire")
      */
-    public function detailsEtudeAction(UniversitaireSonFiliere $sonFiliere) {
+    public function detailsEtudeAction(Request $request,UniversitaireSonFiliere $sonFiliere) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -71,5 +74,64 @@ class GestionFiliereController extends Controller
         return $this->render('MascaEtudiantBundle:Universite:details-etude.html.twig',[
             'sonFiliere'=>$sonFiliere
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param UniversitaireSonFiliere $universitaireSonFiliere
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/supprimer-detail-filiere/{id}", name="supprimer_detail_filiere_univ")
+     */
+    public function supprimerDetailsFiliereAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($universitaireSonFiliere);
+        $em->flush();
+        return $this->redirect($this->generateUrl('details_universite',array('id'=>$universitaireSonFiliere->getUniversitaire()->getId())));
+    }
+
+    /**
+     * @param Request $request
+     * @param Universitaire $universitaire
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/ajouter/filiere/{id}", name="ajouter_filiere_etudiant_univ")
+     */
+    public function ajouteFilièreAction(Request $request, Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $sonFiliere = new UniversitaireSonFiliere();
+        $sonFiliereForm = $this->createForm(SonFiliereType::class, $sonFiliere);
+
+        if($request->getMethod() == 'POST') {
+            $sonFiliereForm->handleRequest($request);
+            $sonFiliere->setUniversitaire($universitaire);
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($sonFiliere);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Universite:add-filiere.html.twig',array(
+                    'sonFiliereForm'=>$sonFiliereForm->createView(),
+                    'universitaire'=>$universitaire,
+                    'error_message'=>"L'étudiant ".$universitaire->getPerson()->getNom()." ".$universitaire->getPerson()->getPrenom()." est déjà inscrit en ".$sonFiliere->getSonFiliere()->getIntitule()
+                ));
+            }
+            return $this->redirect($this->generateUrl('details_universite',array('id'=>$universitaire->getId())));
+        }
+
+        return $this->render('MascaEtudiantBundle:Universite:add-filiere.html.twig',array(
+            'sonFiliereForm'=>$sonFiliereForm->createView(),
+            'universitaire'=>$universitaire
+        ));
     }
 }

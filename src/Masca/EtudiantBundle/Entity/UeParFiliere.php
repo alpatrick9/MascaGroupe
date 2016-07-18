@@ -24,7 +24,7 @@ class UeParFiliere
     /**
      * @var $ue Ue
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Ue")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Ue", inversedBy="lesFilieres")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ue;
@@ -32,7 +32,7 @@ class UeParFiliere
     /**
      * @var $filiere Filiere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere", inversedBy="lesUes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $filiere;
@@ -40,10 +40,16 @@ class UeParFiliere
     /**
      * @var $niveau NiveauEtude
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude", inversedBy="lesUes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $niveau;
+
+    /**
+     * @var $matieres MatiereParUeFiliere[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\MatiereParUeFiliere", mappedBy="ueParFiliere", cascade={"remove"})
+     */
+    private $matieres;
     /**
      * Get id
      *
@@ -122,5 +128,46 @@ class UeParFiliere
     public function getNiveau()
     {
         return $this->niveau;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->matieres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add matiere
+     *
+     * @param \Masca\EtudiantBundle\Entity\MatiereParUeFiliere $matiere
+     *
+     * @return UeParFiliere
+     */
+    public function addMatiere(\Masca\EtudiantBundle\Entity\MatiereParUeFiliere $matiere)
+    {
+        $this->matieres[] = $matiere;
+
+        return $this;
+    }
+
+    /**
+     * Remove matiere
+     *
+     * @param \Masca\EtudiantBundle\Entity\MatiereParUeFiliere $matiere
+     */
+    public function removeMatiere(\Masca\EtudiantBundle\Entity\MatiereParUeFiliere $matiere)
+    {
+        $this->matieres->removeElement($matiere);
+    }
+
+    /**
+     * Get matieres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMatieres()
+    {
+        return $this->matieres;
     }
 }

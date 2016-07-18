@@ -145,6 +145,25 @@ class GestionNoteController extends Controller
 
     /**
      * @param Request $request
+     * @param NoteUniv $noteUniv
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/supprimer/note/{id}", name="supprimer_note_univ")
+     */
+    public function supprimerNoteUnivAction (Request $request, NoteUniv $noteUniv) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($noteUniv);
+        $em->flush();
+        return $this->redirect($this->generateUrl('note_univeritaire',['id'=>$noteUniv->getSonFiliere()->getId()]));
+    }
+
+    /**
+     * @param Request $request
      * @param UniversitaireSonFiliere $universitaireSonFiliere
      * @return Response
      * @Route("/print/note/{id}", name="print_note_université")

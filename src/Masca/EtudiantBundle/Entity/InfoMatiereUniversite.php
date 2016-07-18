@@ -23,28 +23,28 @@ class InfoMatiereUniversite
 
     /**
      * @var $matiere Matiere
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Matiere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Matiere", inversedBy="lesInformations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $matiere;
 
     /**
      * @var $ue Ue
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Ue")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Ue", inversedBy="lesInformations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ue;
 
     /**
      * @var $filiere Filiere
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere", inversedBy="lesInformations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $filiere;
 
     /**
      * @var $semestre Semestre
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Semestre")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Semestre", inversedBy="lesInformations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $semestre;

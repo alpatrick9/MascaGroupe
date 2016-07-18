@@ -21,6 +21,9 @@
                         <a href="{{ path('modifier_niveau_etude_univ',{'niveau_id':niveauEtude.id}) }}">
                             <img title="Modification" src="{{ asset('assets/edit.png') }}">
                         </a>
+                        <a href="{{ path('supprimer_niveau_univ', {'id': niveauEtude.id}) }}" onclick="return confirm('Voulez vous supprimer le niveau {{ niveauEtude.intitule }}? Si oui, toutes les informations liées à ce niveau seront supprimées!')">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
                     </div>
                 </td>
             </tr>

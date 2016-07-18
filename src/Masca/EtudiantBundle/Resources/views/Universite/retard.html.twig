@@ -24,8 +24,12 @@
                 <td>{{ retard.dateRetard | date('d/m/Y') }}</td>
                 <td>{{ retard.heure | date('h:i')}}</td>
                 <td>
-                    <a href="{{ path('modifier_retard_universitaire', {'id':retard.id}) }}" class="btn btn-primary">modifier</a>
-                    <a href="{{ path('supprimer_retard_universitaire', {'id':retard.id}) }}" class="btn btn-danger" onclick="return confirm('Vous vous supprimer?')">supprimer</a>
+                    <a href="{{ path('modifier_retard_universitaire', {'id':retard.id}) }}">
+                        <img title="Modification" src="{{ absolute_url(asset('assets/edit.png')) }}">
+                    </a>
+                    <a href="{{ path('supprimer_retard_universitaire', {'id':retard.id}) }}" onclick="return confirm('Vous vous supprimer?')">
+                        <img title="Supprimer" src="{{ absolute_url(asset('assets/delete.png')) }}">
+                    </a>
                 </td>
             </tr>
         {% else %}

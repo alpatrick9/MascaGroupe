@@ -1,0 +1,93 @@
+<?php
+
+namespace Masca\EtudiantBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * NiveauEtude
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Masca\EtudiantBundle\Entity\NiveauEtudeRepository")
+ */
+class NiveauEtude
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="intitule", type="string", length=255, unique=true)
+     */
+    private $intitule;
+
+    /**
+     * @var $lesEtudiants UniversitaireSonFiliere[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\UniversitaireSonFiliere", mappedBy="sonNiveauEtude", cascade={"remove"})
+     */
+    private $lesEtudiants;
+
+    /**
+     * @var $lesUes UeParFiliere[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\UeParFiliere", mappedBy="niveau", cascade={"remove"})
+     */
+    private $lesUes;
+
+    /**
+     * @var $lesFilieres FiliereParNiveau[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\FiliereParNiveau", mappedBy="niveau", cascade={"remove"})
+     */
+    private $lesFilieres;
+
+    /**
+     * @var $lesEcolages GrilleFraisScolariteUniversite[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite", mappedBy="niveauEtude", cascade={"remove"})
+     */
+    private $lesEcolages;
+
+    /**
+     * @var $lesClasses Classe[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\Classe", mappedBy="niveauEtude", cascade={"remove"})
+     */
+    private $lesClasses;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set intitule
+     *
+     * @param string $intitule
+     * @return NiveauEtude
+     */
+    public function setIntitule($intitule)
+    {
+        $this->intitule = $intitule;
+    
+        return $this;
+    }
+
+    /**
+     * Get intitule
+     *
+     * @return string 
+     */
+    public function getIntitule()
+    {
+        return $this->intitule;
+    }
+}

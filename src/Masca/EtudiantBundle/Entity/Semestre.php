@@ -28,6 +28,17 @@ class Semestre
      */
     private $intitule;
 
+    /**
+     * @var $lesInformations InfoMatiereUniversite[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\InfoMatiereUniversite", mappedBy="semestre", cascade={"remove"})
+     */
+    private $lesInformations;
+
+    /**
+     * @var $lesFilieres UniversitaireSonFiliere[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\UniversitaireSonFiliere", mappedBy="semestre", cascade={"remove"})
+     */
+    private $lesFilieres;
 
     /**
      * Get id
@@ -60,5 +71,81 @@ class Semestre
     public function getIntitule()
     {
         return $this->intitule;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lesInformations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lesFilieres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add lesInformation
+     *
+     * @param \Masca\EtudiantBundle\Entity\InfoMatiereUniversite $lesInformation
+     *
+     * @return Semestre
+     */
+    public function addLesInformation(\Masca\EtudiantBundle\Entity\InfoMatiereUniversite $lesInformation)
+    {
+        $this->lesInformations[] = $lesInformation;
+
+        return $this;
+    }
+
+    /**
+     * Remove lesInformation
+     *
+     * @param \Masca\EtudiantBundle\Entity\InfoMatiereUniversite $lesInformation
+     */
+    public function removeLesInformation(\Masca\EtudiantBundle\Entity\InfoMatiereUniversite $lesInformation)
+    {
+        $this->lesInformations->removeElement($lesInformation);
+    }
+
+    /**
+     * Get lesInformations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLesInformations()
+    {
+        return $this->lesInformations;
+    }
+
+    /**
+     * Add lesFiliere
+     *
+     * @param \Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $lesFiliere
+     *
+     * @return Semestre
+     */
+    public function addLesFiliere(\Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $lesFiliere)
+    {
+        $this->lesFilieres[] = $lesFiliere;
+
+        return $this;
+    }
+
+    /**
+     * Remove lesFiliere
+     *
+     * @param \Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $lesFiliere
+     */
+    public function removeLesFiliere(\Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $lesFiliere)
+    {
+        $this->lesFilieres->removeElement($lesFiliere);
+    }
+
+    /**
+     * Get lesFilieres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLesFilieres()
+    {
+        return $this->lesFilieres;
     }
 }

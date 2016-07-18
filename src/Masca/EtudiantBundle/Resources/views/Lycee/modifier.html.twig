@@ -1,37 +1,37 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block etudiant_body %}
     <h3>Page de modification des informations concernant l'étudiant</h3>
-    <form method="post">
-        <div class="row">
-            <div class="span4">
-                <fieldset>
-                    <legend>Etat civil</legend>
-                    {{ form_widget(personForm) }}
-                </fieldset>
-            </div>
-            <div class="span4">
-                <fieldset>
-                    <legend>Étude</legend>
-                    {{ form_widget(etudeForm) }}
-                </fieldset>
-            </div>
-            <div class="span4">
-                <fieldset>
-                    <legend>Complémentaire</legend>
-                    {{ form_widget(infoEtudiantForm) }}
-                </fieldset>
-            </div>
-        </div>
-        <div class="submit-style">
-            <div class="floatleft">
-                <a href="{{ path('details_lyceen', {'id':lyceenId}) }}">
-                    <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
-                </a>
+    <div class="row">
+        <form method="post">
+                <div class="span4">
+                    <fieldset>
+                        <legend>Etat civil</legend>
+                        {{ form_widget(personForm) }}
+                    </fieldset>
+                </div>
+                <div class="span4">
+                    <fieldset>
+                        <legend>Étude</legend>
+                        {{ form_widget(etudeForm) }}
+                    </fieldset>
+                </div>
+                <div class="span4">
+                    <fieldset>
+                        <legend>Complémentaire</legend>
+                        {{ form_widget(infoEtudiantForm) }}
+                    </fieldset>
+                </div>
+            <div class="submit-style">
+                <div class="floatleft">
+                    <a href="{{ path('details_lyceen', {'id':lyceenId}) }}">
+                        <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                    </a>
 
+                </div>
+                <div class="floatright">
+                    <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+                </div>
             </div>
-            <div class="floatright">
-                <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 {% endblock %}

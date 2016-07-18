@@ -117,10 +117,11 @@ class AdminUeController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/repartition/{page}",name="repartition_unite_enseignement_univeriste", defaults={"page" = 1})
      */
-    public function repartionUeParFiliereAction($page) {
+    public function repartionUeParFiliereAction(Request $request, $page) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -236,6 +237,25 @@ class AdminUeController extends Controller
         $em->remove($matiereParUeFiliere);
         $em->flush();
         return $this->redirect($this->generateUrl('repartition_unite_enseignement_univeriste'));
+    }
+
+    /**
+     * @param Request $request
+     * @param Ue $ue
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/supprimer/{id}", name="supprimer_ue_univ")
+     */
+    public function supprimerUeAction(Request $request, Ue $ue) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($ue);
+        $em->flush();
+        return $this->redirect($this->generateUrl('ue_universite'));
     }
 
 }

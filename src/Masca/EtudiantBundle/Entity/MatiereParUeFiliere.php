@@ -24,7 +24,7 @@ class MatiereParUeFiliere
     /**
      * @var $ueParFiliere UeParFiliere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\UeParFiliere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\UeParFiliere", inversedBy="matieres")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ueParFiliere;
@@ -32,10 +32,16 @@ class MatiereParUeFiliere
     /**
      * @var $matiere Matiere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Matiere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Matiere", inversedBy="lesUeFilieres")
      * @ORM\JoinColumn(nullable=false)
      */
     private $matiere;
+
+    /**
+     * @var $sesNotes NoteUniv[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\NoteUniv", mappedBy="matiere", cascade={"remove"})
+     */
+    private $sesNotes;
 
 
     /**
@@ -94,5 +100,46 @@ class MatiereParUeFiliere
     public function getMatiere()
     {
         return $this->matiere;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sesNotes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add sesNote
+     *
+     * @param \Masca\EtudiantBundle\Entity\NoteUniv $sesNote
+     *
+     * @return MatiereParUeFiliere
+     */
+    public function addSesNote(\Masca\EtudiantBundle\Entity\NoteUniv $sesNote)
+    {
+        $this->sesNotes[] = $sesNote;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesNote
+     *
+     * @param \Masca\EtudiantBundle\Entity\NoteUniv $sesNote
+     */
+    public function removeSesNote(\Masca\EtudiantBundle\Entity\NoteUniv $sesNote)
+    {
+        $this->sesNotes->removeElement($sesNote);
+    }
+
+    /**
+     * Get sesNotes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesNotes()
+    {
+        return $this->sesNotes;
     }
 }

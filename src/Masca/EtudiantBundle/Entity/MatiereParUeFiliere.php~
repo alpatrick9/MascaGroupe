@@ -37,6 +37,12 @@ class MatiereParUeFiliere
      */
     private $matiere;
 
+    /**
+     * @var $sesNotes NoteUniv[]
+     * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\NoteUniv", mappedBy="matiere", cascade={"remove"})
+     */
+    private $sesNotes;
+
 
     /**
      * Get id

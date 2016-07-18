@@ -8,6 +8,8 @@
 
 namespace Masca\EtudiantBundle\Controller\Lycee;
 
+use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
+use Masca\EtudiantBundle\Entity\FraisScolariteLyceenRepository;
 use Masca\EtudiantBundle\Entity\InfoEtudiant;
 use Masca\EtudiantBundle\Entity\Lyceen;
 use Masca\EtudiantBundle\Entity\LyceenRepository;
@@ -18,6 +20,7 @@ use Masca\EtudiantBundle\Type\PersonType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -151,6 +154,18 @@ class LyceeController extends Controller
         $infoEtudiantForm = $this->createForm(InfoEtudiantType::class,$lyceen->getInfoEtudiant());
 
         $lyceenForm = $this->createForm(LyceenType::class,$lyceen);
+
+        /**
+         * @var $ecolageRepository FraisScolariteLyceenRepository
+         */
+        $ecolageRepository = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:FraisScolariteLyceen');
+
+        if($ecolageRepository->statusEcolage($lyceen)) {
+            $reductionField = $infoEtudiantForm->get('reduction');
+            $options = $reductionField->getConfig()->getOptions();
+            $options['disabled']=true;
+            $infoEtudiantForm->add('reduction',NumberType::class,$options);
+        }
 
         if($request->getMethod() == 'POST') {
             $personForm->handleRequest($request);
