@@ -57,10 +57,17 @@ class Lyceen
 
     /**
      * @var $sonClasse
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Classe")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Classe", inversedBy="lyceens")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sonClasse;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="droit", type="float", options={"default":0})
+     */
+    private $droitInscription;
 
     /**
      * @var $sesNotes LyceenNote[]
@@ -68,12 +75,12 @@ class Lyceen
      */
     private $sesNotes;
 
-    /***
+    /**
      * @var $sesEcolages FraisScolariteLyceen[]
+     *
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\FraisScolariteLyceen", mappedBy="lyceen", cascade={"remove"})
      */
     private $sesEcolages;
-
     /**
      * @var $sesAbsences AbsenceLyceen[]
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\AbsenceLyceen", mappedBy="lyceen", cascade={"remove"})
@@ -233,4 +240,140 @@ class Lyceen
     {
         return $this->dateReinscription;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sesNotes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sesAbsences = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sesRetards = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add sesNote
+     *
+     * @param \Masca\EtudiantBundle\Entity\LyceenNote $sesNote
+     *
+     * @return Lyceen
+     */
+    public function addSesNote(\Masca\EtudiantBundle\Entity\LyceenNote $sesNote)
+    {
+        $this->sesNotes[] = $sesNote;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sesNote
+     *
+     * @param \Masca\EtudiantBundle\Entity\LyceenNote $sesNote
+     */
+    public function removeSesNote(\Masca\EtudiantBundle\Entity\LyceenNote $sesNote)
+    {
+        $this->sesNotes->removeElement($sesNote);
+    }
+
+    /**
+     * Get sesNotes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesNotes()
+    {
+        return $this->sesNotes;
+    }
+
+    /**
+     * Add sesAbsence
+     *
+     * @param \Masca\EtudiantBundle\Entity\AbsenceLyceen $sesAbsence
+     *
+     * @return Lyceen
+     */
+    public function addSesAbsence(\Masca\EtudiantBundle\Entity\AbsenceLyceen $sesAbsence)
+    {
+        $this->sesAbsences[] = $sesAbsence;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sesAbsence
+     *
+     * @param \Masca\EtudiantBundle\Entity\AbsenceLyceen $sesAbsence
+     */
+    public function removeSesAbsence(\Masca\EtudiantBundle\Entity\AbsenceLyceen $sesAbsence)
+    {
+        $this->sesAbsences->removeElement($sesAbsence);
+    }
+
+    /**
+     * Get sesAbsences
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesAbsences()
+    {
+        return $this->sesAbsences;
+    }
+
+    /**
+     * Add sesRetard
+     *
+     * @param \Masca\EtudiantBundle\Entity\RetardLyceen $sesRetard
+     *
+     * @return Lyceen
+     */
+    public function addSesRetard(\Masca\EtudiantBundle\Entity\RetardLyceen $sesRetard)
+    {
+        $this->sesRetards[] = $sesRetard;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sesRetard
+     *
+     * @param \Masca\EtudiantBundle\Entity\RetardLyceen $sesRetard
+     */
+    public function removeSesRetard(\Masca\EtudiantBundle\Entity\RetardLyceen $sesRetard)
+    {
+        $this->sesRetards->removeElement($sesRetard);
+    }
+
+    /**
+     * Get sesRetards
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesRetards()
+    {
+        return $this->sesRetards;
+    }
+
+    /**
+     * Set droitInscription
+     *
+     * @param float $droitInscription
+     *
+     * @return Lyceen
+     */
+    public function setDroitInscription($droitInscription)
+    {
+        $this->droitInscription = $droitInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get droitInscription
+     *
+     * @return float
+     */
+    public function getDroitInscription()
+    {
+        return $this->droitInscription;
+    }
+    
 }

@@ -57,7 +57,7 @@ class FraisScolariteLyceen
     private $status;
 
     /**
-     * @var $person Lyceen
+     * @var $lyceen Lyceen
      *
      * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Lyceen", inversedBy="sesEcolages")
      * @ORM\JoinColumn(nullable=false)

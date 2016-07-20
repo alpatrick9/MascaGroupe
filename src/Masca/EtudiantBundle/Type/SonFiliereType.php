@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -48,7 +49,10 @@ class SonFiliereType extends AbstractType
                 'format'=>'dd MMMM yyyy',
                 'years'=>range(date('Y')-1,date('Y')+5),
                 'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
-            ));
+            ))
+            ->add('droitInscription', NumberType::class, [
+                'label'=>'droit inscription/reinscription (Ar)'
+            ]);
     }
 
     /**

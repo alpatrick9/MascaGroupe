@@ -1,6 +1,9 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block etudiant_body %}
     <h3>Informations détaillées sur le filière suivi par l'étudiant</h3>
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
     <div class="row">
         <div class="span6">
             <fieldset>
@@ -42,6 +45,10 @@
                     <tr>
                         <td><b>Date de prochain inscription:</b></td>
                         <td>{{ sonFiliere.dateReinscription | date('d M Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Droit de re-inscription:</b></td>
+                        <td>{{ sonFiliere.droitInscription}}</td>
                     </tr>
                 </table>
             </fieldset>

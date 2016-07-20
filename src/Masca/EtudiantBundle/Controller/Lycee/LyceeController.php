@@ -153,8 +153,6 @@ class LyceeController extends Controller
 
         $infoEtudiantForm = $this->createForm(InfoEtudiantType::class,$lyceen->getInfoEtudiant());
 
-        $lyceenForm = $this->createForm(LyceenType::class,$lyceen);
-
         /**
          * @var $ecolageRepository FraisScolariteLyceenRepository
          */
@@ -170,7 +168,6 @@ class LyceeController extends Controller
         if($request->getMethod() == 'POST') {
             $personForm->handleRequest($request);
             $infoEtudiantForm->handleRequest($request);
-            $lyceenForm->handleRequest($request);
 
             $this->getDoctrine()->getManager()->flush();
             return $this->redirect($this->generateUrl('details_lyceen',array('id'=>$lyceen->getId())));
@@ -180,7 +177,6 @@ class LyceeController extends Controller
         return $this->render('MascaEtudiantBundle:Lycee:modifier.html.twig',array(
             'personForm'=>$personForm->createView(),
             'infoEtudiantForm'=>$infoEtudiantForm->createView(),
-            'etudeForm'=>$lyceenForm->createView(),
             'lyceenId'=>$lyceen->getId()
         ));
     }
@@ -199,6 +195,17 @@ class LyceeController extends Controller
             ]);
         }
         $lyceenForm = $this->createForm(LyceenType::class, $lyceen);
+        /**
+         * @var $ecolageRepository FraisScolariteLyceenRepository
+         */
+        $ecolageRepository = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:FraisScolariteLyceen');
+
+        if($ecolageRepository->statusEcolage($lyceen)) {
+            return $this->render('MascaEtudiantBundle:Lycee:details.html.twig',array(
+                'lyceen'=>$lyceen,
+                'error_message'=>'Reinscription refuser. Il reste encore des frais de scolarités qui ne sont pas encore regularisés pour l\'année scolaire '.$lyceen->getAnneeScolaire()
+            ));
+        }
 
         if($request->getMethod() == 'POST') {
             $lyceenForm->handleRequest($request);

@@ -63,17 +63,24 @@ class Lyceen
     private $sonClasse;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="droit", type="float", options={"default":0})
+     */
+    private $droitInscription;
+
+    /**
      * @var $sesNotes LyceenNote[]
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\LyceenNote", mappedBy="lyceen", cascade={"remove"})
      */
     private $sesNotes;
 
-    /***
+    /**
      * @var $sesEcolages FraisScolariteLyceen[]
+     *
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\FraisScolariteLyceen", mappedBy="lyceen", cascade={"remove"})
      */
     private $sesEcolages;
-
     /**
      * @var $sesAbsences AbsenceLyceen[]
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\AbsenceLyceen", mappedBy="lyceen", cascade={"remove"})
@@ -343,5 +350,64 @@ class Lyceen
     public function getSesRetards()
     {
         return $this->sesRetards;
+    }
+
+    /**
+     * Set droitInscription
+     *
+     * @param float $droitInscription
+     *
+     * @return Lyceen
+     */
+    public function setDroitInscription($droitInscription)
+    {
+        $this->droitInscription = $droitInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get droitInscription
+     *
+     * @return float
+     */
+    public function getDroitInscription()
+    {
+        return $this->droitInscription;
+    }
+    
+
+    /**
+     * Add sesEcolage
+     *
+     * @param \Masca\EtudiantBundle\Entity\FraisScolariteLyceen $sesEcolage
+     *
+     * @return Lyceen
+     */
+    public function addSesEcolage(\Masca\EtudiantBundle\Entity\FraisScolariteLyceen $sesEcolage)
+    {
+        $this->sesEcolages[] = $sesEcolage;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesEcolage
+     *
+     * @param \Masca\EtudiantBundle\Entity\FraisScolariteLyceen $sesEcolage
+     */
+    public function removeSesEcolage(\Masca\EtudiantBundle\Entity\FraisScolariteLyceen $sesEcolage)
+    {
+        $this->sesEcolages->removeElement($sesEcolage);
+    }
+
+    /**
+     * Get sesEcolages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesEcolages()
+    {
+        return $this->sesEcolages;
     }
 }

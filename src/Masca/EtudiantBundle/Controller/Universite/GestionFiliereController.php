@@ -12,6 +12,7 @@ namespace Masca\EtudiantBundle\Controller\Universite;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\Universitaire;
 use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
+use Masca\EtudiantBundle\Repository\FraisScolariteUnivRepository;
 use Masca\EtudiantBundle\Type\SonFiliereType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -42,7 +43,17 @@ class GestionFiliereController extends Controller
             ]);
         }
         $sonFiliereForm = $this->createForm(SonFiliereType::class, $sonFiliere);
+        /**
+         * @var $ecolageRepository FraisScolariteUnivRepository
+         */
+        $ecolageRepository = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:FraisScolariteUniv');
 
+        if($ecolageRepository->statusEcolage($sonFiliere->getUniversitaire())) {
+            return $this->render('MascaEtudiantBundle:Universite:details-etude.html.twig',[
+                'sonFiliere'=>$sonFiliere,
+                'error_message'=>'Reinscription refuser. Il reste encore des frais de scolarités qui ne sont pas encore regularisés pour l\'année d\'etude '.$sonFiliere->getAnneeEtude()
+            ]);
+        }
         if($request->getMethod() == 'POST') {
             $sonFiliereForm->handleRequest($request);
             $this->getDoctrine()->getManager()->flush();

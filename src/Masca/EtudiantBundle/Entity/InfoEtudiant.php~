@@ -84,6 +84,10 @@ class InfoEtudiant
      */
     private $reduction;
 
+    public function __construct()
+    {
+        $this->reduction = 0;
+    }
 
     /**
      * Get id
@@ -278,4 +282,29 @@ class InfoEtudiant
     {
         return $this->emailParent;
     }
+
+    /**
+     * Set reduction
+     *
+     * @param float $reduction
+     *
+     * @return InfoEtudiant
+     */
+    public function setReduction($reduction)
+    {
+        $this->reduction = $reduction;
+
+        return $this;
+    }
+
+    /**
+     * Get reduction
+     *
+     * @return float
+     */
+    public function getReduction()
+    {
+        return $this->reduction;
+    }
+
 }

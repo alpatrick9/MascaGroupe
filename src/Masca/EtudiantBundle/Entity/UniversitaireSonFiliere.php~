@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UniversitaireSonFiliere
  *
- * @ORM\Table()
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="idxUnique", columns={"universitaire_id", "son_filiere_id"})})
  * @ORM\Entity(repositoryClass="Masca\EtudiantBundle\Entity\UniversitaireSonFiliereRepository")
  */
 class UniversitaireSonFiliere
@@ -38,7 +38,7 @@ class UniversitaireSonFiliere
     /**
      * @var $universitaire Universitaire
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Universitaire")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Universitaire", inversedBy="sesFilieres")
      * @ORM\JoinColumn(nullable=false)
      */
     private $universitaire;
@@ -46,7 +46,7 @@ class UniversitaireSonFiliere
     /**
      * @var $sonFiliere Filiere
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Filiere", inversedBy="lesEtudiants")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sonFiliere;
@@ -54,7 +54,7 @@ class UniversitaireSonFiliere
     /**
      * @var $sonNiveauEtude NiveauEtude
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude", inversedBy="lesEtudiants")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sonNiveauEtude;
@@ -62,10 +62,17 @@ class UniversitaireSonFiliere
     /**
      * @var $semestre Semestre
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Semestre")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Semestre", inversedBy="lesFilieres")
      * @ORM\JoinColumn(nullable=false)
      */
     private $semestre;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="droit", type="float", options={"default":0})
+     */
+    private $droitInscription;
 
     /**
      * @var $sesNotes NoteUniv[]
@@ -225,5 +232,81 @@ class UniversitaireSonFiliere
     public function getDateReinscription()
     {
         return $this->dateReinscription;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sesNotes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sesEcolages = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add sesNote
+     *
+     * @param \Masca\EtudiantBundle\Entity\NoteUniv $sesNote
+     *
+     * @return UniversitaireSonFiliere
+     */
+    public function addSesNote(\Masca\EtudiantBundle\Entity\NoteUniv $sesNote)
+    {
+        $this->sesNotes[] = $sesNote;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesNote
+     *
+     * @param \Masca\EtudiantBundle\Entity\NoteUniv $sesNote
+     */
+    public function removeSesNote(\Masca\EtudiantBundle\Entity\NoteUniv $sesNote)
+    {
+        $this->sesNotes->removeElement($sesNote);
+    }
+
+    /**
+     * Get sesNotes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesNotes()
+    {
+        return $this->sesNotes;
+    }
+
+    /**
+     * Add sesEcolage
+     *
+     * @param \Masca\EtudiantBundle\Entity\FraisScolariteUniv $sesEcolage
+     *
+     * @return UniversitaireSonFiliere
+     */
+    public function addSesEcolage(\Masca\EtudiantBundle\Entity\FraisScolariteUniv $sesEcolage)
+    {
+        $this->sesEcolages[] = $sesEcolage;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesEcolage
+     *
+     * @param \Masca\EtudiantBundle\Entity\FraisScolariteUniv $sesEcolage
+     */
+    public function removeSesEcolage(\Masca\EtudiantBundle\Entity\FraisScolariteUniv $sesEcolage)
+    {
+        $this->sesEcolages->removeElement($sesEcolage);
+    }
+
+    /**
+     * Get sesEcolages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesEcolages()
+    {
+        return $this->sesEcolages;
     }
 }

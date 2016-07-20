@@ -68,6 +68,13 @@ class UniversitaireSonFiliere
     private $semestre;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="droit", type="float", options={"default":0})
+     */
+    private $droitInscription;
+
+    /**
      * @var $sesNotes NoteUniv[]
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\NoteUniv", mappedBy="sonFiliere", cascade={"remove"})
      */
@@ -301,5 +308,29 @@ class UniversitaireSonFiliere
     public function getSesEcolages()
     {
         return $this->sesEcolages;
+    }
+
+    /**
+     * Set droitInscription
+     *
+     * @param float $droitInscription
+     *
+     * @return UniversitaireSonFiliere
+     */
+    public function setDroitInscription($droitInscription)
+    {
+        $this->droitInscription = $droitInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get droitInscription
+     *
+     * @return float
+     */
+    public function getDroitInscription()
+    {
+        return $this->droitInscription;
     }
 }

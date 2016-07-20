@@ -306,4 +306,5 @@ class InfoEtudiant
     {
         return $this->reduction;
     }
+
 }
