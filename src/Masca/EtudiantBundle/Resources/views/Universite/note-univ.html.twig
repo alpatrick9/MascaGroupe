@@ -1,6 +1,7 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block etudiant_body %}
     <h3>Resultat d'examen de {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }}</h3>
+    <p>Filière: <b>{{ sonFiliere.sonFiliere.intitule }}</b></p>
     <p>Semestre: <b>{{ sonFiliere.semestre.intitule }}</b></p>
     <div>
         <a href="{{ path('details_etude_universitaire',{'sonFiliere_id': sonFiliere.id}) }}">

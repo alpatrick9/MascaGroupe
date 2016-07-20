@@ -1,0 +1,48 @@
+{% extends "::base-impression.html.twig" %}
+{% block body %}<h3>Suivi status d'écolage</h3>
+    <p>Etudiant concerné: <b>{{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }} </b> </p>
+    <p>Filière: <b>{{ sonFiliere.sonFiliere.intitule }}</b></p>
+    <p>Niveau: <b>{{ sonFiliere.sonNiveauEtude.intitule }}</b></p>
+    <p>Montant: <b>{{ montant }} Ar. </b></p>
+    <p>Reduction: <b>{{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</b></p>
+
+    <div class="row">
+        <div class="span12">
+            <table class="table table-hover table-bordered table-striped avectri">
+                <thead>
+                <th>Mois</th>
+                <th>Année</th>
+                <th>Status</th>
+                <th>Historique de payement</th>
+                </thead>
+                <tbody>
+                {% for ecolage in statusEcolages %}
+                    <tr>
+                        <td>{{ ecolage.mois }}</td>
+                        <td>{{ ecolage.annee }}</td>
+                        <td>
+                            {% if ecolage.status %}
+                                payé
+                            {% else %}
+                                Somme versée: {{ ecolage.montant }} Ar <br>
+                                reste à payer: {{ montant - ecolage.montant - ecolage.univSonFiliere.universitaire.infoEtudiant.reduction }} Ar
+                            {% endif %}
+                        </td>
+                        <td>
+                            <ul>
+                                {%  for date in datesPayement[ecolage.id] %}
+                                    <li>Somme de {{ date.montant }} versé le {{ date.datePayement | date(' d/m/Y') }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4">Aucun ecolage enregisté</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}

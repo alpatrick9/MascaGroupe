@@ -192,7 +192,7 @@ class NoteLyceenController extends Controller
             ]);
         }
 
-        $html = $this->forward('MascaEtudiantBundle:Lycee/NoteLyceen:note',[
+        $html = $this->forward('MascaEtudiantBundle:Lycee/Impression/LyceeImpression:noteLyceePrint',[
             'lyceen'=>$lyceen
         ])->getContent();
 

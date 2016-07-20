@@ -176,7 +176,7 @@ class GestionNoteController extends Controller
             ]);
         }
 
-        $html = $this->forward('MascaEtudiantBundle:Universite/GestionNote:index',[
+        $html = $this->forward('MascaEtudiantBundle:Universite/Impression/UniversiteImpression:NotePrint',[
             'universitaireSonFiliere'=>$universitaireSonFiliere
         ])->getContent();
 

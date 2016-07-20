@@ -246,7 +246,7 @@ class LyceeController extends Controller
             ]);
         }
 
-        $html = $this->forward('MascaEtudiantBundle:Lycee/Lycee:index',[
+        $html = $this->forward('MascaEtudiantBundle:Lycee/Impression/LyceeImpression:listLyceePrint',[
             'page'=>$page
         ])->getContent();
 

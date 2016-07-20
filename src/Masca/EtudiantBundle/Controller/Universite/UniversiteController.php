@@ -239,7 +239,7 @@ class UniversiteController extends Controller
             ]);
         }
 
-        $html = $this->forward('MascaEtudiantBundle:Universite/Universite:index',[
+        $html = $this->forward('MascaEtudiantBundle:Universite/Impression/UniversiteImpression:ListUniversitairePrint',[
             'page'=>$page
         ])->getContent();
 

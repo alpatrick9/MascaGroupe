@@ -1,7 +1,9 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block etudiant_body %}
     <h3>Suivi status d'écolage</h3>
-    <p>Etudiant concerné: <b>{{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }} filiere {{ sonFiliere.sonFiliere.intitule }} niveau {{ sonFiliere.sonNiveauEtude.intitule }}</b> </p>
+    <p>Etudiant concerné: <b>{{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }} </b> </p>
+    <p>Filière: <b>{{ sonFiliere.sonFiliere.intitule }}</b></p>
+    <p>Niveau: <b>{{ sonFiliere.sonNiveauEtude.intitule }}</b></p>
     <p>Montant: <b>{{ montant }} Ar. </b></p>
     <p>Reduction: <b>{{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</b></p>
 
@@ -64,6 +66,5 @@
                 </a>
             </div>
         </div>
-
     </div>
 {% endblock%}

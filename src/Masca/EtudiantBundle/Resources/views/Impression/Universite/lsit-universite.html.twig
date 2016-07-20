@@ -1,0 +1,45 @@
+{% extends "::base-impression.html.twig" %}
+{% block body %}
+    <h3>Listes des étudiants de l'université</h3>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th> N° matricule</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Les filières suivis</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for universite in universitaires %}
+            <tr>
+                <td>{{ universite.person.numMatricule }}</td>
+                <td>{{ universite.person.nom }}</td>
+                <td>{{ universite.person.prenom }}</td>
+                <td>
+                    {% for filiere in universite.sesFilieres %}
+                        {{ filiere.sonFiliere.intitule }} <br>
+                    {% else %}
+                        aucun filière
+                    {% endfor %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun étudiant enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if universitaires|length > 0 %}
+        <div class="pagination align-center">
+            <ul>
+                {% for p in range(1, nbPage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('accueil_universite', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

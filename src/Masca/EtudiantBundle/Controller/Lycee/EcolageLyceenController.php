@@ -270,7 +270,7 @@ class EcolageLyceenController extends Controller
             ]);
         }
 
-        $html = $this->forward('MascaEtudiantBundle:Lycee/EcolageLyceen:ecolage',[
+        $html = $this->forward('MascaEtudiantBundle:Lycee/Impression/LyceeImpression:ecolageLyceePrint',[
             'lyceen'=>$lyceen
         ])->getContent();
 

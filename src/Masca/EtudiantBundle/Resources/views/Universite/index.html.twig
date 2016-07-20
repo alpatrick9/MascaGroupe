@@ -22,7 +22,8 @@
     <table id="tableshow" class="table  table-hover table-bordered table-striped avectri">
         <thead>
             <tr>
-                <th class="selection" data-tri="1" data-type="num">Nom</th>
+                <th class="selection" data-tri="1" data-type="num">N° matricule</th>
+                <th >Nom</th>
                 <th>Prénom</th>
                 <th>Status</th>
             </tr>
@@ -30,6 +31,7 @@
         <tbody>
             {% for universite in universitaires %}
             <tr>
+                <td>{{ universite.person.numMatricule }}</td>
                 <td>{{ universite.person.nom }}</td>
                 <td>{{ universite.person.prenom }}</td>
                 <td>
@@ -45,7 +47,7 @@
             </tr>
             {% else %}
             <tr>
-                <td colspan="3">Aucun étudiant enregistré</td>
+                <td colspan="4">Aucun étudiant enregistré</td>
             </tr>
             {% endfor %}
         </tbody>

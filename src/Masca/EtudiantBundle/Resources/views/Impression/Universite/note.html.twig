@@ -1,0 +1,70 @@
+{% extends "::base-impression.html.twig" %}
+{% block body %}
+    <h3>Resultat d'examen de {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }}</h3>
+    <p>Filière: <b>{{ sonFiliere.sonFiliere.intitule }}</b></p>
+    <p>Semestre: <b>{{ sonFiliere.semestre.intitule }}</b></p>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>UE (/20)</th>
+            <th>Module(EC)</th>
+            <th>EF(60%) /20</th>
+            <th>FC(30%) /20</th>
+            <th>NJ(10%) /20</th>
+            <th>Moy</th>
+            <th>Coef</th>
+            <th>Notes</th>
+            <th>Res</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ue in listUe %}
+            {% for matiere in listMatieres[ue.id] %}
+                <tr>
+                    {% if loop.first %}
+                        <td rowspan="{{ listMatieres[ue.id]|length }}">
+                            {{ ue.ue.intitule }} <br>
+                            Note: {{ notesUe[ue.id] }} <br>
+                            {% if  notesUe[ue.id] >= 10 %}
+                                Acquis
+                            {% else %}
+                                Non acquis
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                    <td>
+                        {{ matiere.matiere.intitule }}
+                    </td>
+                    {% if notes[matiere.id] %}
+                        <td>{{ notes[matiere.id].noteEf }}</td>
+                        <td>{{ notes[matiere.id].noteFc }}</td>
+                        <td>{{ notes[matiere.id].noteNj }}</td>
+                        <td>{{ notes[matiere.id].moyenne }}</td>
+                        <td>{{ notes[matiere.id].coefficient }}</td>
+                        <td>{{ notes[matiere.id].coefficient *  notes[matiere.id].moyenne }}</td>
+                        <td>
+                            {% if  notes[matiere.id].coefficient *  notes[matiere.id].moyenne >= 10 * notes[matiere.id].coefficient %}
+                                Obt
+                            {% else %}
+                                Rep
+                            {% endif %}
+                        </td>
+                    {% else %}
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="11">Aucun unité d'enseigment enregistré pour le filière</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

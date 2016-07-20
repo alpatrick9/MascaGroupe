@@ -1,0 +1,42 @@
+{% extends "::base-impression.html.twig" %}
+{% block body %}
+
+    <h3>Liste des élèves du Lycée</h3>
+    <div class="clearfix"></div>
+    <table id="tableshow" class="table  table-hover table-bordered table-striped avectri" data-role="table">
+        <thead>
+        <tr>
+            <th >N°</th>
+            <th >Nom</th>
+            <th >Prénom</th>
+            <th >classe</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for lyceen in lyceens %}
+            <tr>
+                <td>{{ lyceen.numeros }}</td>
+                <td>{{ lyceen.person.nom }}</td>
+                <td>{{ lyceen.person.prenom }}</td>
+                <td>{{ lyceen.sonClasse.intitule }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun étudiant enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if lyceens|length > 0 %}
+        <div class="pagination align-center">
+            <ul>
+                {% for p in range(1, nbPage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('accueil_lycee', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

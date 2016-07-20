@@ -26,8 +26,14 @@
                 <td>{{ absence.dateAbsent | date('d/m/Y') }}</td>
                 <td>{{ absence.partieJournee }}</td>
                 <td>
-                    <a href="{{ path('absence_modifier_lyceen', {'id':absence.id}) }}" class="btn btn-primary">modifier</a>
-                    <a href="{{ path('absence_supprimer_lyceen', {'id':absence.id}) }}" class="btn btn-danger" onclick="return confirm('Vous vous supprimer?')">supprimer</a>
+                    <div class="align-center">
+                        <a href="{{ path('absence_modifier_lyceen', {'id':absence.id}) }}">
+                            <img title="Modifier" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                        <a href="{{ path('absence_supprimer_lyceen', {'id':absence.id}) }}" onclick="return confirm('Vous vous supprimer?')">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}

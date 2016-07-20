@@ -279,7 +279,7 @@ class GestionEcolageController extends Controller
             ]);
         }
 
-        $html = $this->forward('MascaEtudiantBundle:Universite/GestionEcolage:index',[
+        $html = $this->forward('MascaEtudiantBundle:Universite/Impression/UniversiteImpression:ecolagePrint',[
             'universitaireSonFiliere'=>$universitaireSonFiliere
         ])->getContent();
 

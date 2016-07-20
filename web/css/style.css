@@ -328,3 +328,7 @@ input, label {
 .custom-margin {
 	margin: 5px;
 }
+
+table, tr, td, th, tbody, thead, tfoot {
+	page-break-inside: avoid;!important;
+}
