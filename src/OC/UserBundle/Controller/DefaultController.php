@@ -33,7 +33,7 @@ class DefaultController extends Controller
      * @Route("/", name="oc_user_homepage")
      */
     public function indexAction() {
-        return $this->render('MascaEtudiantBundle:Default:index.html.twig');
+        return $this->render('OCUserBundle:Default:index.html.twig');
     }
 
     /**

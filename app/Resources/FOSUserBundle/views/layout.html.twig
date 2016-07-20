@@ -1,5 +1,17 @@
 {% extends "::base.html.twig" %}
 {% block title %}Gestion utilisateur{% endblock %}
 {% block body %}
-    {% block fos_user_content %}{% endblock fos_user_content %}
+    <div class="col-md-12">
+        <div class="titre">{% block fos_user_title %}Gestion utilisateur{% endblock %}</div>
+        <div>
+            {% block fos_user_content %}{% endblock fos_user_content %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        var nav = document.getElementById("utilisateur_menu");
+        nav.className +="actif";
+    </script>
 {% endblock %}

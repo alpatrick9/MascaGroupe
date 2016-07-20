@@ -2,7 +2,7 @@
 {% block title%}Page étudiant{% endblock %}
 {% block body %}
     <div class="col-md-12">
-        <div class="titre">ETUDIANTS</div>
+        <div class="titre">Gestion étudiant</div>
         <ul class="nav nav-pills">
             <li {% if 'lycee' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('accueil_lycee') }}">Lycée</a></li>
             <li {% if 'univ' in app.request.attributes.get('_route') %} class = "active" {% endif %}><a href="{{ path('accueil_universite') }}">Université</a></li>
@@ -11,4 +11,10 @@
             {% block etudiant_body %}{% endblock %}
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        var nav = document.getElementById("etudiant_menu");
+        nav.className +="actif";
+    </script>
 {% endblock %}

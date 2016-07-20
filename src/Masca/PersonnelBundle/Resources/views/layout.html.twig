@@ -1,0 +1,16 @@
+{% extends "::base.html.twig"%}
+{% block title%}Page personnel{% endblock %}
+{% block body %}
+    <div class="col-md-12">
+        <div class="titre">Gestion du personnel</div>
+        <div>
+            {% block personnel_body %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        var nav = document.getElementById("personnel_menu");
+        nav.className +="actif";
+    </script>
+{% endblock %}

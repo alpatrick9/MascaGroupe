@@ -1,0 +1,41 @@
+{% extends "MascaPersonnelBundle::layout.html.twig" %}
+{% block personnel_body %}
+    {% set prototype_status = form.lesStatus.vars.prototype %}
+    <form>
+        {{ form_widget(form) }}
+        <div id="prototype-status" class="prototype-status hide">
+            {{ form_widget(prototype_status) }}
+        </div>
+
+        <section id="container-status">
+            <div>
+                <a href="#" id="choice-status" class="btn btn-success">Suivant</a>
+            </div>
+        </section>
+    </form>
+
+    <script>
+        $(document).ready(function(){
+            //Attention à bien vérifier que vos selecteurs correspondent à votre code
+            $('#add-tome').on('click', function(event){
+                event.preventDefault();
+                event.stopPropagation();
+
+                var $prototypeStatus = $('#prototype-status').clone();
+                $prototypeStatus = $($prototypeStatus.html().replace(/__name__/g, $('.prototype-status').length)
+
+                var $linkDelete = $('<div><a href="#" class="btn btn-danger delete-tome">Supprimer</a></div>');
+                $prototypeStatus.append($linkDelete);
+
+                $linkDelete.on('click', function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    $prototypeStatus.remove();
+                });
+
+                $('#container-status').prepend($prototypeStatus);
+            });
+        });
+    </script>
+{% endblock %}

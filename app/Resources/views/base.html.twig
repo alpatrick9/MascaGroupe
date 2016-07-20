@@ -31,11 +31,48 @@
 <div class="menu-wrapper">
     <div class="container">
         <ul class="main-menu floatright">
-            <a href="{{ path('oc_user_homepage') }}"><li class="actif"><div class=" span1"><img src="{{ absolute_url(asset('assets/homeactif.png')) }}"></div><div class="col-md-12">Accueil</div></li></a>
-            <a href=""><li><div class=" span1"><img src="{{ absolute_url(asset('assets/tresorerie.png')) }}"></div><div class=" col-md-12">Tresorérie</div></li></a>
-            <a href=""><li><div class=" span1"><img src="{{ absolute_url(asset('assets/personnel.png')) }}"></div><div class=" col-md-12">Personnels</div></li></a>
-            <a href=""><li><div class=" span1"><img src="{{ absolute_url(asset('assets/etudiant.png')) }}"></div><div class=" col-md-12">Etudiants</div></li></a>
-            <a href="{{ path('user_lists') }}"><li><div class=" span1"><img src="{{ absolute_url(asset('assets/user-admin.png')) }}"></div><div class=" col-md-12">Utilisateur</div></li></a>
+            <a href="{{ path('oc_user_homepage') }}">
+                <li id="home_menu">
+                    <div class=" span1">
+                        <img src="{{ absolute_url(asset('assets/home.png')) }}">
+                    </div>
+                    <div class="col-md-12">
+                        Accueil
+                    </div>
+                </li>
+            </a>
+            <a href="">
+                <li id="tresor_menu">
+                    <div class=" span1">
+                        <img src="{{ absolute_url(asset('assets/tresorerie.png')) }}">
+                    </div>
+                    <div class=" col-md-12">Tresorérie</div>
+                </li>
+            </a>
+            <a href="{{ path('personnel_home') }}">
+                <li id="personnel_menu">
+                    <div class=" span1">
+                        <img src="{{ absolute_url(asset('assets/personnel.png')) }}">
+                    </div>
+                    <div class=" col-md-12">Personnels</div>
+                </li>
+            </a>
+            <a href="{{ path('etudiant_home') }}">
+                <li id="etudiant_menu">
+                    <div class=" span1">
+                        <img src="{{ absolute_url(asset('assets/etudiant.png')) }}">
+                    </div>
+                    <div class=" col-md-12">Etudiants</div>
+                </li>
+            </a>
+            <a href="{{ path('user_lists') }}">
+                <li id="utilisateur_menu">
+                    <div class=" span1">
+                        <img src="{{ absolute_url(asset('assets/user-admin.png')) }}">
+                    </div>
+                    <div class=" col-md-12">Utilisateur</div>
+                </li>
+            </a>
         </ul>
     </div>
 </div>
@@ -53,6 +90,9 @@
         <div class="row basdepage">&copy;Masca Groupe Tous droits resérvé 2016 </div>
     </div>
 </div>
+
+{% block javascripts %}
+{% endblock %}
 
 </body>
 </html>

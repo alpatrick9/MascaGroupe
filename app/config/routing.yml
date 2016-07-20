@@ -1,3 +1,7 @@
+masca_personnel:
+    resource: "@MascaPersonnelBundle/Resources/config/routing.yml"
+    prefix:   /presonnel
+
 oc_user:
     resource: "@OCUserBundle/Resources/config/routing.yml"
     prefix:   /

@@ -1,0 +1,3 @@
+personnel_app:
+    resource: "@MascaPersonnelBundle/Controller"
+    type: annotation

@@ -1,0 +1,11 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% block title %}Accueil{% endblock %}
+{% block fos_user_title %}Accueil principal{% endblock %}
+{% block fos_user_content %}
+{% endblock %}
+{% block javascripts %}
+    <script>
+        var nav = document.getElementById("home_menu");
+        nav.className +="actif";
+    </script>
+{% endblock %}
