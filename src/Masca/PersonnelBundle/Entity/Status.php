@@ -33,9 +33,9 @@ class Status
     /**
      * @var string
      *
-     * @ORM\Column(name="libele_poste", type="string", length=255)
+     * @ORM\Column(name="type_poste", type="string", length=255)
      */
-    private $libelePoste;
+    private $typePoste;
 
     /**
      * @var $dateEmbauche \DateTime
@@ -87,13 +87,13 @@ class Status
     /**
      * Set libelePoste
      *
-     * @param string $libelePoste
+     * @param string $typePoste
      *
      * @return Status
      */
-    public function setLibelePoste($libelePoste)
+    public function setTypePoste($typePoste)
     {
-        $this->libelePoste = $libelePoste;
+        $this->typePoste = $typePoste;
 
         return $this;
     }
@@ -103,9 +103,9 @@ class Status
      *
      * @return string
      */
-    public function getLibelePoste()
+    public function getTypePoste()
     {
-        return $this->libelePoste;
+        return $this->typePoste;
     }
 
     /**

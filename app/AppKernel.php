@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new OC\UserBundle\OCUserBundle(),
             new \Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new Masca\PersonnelBundle\MascaPersonnelBundle(),
+            new Masca\TresorBundle\MascaTresorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

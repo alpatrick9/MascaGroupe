@@ -1,0 +1,3 @@
+tresor_app:
+    resource: "@MascaTresorBundle/Controller"
+    type: annotation

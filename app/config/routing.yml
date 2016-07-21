@@ -1,3 +1,7 @@
+masca_tresor:
+    resource: "@MascaTresorBundle/Resources/config/routing.yml"
+    prefix:   /tresor
+
 masca_personnel:
     resource: "@MascaPersonnelBundle/Resources/config/routing.yml"
     prefix:   /presonnel

@@ -26,7 +26,7 @@ class StatusType extends AbstractType
                 'choices'=> ["Oui" => true, 'Non' => false],
                 'expanded'=>true
             ])
-            ->add('libelePoste', ChoiceType::class, [
+            ->add('typePoste', ChoiceType::class, [
                 'label'=>'Type de poste',
                 'choices_as_values'=>true,
                 'choices'=>['Enseignant'=>'prof','Autre'=>'autre']
