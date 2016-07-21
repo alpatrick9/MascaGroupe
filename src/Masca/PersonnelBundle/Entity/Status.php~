@@ -4,6 +4,7 @@ namespace Masca\PersonnelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Masca\EtudiantBundle\Entity\Person;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Status
@@ -30,10 +31,23 @@ class Status
     private $permanent;
 
     /**
-     * @var $person Person
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Person", inversedBy="lesStatus")
+     * @var string
+     *
+     * @ORM\Column(name="libele_poste", type="string", length=255)
      */
-    private $person;
+    private $libelePoste;
+
+    /**
+     * @var $dateEmbauche \DateTime
+     * @ORM\Column(name="dateEmbauche", type="date")
+     */
+    private $dateEmbauche;
+
+    /**
+     * @var $employer Employer
+     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", cascade={"persist"})
+     */
+    private $employer;
 
 
     /**
@@ -69,5 +83,52 @@ class Status
     {
         return $this->permanent;
     }
-}
 
+    /**
+     * Set libelePoste
+     *
+     * @param string $libelePoste
+     *
+     * @return Status
+     */
+    public function setLibelePoste($libelePoste)
+    {
+        $this->libelePoste = $libelePoste;
+
+        return $this;
+    }
+
+    /**
+     * Get libelePoste
+     *
+     * @return string
+     */
+    public function getLibelePoste()
+    {
+        return $this->libelePoste;
+    }
+
+    /**
+     * Set employer
+     *
+     * @param \Masca\PersonnelBundle\Entity\Employer $employer
+     *
+     * @return Status
+     */
+    public function setEmployer(\Masca\PersonnelBundle\Entity\Employer $employer = null)
+    {
+        $this->employer = $employer;
+
+        return $this;
+    }
+
+    /**
+     * Get employer
+     *
+     * @return \Masca\PersonnelBundle\Entity\Employer
+     */
+    public function getEmployer()
+    {
+        return $this->employer;
+    }
+}

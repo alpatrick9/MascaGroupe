@@ -44,19 +44,16 @@ class PersonType extends AbstractType
                 'label'=>'Numeros CIN',
                 'attr'=>array(
                     'min'=>100000000000,
-                    'placeholder'=>112991012188),
-                'required'=>false
+                    'placeholder'=>112991012188)
             ))
             ->add('dateDelivranceCin',DateType::class,array(
                 'label'=>'Fait le',
                 'format'=>'dd MMMM yyyy',
                 'years'=>range(date('Y')-50,date('Y')),
-                'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois'),
-                'required'=>false
+                'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
             ))
             ->add('lieuDelivranceCin',TextType::class, array(
-                'label'=>'à',
-                'required'=>false
+                'label'=>'à'
             ));
     }
 

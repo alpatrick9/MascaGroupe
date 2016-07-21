@@ -4,6 +4,7 @@ namespace Masca\PersonnelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Masca\EtudiantBundle\Entity\Person;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Status
@@ -30,10 +31,23 @@ class Status
     private $permanent;
 
     /**
-     * @var $person Person
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Person", inversedBy="lesStatus")
+     * @var string
+     *
+     * @ORM\Column(name="libele_poste", type="string", length=255)
      */
-    private $person;
+    private $libelePoste;
+
+    /**
+     * @var $dateEmbauche \DateTime
+     * @ORM\Column(name="dateEmbauche", type="date")
+     */
+    private $dateEmbauche;
+
+    /**
+     * @var $employer Employer
+     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", cascade={"persist"})
+     */
+    private $employer;
 
 
     /**
@@ -71,26 +85,74 @@ class Status
     }
 
     /**
-     * Set person
+     * Set libelePoste
      *
-     * @param \Masca\EtudiantBundle\Entity\Person $person
+     * @param string $libelePoste
      *
      * @return Status
      */
-    public function setPerson(\Masca\EtudiantBundle\Entity\Person $person = null)
+    public function setLibelePoste($libelePoste)
     {
-        $this->person = $person;
+        $this->libelePoste = $libelePoste;
 
         return $this;
     }
 
     /**
-     * Get person
+     * Get libelePoste
      *
-     * @return \Masca\EtudiantBundle\Entity\Person
+     * @return string
      */
-    public function getPerson()
+    public function getLibelePoste()
     {
-        return $this->person;
+        return $this->libelePoste;
+    }
+
+    /**
+     * Set employer
+     *
+     * @param \Masca\PersonnelBundle\Entity\Employer $employer
+     *
+     * @return Status
+     */
+    public function setEmployer(\Masca\PersonnelBundle\Entity\Employer $employer = null)
+    {
+        $this->employer = $employer;
+
+        return $this;
+    }
+
+    /**
+     * Get employer
+     *
+     * @return \Masca\PersonnelBundle\Entity\Employer
+     */
+    public function getEmployer()
+    {
+        return $this->employer;
+    }
+
+    /**
+     * Set dateEmbauche
+     *
+     * @param \DateTime $dateEmbauche
+     *
+     * @return Status
+     */
+    public function setDateEmbauche($dateEmbauche)
+    {
+        $this->dateEmbauche = $dateEmbauche;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEmbauche
+     *
+     * @return \DateTime
+     */
+    public function getDateEmbauche()
+    {
+        return $this->dateEmbauche;
     }
 }

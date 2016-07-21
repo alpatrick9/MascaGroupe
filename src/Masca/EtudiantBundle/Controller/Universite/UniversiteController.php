@@ -88,6 +88,21 @@ class UniversiteController extends Controller
         }
         $person = new Person();
         $personForm = $this->createForm(PersonType::class, $person);
+
+        $cinField = $personForm->get('numCin');
+        $options = $cinField->getConfig()->getOptions();
+        $options['required'] = false;
+        $personForm->add('numCin',IntegerType::class,$options);
+
+        $dateCinField = $personForm->get('dateDelivranceCin');
+        $options = $dateCinField->getConfig()->getOptions();
+        $options['required'] = false;
+        $personForm->add('dateDelivranceCin',DateType::class,$options);
+
+        $lieuCinField = $personForm->get('lieuDelivranceCin');
+        $options = $lieuCinField->getConfig()->getOptions();
+        $options['required'] = false;
+        $personForm->add('lieuDelivranceCin',TextType::class,$options);
         
         $infoEtudiant = new InfoEtudiant();
         $infoEtudiantForm = $this->createForm(InfoEtudiantType::class, $infoEtudiant);
@@ -175,6 +190,22 @@ class UniversiteController extends Controller
             ]);
         }
         $personForm = $this->createForm(PersonType::class, $universitaire->getPerson());
+
+        $cinField = $personForm->get('numCin');
+        $options = $cinField->getConfig()->getOptions();
+        $options['required'] = false;
+        $personForm->add('numCin',IntegerType::class,$options);
+
+        $dateCinField = $personForm->get('dateDelivranceCin');
+        $options = $dateCinField->getConfig()->getOptions();
+        $options['required'] = false;
+        $personForm->add('dateDelivranceCin',DateType::class,$options);
+
+        $lieuCinField = $personForm->get('lieuDelivranceCin');
+        $options = $lieuCinField->getConfig()->getOptions();
+        $options['required'] = false;
+        $personForm->add('lieuDelivranceCin',TextType::class,$options);
+        
         $infoEtudiantForm = $this->createForm(InfoEtudiantType::class, $universitaire->getInfoEtudiant());
 
         /**

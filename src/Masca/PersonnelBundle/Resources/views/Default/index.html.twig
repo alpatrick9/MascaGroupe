@@ -1,41 +1,61 @@
 {% extends "MascaPersonnelBundle::layout.html.twig" %}
 {% block personnel_body %}
-    {% set prototype_status = form.lesStatus.vars.prototype %}
-    <form>
-        {{ form_widget(form) }}
-        <div id="prototype-status" class="prototype-status hide">
-            {{ form_widget(prototype_status) }}
+    <h3>Liste des employers</h3>
+    <div class="row link-text  floatleft">
+        <a href="{{ path('recrutement') }}">
+            <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+        </a>
+        <a href="" class="btn btn-info btn-lg">Administration </a>
+    </div>
+    <div class="row link-text floatright">
+        <form method="post">
+            <input id="search" placeholder="Entrez un nom ou prénom" name="key_word">
+            <input type="image" src="{{ absolute_url(asset('assets/find.png')) }}">
+        </form>
+    </div>
+    <table id="tableshow" class="table table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th class="selection" data-tri="1" data-type="num">N° matricule</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employer in employers %}
+            <tr>
+                <td>{{ employer.person.numMatricule }}</td>
+                <td>{{ employer.person.nom }}</td>
+                <td>{{ employer.person.prenom }}</td>
+                <td>
+                    <div class="align-center">
+                        <a href="">
+                            <img title="Afficher détails" src="{{ asset('assets/details.png') }}">
+                        </a>
+                        <a href="" onclick="return confirm('Voulez vous supprimer toutes les informations concernat {{ employer.person.nom }} {{ employer.person.prenom }}?')">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun employer enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if employers|length > 0 %}
+        <div class="pagination align-center">
+            <ul>
+                {% for p in range(1, nbPage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('personnel_home', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-
-        <section id="container-status">
-            <div>
-                <a href="#" id="choice-status" class="btn btn-success">Suivant</a>
-            </div>
-        </section>
-    </form>
-
-    <script>
-        $(document).ready(function(){
-            //Attention à bien vérifier que vos selecteurs correspondent à votre code
-            $('#add-tome').on('click', function(event){
-                event.preventDefault();
-                event.stopPropagation();
-
-                var $prototypeStatus = $('#prototype-status').clone();
-                $prototypeStatus = $($prototypeStatus.html().replace(/__name__/g, $('.prototype-status').length)
-
-                var $linkDelete = $('<div><a href="#" class="btn btn-danger delete-tome">Supprimer</a></div>');
-                $prototypeStatus.append($linkDelete);
-
-                $linkDelete.on('click', function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    $prototypeStatus.remove();
-                });
-
-                $('#container-status').prepend($prototypeStatus);
-            });
-        });
-    </script>
+    {% endif %}
 {% endblock %}

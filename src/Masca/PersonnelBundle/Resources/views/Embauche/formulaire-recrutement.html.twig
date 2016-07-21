@@ -1,29 +1,33 @@
-{% extends "MascaEtudiantBundle::layout.html.twig" %}
-{% block etudiant_body %}
-    <h3>Page de modification des informations concernant l'étudiant</h3>
+{% extends "MascaPersonnelBundle::layout.html.twig" %}
+{% block personnel_body %}
+    <h3>Formulaire de recrutement</h3>
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
     <div class="row">
         <form method="post">
             <div class="span6">
                 <fieldset>
                     <legend>Etat civil</legend>
-                    {{ form_widget(personForm) }}
+                    {{ form_widget(form_person) }}
                 </fieldset>
             </div>
             <div class="span6">
                 <fieldset>
-                    <legend>Complémentaire</legend>
-                    {{ form_widget(infoEtudiantForm) }}
+                    <legend>Information</legend>
+                    {{ form_widget(form_status) }}
                 </fieldset>
             </div>
+            <div class="clearfix"></div>
             <div class="submit-style">
                 <div class="floatleft">
-                    <a href="{{ path('details_lyceen', {'id':lyceenId}) }}">
+                    <a href="{{ path('personnel_home') }}">
                         <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
                     </a>
 
                 </div>
                 <div class="floatright">
-                    <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+                    <input type="image" src="{{ asset('assets/next.png') }}" title="Suivant">
                 </div>
             </div>
         </form>

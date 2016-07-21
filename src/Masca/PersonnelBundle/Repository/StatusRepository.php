@@ -1,6 +1,7 @@
 <?php
 
 namespace Masca\PersonnelBundle\Repository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * StatusRepository

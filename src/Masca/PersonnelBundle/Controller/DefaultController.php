@@ -2,13 +2,12 @@
 
 namespace Masca\PersonnelBundle\Controller;
 
-use Masca\EtudiantBundle\Entity\Person;
-use Masca\EtudiantBundle\Type\PersonType;
-use Masca\PersonnelBundle\Type\StatusType;
+use Masca\PersonnelBundle\Entity\Employer;
+use Masca\PersonnelBundle\Repository\EmployerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class DefaultController
@@ -18,21 +17,37 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 class DefaultController extends Controller
 {
     /**
+     * @param Request $request
+     * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/accueil", name="personnel_home")
+     * @Route("/accueil/{page}", name="personnel_home", defaults={"page" = 1})
      */
-    public function indexAction()
+    public function indexAction(Request $request, $page)
     {
-        $person = new Person();
-        $personnelForm = $this->createForm(PersonType::class, $person);
-        $personnelForm->add('lesStatus',CollectionType::class,[
-            'entry_type'=> 'Masca\PersonnelBundle\Type\StatusType',
-            'allow_add' => true,
-            'allow_delete' => true
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+        $nbParPage = 30;
+        /**
+         * @var $repository EmployerRepository
+         */
+        $repository = $this->getDoctrine()->getManager()
+            ->getRepository('MascaPersonnelBundle:Employer');
+        /**
+         * @var $listEmployer Employer[]
+         */
+        $listEmployer = $repository->getEmployers($nbParPage,$page);
 
-        ]);
+        if($request->getMethod() == 'POST') {
+            $listEmployer = $repository->findEmployer($nbParPage,$page,$request->get('key_word'));
+        }
         return $this->render('MascaPersonnelBundle:Default:index.html.twig', [
-            'form'=>$personnelForm->createView()
+            'employers' => $listEmployer,
+            'page' => $page,
+            'nbPage' => ceil(count($listEmployer) / $nbParPage)
         ]);
     }
 }

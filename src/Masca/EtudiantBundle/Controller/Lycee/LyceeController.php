@@ -101,10 +101,19 @@ class LyceeController extends Controller
 
             $lyceen->setPerson($person);
             $lyceen->setInfoEtudiant($infoEtudiant);
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($lyceen);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaEtudiantBundle:Lycee:inscription.html.twig',array(
+                    'personForm'=>$personForm->createView(),
+                    'infoEtudiantForm'=>$infoEtudiantForm->createView(),
+                    'etudeForm'=>$lyceenForm->createView(),
+                    'error_message'=>'Le numero matricule '.$lyceen->getPerson()->getNumMatricule().' existe déjà! Veuillez le remplacer svp!'
+                ));
+            }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($lyceen);
-            $em->flush();
             return $this->redirect($this->generateUrl('accueil_lycee'));
 
         }

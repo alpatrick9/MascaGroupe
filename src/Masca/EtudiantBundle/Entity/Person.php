@@ -79,12 +79,6 @@ class Person
     private $lieuDelivranceCin;
 
     /**
-     * @var $lesStatus Status[]
-     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\Status", mappedBy="person", cascade={"remove"})
-     */
-    private $lesStatus;
-
-    /**
      * Get id
      *
      * @return integer 
@@ -282,40 +276,5 @@ class Person
      */
     public function __construct()
     {
-        $this->lesStatus = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add lesStatus
-     *
-     * @param \Masca\PersonnelBundle\Entity\Status $lesStatus
-     *
-     * @return Person
-     */
-    public function addLesStatus(\Masca\PersonnelBundle\Entity\Status $lesStatus)
-    {
-        $this->lesStatus[] = $lesStatus;
-
-        return $this;
-    }
-
-    /**
-     * Remove lesStatus
-     *
-     * @param \Masca\PersonnelBundle\Entity\Status $lesStatus
-     */
-    public function removeLesStatus(\Masca\PersonnelBundle\Entity\Status $lesStatus)
-    {
-        $this->lesStatus->removeElement($lesStatus);
-    }
-
-    /**
-     * Get lesStatus
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLesStatus()
-    {
-        return $this->lesStatus;
     }
 }

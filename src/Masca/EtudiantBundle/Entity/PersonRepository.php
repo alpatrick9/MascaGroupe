@@ -12,4 +12,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class PersonRepository extends EntityRepository
 {
+    public function statusEcolage(Lyceen $lyceen) {
+        $query = $this->createQueryBuilder('ecolage')
+            ->where('ecolage.lyceen = :lyceen')->setParameter('lyceen',$lyceen)
+            ->andWhere('ecolage.status = :status')->setParameter('status', 0)
+            ->getQuery();
+        return $query->getOneOrNullResult() != null;
+    }
+
+    public function doublantMatricule(Person $person) {
+        $query = $this->createQueryBuilder('person')
+            ->where('person.numMatricule = :matricule')->setParameter('matricule',$person->getNumMatricule())
+            ->getQuery();
+        return $query->getOneOrNullResult() != null;
+    }
 }
