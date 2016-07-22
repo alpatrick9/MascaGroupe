@@ -84,14 +84,11 @@ class GestionEmbaucheController extends Controller
             
             $status->setEmployer($employer);
 
-            //return $this->forward('MascaPersonnelBundle:GestionEmbauche:detailEmbauche', ['status'=>$status]);
+            $session = $this->get('session');
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($status);
-            $em->flush();
+            $session->set('status', serialize($status));
 
-            return $this->redirect($this->generateUrl('details_embauche', [
-                'id'=>$status->getId()]));
+            return $this->redirect($this->generateUrl('details_embauche'));
         }
         
         return $this->render('MascaPersonnelBundle:Embauche:formulaire-recrutement.html.twig',[
@@ -105,15 +102,23 @@ class GestionEmbaucheController extends Controller
      * @param Request $request
      * @param Status $status
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/detail/{id}", name="details_embauche")
+     * @Route("/recrutement/detail", name="details_embauche")
      */
-    public function detailEmbaucheAction(Request $request, Status $status) {
+    public function detailEmbaucheAction(Request $request) {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink' => $request->headers->get('referer')
             ]);
         }
+
+        $session = $this->get('session');
+        if(empty($session->get('status')))
+            return $this->redirect($this->generateUrl('recrutement'));
+        /**
+         * @var $status Status
+         */
+        $status = unserialize($session->get('status'));
         switch ($status->getTypeSalaire()) {
             case 'fixe':
                 $salaireFixe = new InfoSalaireFixe();
@@ -123,6 +128,20 @@ class GestionEmbaucheController extends Controller
                 $tauxHoraire = new InfoVolumeHoraire();
                 $form = $this->createForm(InfoVolumeHoraireType::class, $tauxHoraire);
                 break;
+        }
+
+        if($request->getMethod() == 'POST') {
+            $session->remove('status');
+            $em =  $this->getDoctrine()->getManager();
+            switch($status->getTypeSalaire()) {
+                case 'fixe':
+                    $em->persist($salaireFixe);
+                    break;
+                case 'heure':
+                    $em->persist($tauxHoraire);
+            }
+            $em->flush();
+            return $this->redirect($this->generateUrl('personnel_home'));
         }
 
         return $this->render('MascaPersonnelBundle:Embauche:formulaire-salaire.html.twig',[
