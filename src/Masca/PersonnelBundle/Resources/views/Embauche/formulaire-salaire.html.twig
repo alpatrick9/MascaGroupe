@@ -1,23 +1,13 @@
 {% extends "MascaPersonnelBundle::layout.html.twig" %}
 {% block personnel_body %}
-    <h3>Formulaire de recrutement</h3>
+    <h3>Detail poste</h3>
     {% if error_message is defined %}
         <p style="color: red "> {{ error_message }}</p>
     {% endif %}
     <div class="row">
-        <form method="post">
-            <div class="span6">
-                <fieldset>
-                    <legend>Etat civil</legend>
-                    {{ form_widget(form_person) }}
-                </fieldset>
-            </div>
-            <div class="span6">
-                <fieldset>
-                    <legend>Autre Information</legend>
-                    {{ form_widget(form_status) }}
-                    {{ form_widget(form_employer) }}
-                </fieldset>
+        <form method="post" >
+            <div class="span12">
+                {{ form_widget(form) }}
             </div>
             <div class="clearfix"></div>
             <div class="submit-style">
@@ -28,7 +18,7 @@
 
                 </div>
                 <div class="floatright">
-                    <input type="image" src="{{ asset('assets/next.png') }}" title="Suivant">
+                    <input type="image" src="{{ asset('assets/save.png') }}" title="Enregistrement">
                 </div>
             </div>
         </form>

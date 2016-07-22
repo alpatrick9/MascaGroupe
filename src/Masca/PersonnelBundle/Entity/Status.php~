@@ -24,18 +24,25 @@ class Status
     private $id;
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(name="permanent", type="boolean")
+     * @ORM\Column(name="type_salaire", type="string", length=255)
      */
-    private $permanent;
+    private $typeSalaire;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="libele_poste", type="string", length=255)
+     * @ORM\Column(name="type_poste", type="string", length=255)
      */
-    private $libelePoste;
+    private $typePoste;
+
+    /**
+     * @var $etablisement
+     *
+     * @ORM\Column(name="etablisement", type ="string", length=255)
+     */
+    private $etablisement;
 
     /**
      * @var $dateEmbauche \DateTime
@@ -63,13 +70,13 @@ class Status
     /**
      * Set permanent
      *
-     * @param boolean $permanent
+     * @param string $typeSalaire
      *
      * @return Status
      */
-    public function setPermanent($permanent)
+    public function setTypeSalaire($typeSalaire)
     {
-        $this->permanent = $permanent;
+        $this->typeSalaire = $typeSalaire;
 
         return $this;
     }
@@ -77,23 +84,23 @@ class Status
     /**
      * Get permanent
      *
-     * @return bool
+     * @return string
      */
-    public function getPermanent()
+    public function getTypeSalaire()
     {
-        return $this->permanent;
+        return $this->typeSalaire;
     }
 
     /**
      * Set libelePoste
      *
-     * @param string $libelePoste
+     * @param string $typePoste
      *
      * @return Status
      */
-    public function setLibelePoste($libelePoste)
+    public function setTypePoste($typePoste)
     {
-        $this->libelePoste = $libelePoste;
+        $this->typePoste = $typePoste;
 
         return $this;
     }
@@ -103,9 +110,9 @@ class Status
      *
      * @return string
      */
-    public function getLibelePoste()
+    public function getTypePoste()
     {
-        return $this->libelePoste;
+        return $this->typePoste;
     }
 
     /**
@@ -130,5 +137,53 @@ class Status
     public function getEmployer()
     {
         return $this->employer;
+    }
+
+    /**
+     * Set dateEmbauche
+     *
+     * @param \DateTime $dateEmbauche
+     *
+     * @return Status
+     */
+    public function setDateEmbauche($dateEmbauche)
+    {
+        $this->dateEmbauche = $dateEmbauche;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEmbauche
+     *
+     * @return \DateTime
+     */
+    public function getDateEmbauche()
+    {
+        return $this->dateEmbauche;
+    }
+
+    /**
+     * Set etablisement
+     *
+     * @param string $etablisement
+     *
+     * @return Status
+     */
+    public function setEtablisement($etablisement)
+    {
+        $this->etablisement = $etablisement;
+
+        return $this;
+    }
+
+    /**
+     * Get etablisement
+     *
+     * @return string
+     */
+    public function getEtablisement()
+    {
+        return $this->etablisement;
     }
 }

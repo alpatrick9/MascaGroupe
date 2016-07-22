@@ -21,12 +21,29 @@ class Employer
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var $tauxCnaps float
+     *
+     * @ORM\Column(name="tauxCnaps", type="float")
+     */
+    private $tauxCnaps;
     
     /**
      * @var $person Person
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\Person", cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="Masca\EtudiantBundle\Entity\Person", cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $person;
+
+    /**
+     * Employer constructor.
+     * @param float $tauxCnaps
+     */
+    public function __construct()
+    {
+        $this->tauxCnaps = 0;
+    }
 
     /**
      * Get id
@@ -60,5 +77,29 @@ class Employer
     public function getPerson()
     {
         return $this->person;
+    }
+
+    /**
+     * Set tauxCnaps
+     *
+     * @param float $tauxCnaps
+     *
+     * @return Employer
+     */
+    public function setTauxCnaps($tauxCnaps)
+    {
+        $this->tauxCnaps = $tauxCnaps;
+
+        return $this;
+    }
+
+    /**
+     * Get tauxCnaps
+     *
+     * @return float
+     */
+    public function getTauxCnaps()
+    {
+        return $this->tauxCnaps;
     }
 }

@@ -20,14 +20,21 @@ class StatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('permanent', ChoiceType::class, [
-                'label'=>'Employer permanent',
+            ->add('etablisement', ChoiceType::class,[
+                'label'=>'Etablissement',
+                'placeholder'=>'Choisissez',
                 'choices_as_values'=>true,
-                'choices'=> ["Oui" => true, 'Non' => false],
-                'expanded'=>true
+                'choices'=>["Université"=>"universite", "Lycée"=>"lycee"]
+            ])
+            ->add('typeSalaire', ChoiceType::class, [
+                'label'=>'Mode de payement',
+                'placeholder'=>'Choisissez..',
+                'choices_as_values'=>true,
+                'choices'=> ["Salaire fixe" => "fixe", "Volume horaire" => "heure"]
             ])
             ->add('typePoste', ChoiceType::class, [
                 'label'=>'Type de poste',
+                'placeholder'=>'Choisissez..',
                 'choices_as_values'=>true,
                 'choices'=>['Enseignant'=>'prof','Autre'=>'autre']
             ])

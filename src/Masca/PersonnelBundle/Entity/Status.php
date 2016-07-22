@@ -24,11 +24,11 @@ class Status
     private $id;
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(name="permanent", type="boolean")
+     * @ORM\Column(name="type_salaire", type="string", length=255)
      */
-    private $permanent;
+    private $typeSalaire;
 
     /**
      * @var string
@@ -36,6 +36,13 @@ class Status
      * @ORM\Column(name="type_poste", type="string", length=255)
      */
     private $typePoste;
+
+    /**
+     * @var $etablisement
+     *
+     * @ORM\Column(name="etablisement", type ="string", length=255)
+     */
+    private $etablisement;
 
     /**
      * @var $dateEmbauche \DateTime
@@ -63,13 +70,13 @@ class Status
     /**
      * Set permanent
      *
-     * @param boolean $permanent
+     * @param string $typeSalaire
      *
      * @return Status
      */
-    public function setPermanent($permanent)
+    public function setTypeSalaire($typeSalaire)
     {
-        $this->permanent = $permanent;
+        $this->typeSalaire = $typeSalaire;
 
         return $this;
     }
@@ -77,11 +84,11 @@ class Status
     /**
      * Get permanent
      *
-     * @return bool
+     * @return string
      */
-    public function getPermanent()
+    public function getTypeSalaire()
     {
-        return $this->permanent;
+        return $this->typeSalaire;
     }
 
     /**
@@ -154,5 +161,29 @@ class Status
     public function getDateEmbauche()
     {
         return $this->dateEmbauche;
+    }
+
+    /**
+     * Set etablisement
+     *
+     * @param string $etablisement
+     *
+     * @return Status
+     */
+    public function setEtablisement($etablisement)
+    {
+        $this->etablisement = $etablisement;
+
+        return $this;
+    }
+
+    /**
+     * Get etablisement
+     *
+     * @return string
+     */
+    public function getEtablisement()
+    {
+        return $this->etablisement;
     }
 }
