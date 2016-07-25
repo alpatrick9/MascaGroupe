@@ -1,0 +1,131 @@
+{% extends "MascaPersonnelBundle::layout.html.twig" %}
+{% block personnel_body %}
+    <h3>Information detaillées d'un employé</h3>
+    <fieldset>
+        <legend>Etat civil</legend>
+        <table class="table  table-hover table-bordered table-striped">
+            <tr>
+                <td class="text-bold"><b>N° matricule:</b></td>
+                <td>{{ employer.person.numMatricule }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold"><b>Nom:</b></td>
+                <td>{{ employer.person.nom }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold"><b>Prénom:</b></td>
+                <td>{{ employer.person.prenom }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold"><b>Date de naissance:</b></td>
+                <td>{{ employer.person.dateNaissance |date('d M Y') }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold"><b>Lieu de naissance:</b></td>
+                <td>{{ employer.person.lieuNaissance }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold"><b>CIN:</b></td>
+                <td>{{ employer.person.numCin }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold"><b>Date delivrance CIN:</b></td>
+                <td>{{ employer.person.dateDelivranceCin |date('d M Y') }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold"><b>à:</b></td>
+                <td>{{ employer.person.lieuNaissance }}</td>
+            </tr>
+        </table>
+    </fieldset>
+    <div class="clearfix"></div>
+    <fieldset>
+        <legend>Les postes fixe</legend>
+        <table class="table  table-hover table-bordered table-striped">
+            <thead>
+            <th>
+                Date d'embauche
+            </th>
+            <th>
+                Type du poste
+            </th>
+            <th>
+                Mode de payement
+            </th>
+            <th>
+                Etablissement
+            </th>
+            <th>
+                Titre du poste
+            </th>
+            <th>
+                Salaire mensuele (Ar)
+            </th>
+            </thead>
+            <tbody>
+            {% for poste in posteFixes %}
+                <tr>
+                    <td>{{ poste.status.dateEmbauche | date('d M Y') }}</td>
+                    <td>{{ poste.status.typePoste }}</td>
+                    <td>{{ poste.status.typeSalaire }}</td>
+                    <td>{{ poste.status.etablisement }}</td>
+                    <td>{{ poste.titrePoste }}</td>
+                    <td>{{ poste.salaire }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucun poste fixe</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </fieldset>
+    <div class="clearfix"></div>
+    <fieldset>
+        <legend>Les postes non permanent</legend>
+        <table class="table  table-hover table-bordered table-striped">
+            <thead>
+            <th>
+                Date d'embauche
+            </th>
+            <th>
+                Type du poste
+            </th>
+            <th>
+                Mode de payement
+            </th>
+            <th>
+                Etablissement
+            </th>
+            <th>
+                Titre du poste
+            </th>
+            <th>
+                Taux horaire (Ar)
+            </th>
+            </thead>
+            <tbody>
+            {% for poste in posteHoraires %}
+                <tr>
+                    <td>{{ poste.status.dateEmbauche | date('d M Y') }}</td>
+                    <td>{{ poste.status.typePoste }}</td>
+                    <td>{{ poste.status.typeSalaire }}</td>
+                    <td>{{ poste.status.etablisement }}</td>
+                    <td>{{ poste.titrePoste }}</td>
+                    <td>{{ poste.tauxHoraire }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucun poste fixe</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </fieldset>
+    <div class="clearfix"></div>
+    <div class="align-center">
+        <a href="{{ path('personnel_home') }}">
+            <img title="Retour" src="{{ asset('assets/cancel.png') }}" class="custom-margin">
+        </a>
+    </div>
+{% endblock %}

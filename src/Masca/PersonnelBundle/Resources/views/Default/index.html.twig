@@ -30,7 +30,7 @@
                 <td>{{ employer.person.prenom }}</td>
                 <td>
                     <div class="align-center">
-                        <a href="">
+                        <a href="{{ path('details', {'id': employer.id}) }}">
                             <img title="Afficher détails" src="{{ asset('assets/details.png') }}">
                         </a>
                         <a href="" onclick="return confirm('Voulez vous supprimer toutes les informations concernat {{ employer.person.nom }} {{ employer.person.prenom }}?')">

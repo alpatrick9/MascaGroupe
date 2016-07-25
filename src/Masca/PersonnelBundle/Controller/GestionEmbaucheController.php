@@ -131,17 +131,25 @@ class GestionEmbaucheController extends Controller
         }
 
         if($request->getMethod() == 'POST') {
-            $session->remove('status');
+            $form->handleRequest($request);
             $em =  $this->getDoctrine()->getManager();
             switch($status->getTypeSalaire()) {
                 case 'fixe':
+                    $salaireFixe->setStatus($status);
                     $em->persist($salaireFixe);
+                    $em->flush();
+                    $session->remove('status');
+                    return $this->redirect($this->generateUrl('details',['id'=>$salaireFixe->getStatus()->getEmployer()->getId()]));
                     break;
                 case 'heure':
+                    $tauxHoraire->setStatus($status);
                     $em->persist($tauxHoraire);
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('details',['id'=>$tauxHoraire->getStatus()->getEmployer()->getId()]));
+                    break;
             }
-            $em->flush();
-            return $this->redirect($this->generateUrl('personnel_home'));
+
+
         }
 
         return $this->render('MascaPersonnelBundle:Embauche:formulaire-salaire.html.twig',[

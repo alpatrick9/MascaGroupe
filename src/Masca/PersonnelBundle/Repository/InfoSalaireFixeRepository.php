@@ -1,6 +1,7 @@
 <?php
 
 namespace Masca\PersonnelBundle\Repository;
+use Masca\PersonnelBundle\Entity\Employer;
 
 /**
  * InfoSalaireFixeRepository
@@ -10,4 +11,12 @@ namespace Masca\PersonnelBundle\Repository;
  */
 class InfoSalaireFixeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllPostFixe(Employer $employer)
+    {
+        $query = $this->createQueryBuilder('info')
+            ->leftJoin('info.status', 'status')
+            ->leftJoin('status.employer', 'employer')
+            ->where('employer = :employer')->setParameter('employer', $employer);
+        return $query->getQuery()->getResult();
+    }
 }

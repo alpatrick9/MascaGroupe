@@ -3,6 +3,9 @@
 namespace Masca\PersonnelBundle\Controller;
 
 use Masca\PersonnelBundle\Entity\Employer;
+use Masca\PersonnelBundle\Entity\InfoSalaireFixe;
+use Masca\PersonnelBundle\Entity\InfoVolumeHoraire;
+use Masca\PersonnelBundle\Entity\Status;
 use Masca\PersonnelBundle\Repository\EmployerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -48,6 +51,37 @@ class DefaultController extends Controller
             'employers' => $listEmployer,
             'page' => $page,
             'nbPage' => ceil(count($listEmployer) / $nbParPage)
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Employer $employer
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/details/{id}", name="details")
+     */
+    public function detailPosteAction(Request $request, Employer $employer) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+
+        /**
+         * @var $postFixes InfoSalaireFixe[]
+         */
+        $postFixes = $this->getDoctrine()->getManager()->getRepository('MascaPersonnelBundle:InfoSalaireFixe')->findAllPostFixe($employer);
+
+        /**
+         * @var $postHoraires InfoVolumeHoraire[]
+         */
+        $postHoraires = $this->getDoctrine()->getManager()->getRepository('MascaPersonnelBundle:InfoVolumeHoraire')->findAllPostHoraire($employer);
+
+        return $this->render('MascaPersonnelBundle:Default:detail.html.twig',[
+            'employer'=>$employer,
+            'posteFixes'=>$postFixes,
+            'posteHoraires'=>$postHoraires
         ]);
     }
 }

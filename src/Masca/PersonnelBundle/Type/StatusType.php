@@ -26,17 +26,17 @@ class StatusType extends AbstractType
                 'choices_as_values'=>true,
                 'choices'=>["Université"=>"universite", "Lycée"=>"lycee"]
             ])
-            ->add('typeSalaire', ChoiceType::class, [
-                'label'=>'Mode de payement',
-                'placeholder'=>'Choisissez..',
-                'choices_as_values'=>true,
-                'choices'=> ["Salaire fixe" => "fixe", "Volume horaire" => "heure"]
-            ])
             ->add('typePoste', ChoiceType::class, [
                 'label'=>'Type de poste',
                 'placeholder'=>'Choisissez..',
                 'choices_as_values'=>true,
                 'choices'=>['Enseignant'=>'prof','Autre'=>'autre']
+            ])
+            ->add('typeSalaire', ChoiceType::class, [
+                'label'=>'Mode de payement',
+                'placeholder'=>'Choisissez..',
+                'choices_as_values'=>true,
+                'choices'=> ["Salaire fixe" => "fixe", "Volume horaire" => "heure"]
             ])
             ->add('dateEmbauche',DateType::class,[
                 'label'=>'Embaucher le',
