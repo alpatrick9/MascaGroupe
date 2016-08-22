@@ -3,6 +3,7 @@
 namespace Masca\EtudiantBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner;
 
 /**
  * MatiereLycee
@@ -39,6 +40,12 @@ class MatiereLycee
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\EmploiDuTempsLycee", mappedBy="matiere", cascade={"remove"})
      */
     private $emploiDuTemps;
+
+    /**
+     * @var $lesEnseignants MatiereLyceeEnseigner[]
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner", mappedBy="matiere", cascade={"remove"})
+     */
+    private $lesEnseignants;
 
 
     /**

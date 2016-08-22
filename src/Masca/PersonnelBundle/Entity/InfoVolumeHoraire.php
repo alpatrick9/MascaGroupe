@@ -37,10 +37,22 @@ class InfoVolumeHoraire
 
     /**
      * @var $status Status
-     * @ORM\OneToOne(targetEntity="Masca\PersonnelBundle\Entity\Status", cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="Masca\PersonnelBundle\Entity\Status", inversedBy="sesVolumeHoraires", cascade={"persist","remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;
+
+    /**
+     * @var $sesMatieres MatiereUnivEnseigner[]
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\MatiereUnivEnseigner", mappedBy="info", cascade={"remove"})
+     */
+    private $sesMatieres;
+
+    /**
+     * @var $sesMatieresLycee MatiereLyceeEnseigner[]
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner", mappedBy="info", cascade={"remove"})
+     */
+    private $sesMatieresLycee;
 
     /**
      * Get id
@@ -122,5 +134,81 @@ class InfoVolumeHoraire
     public function getStatus()
     {
         return $this->status;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sesMatieres = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sesMatieresLycee = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add sesMatiere
+     *
+     * @param \Masca\PersonnelBundle\Entity\MatiereUnivEnseigner $sesMatiere
+     *
+     * @return InfoVolumeHoraire
+     */
+    public function addSesMatiere(\Masca\PersonnelBundle\Entity\MatiereUnivEnseigner $sesMatiere)
+    {
+        $this->sesMatieres[] = $sesMatiere;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesMatiere
+     *
+     * @param \Masca\PersonnelBundle\Entity\MatiereUnivEnseigner $sesMatiere
+     */
+    public function removeSesMatiere(\Masca\PersonnelBundle\Entity\MatiereUnivEnseigner $sesMatiere)
+    {
+        $this->sesMatieres->removeElement($sesMatiere);
+    }
+
+    /**
+     * Get sesMatieres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesMatieres()
+    {
+        return $this->sesMatieres;
+    }
+
+    /**
+     * Add sesMatieresLycee
+     *
+     * @param \Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner $sesMatieresLycee
+     *
+     * @return InfoVolumeHoraire
+     */
+    public function addSesMatieresLycee(\Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner $sesMatieresLycee)
+    {
+        $this->sesMatieresLycee[] = $sesMatieresLycee;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesMatieresLycee
+     *
+     * @param \Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner $sesMatieresLycee
+     */
+    public function removeSesMatieresLycee(\Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner $sesMatieresLycee)
+    {
+        $this->sesMatieresLycee->removeElement($sesMatieresLycee);
+    }
+
+    /**
+     * Get sesMatieresLycee
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesMatieresLycee()
+    {
+        return $this->sesMatieresLycee;
     }
 }

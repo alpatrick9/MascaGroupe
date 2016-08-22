@@ -11,6 +11,7 @@ namespace Masca\PersonnelBundle\Controller;
 
 use Masca\EtudiantBundle\Entity\Person;
 use Masca\EtudiantBundle\Entity\PersonRepository;
+use Masca\EtudiantBundle\MascaEtudiantBundle;
 use Masca\EtudiantBundle\Type\PersonType;
 use Masca\PersonnelBundle\Entity\Employer;
 use Masca\PersonnelBundle\Entity\InfoSalaireFixe;
@@ -100,8 +101,7 @@ class GestionEmbaucheController extends Controller
 
     /**
      * @param Request $request
-     * @param Status $status
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/recrutement/detail", name="details_embauche")
      */
     public function detailEmbaucheAction(Request $request) {
@@ -136,6 +136,11 @@ class GestionEmbaucheController extends Controller
             switch($status->getTypeSalaire()) {
                 case 'fixe':
                     $salaireFixe->setStatus($status);
+                    if($status->getEmployer()->getPerson()->getId() != null) {
+                        $status->setEmployer(
+                            $this->getDoctrine()->getManager()->getRepository('MascaPersonnelBundle:Employer')->findOneBy(["person"=>$status->getEmployer()->getPerson()->getId()])
+                        );
+                    }
                     $em->persist($salaireFixe);
                     $em->flush();
                     $session->remove('status');
@@ -143,6 +148,11 @@ class GestionEmbaucheController extends Controller
                     break;
                 case 'heure':
                     $tauxHoraire->setStatus($status);
+                    if($status->getEmployer()->getPerson()->getId() != null) {
+                        $status->setEmployer(
+                            $this->getDoctrine()->getManager()->getRepository('MascaPersonnelBundle:Employer')->findOneBy(["person"=>$status->getEmployer()->getPerson()->getId()])
+                        );
+                    }
                     $em->persist($tauxHoraire);
                     $em->flush();
                     return $this->redirect($this->generateUrl('details',['id'=>$tauxHoraire->getStatus()->getEmployer()->getId()]));

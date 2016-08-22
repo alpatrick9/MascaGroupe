@@ -37,6 +37,13 @@ class Employer
     private $person;
 
     /**
+     * @var $sesStatus Status[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\Status", mappedBy="employer", cascade={"remove"})
+     */
+    private $sesStatus;
+
+    /**
      * Employer constructor.
      * @param float $tauxCnaps
      */
@@ -102,4 +109,39 @@ class Employer
     {
         return $this->tauxCnaps;
     }
+
+    /**
+     * Add sesStatus
+     *
+     * @param \Masca\PersonnelBundle\Entity\Status $sesStatus
+     *
+     * @return Employer
+     */
+    public function addSesStatus(\Masca\PersonnelBundle\Entity\Status $sesStatus)
+    {
+        $this->sesStatus[] = $sesStatus;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesStatus
+     *
+     * @param \Masca\PersonnelBundle\Entity\Status $sesStatus
+     */
+    public function removeSesStatus(\Masca\PersonnelBundle\Entity\Status $sesStatus)
+    {
+        $this->sesStatus->removeElement($sesStatus);
+    }
+
+    /**
+     * Get sesStatus
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesStatus()
+    {
+        return $this->sesStatus;
+    }
+    
 }

@@ -52,9 +52,23 @@ class Status
 
     /**
      * @var $employer Employer
-     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", inversedBy="sesStatus", cascade={"persist"})
      */
     private $employer;
+
+    /**
+     * @var $sesVolumeHoraires InfoVolumeHoraire[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\InfoVolumeHoraire", mappedBy="status", cascade={"remove"})
+     */
+    private $sesVolumeHoraires;
+
+    /**
+     * @var $sesSalaireFixes InfoSalaireFixe[]
+     * 
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\InfoSalaireFixe", mappedBy="status", cascade={"remove"})
+     */
+    private $sesSalaireFixes;
 
 
     /**
@@ -185,5 +199,81 @@ class Status
     public function getEtablisement()
     {
         return $this->etablisement;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sesVolumeHoraires = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sesSalaireFixes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add sesVolumeHoraire
+     *
+     * @param \Masca\PersonnelBundle\Entity\InfoVolumeHoraire $sesVolumeHoraire
+     *
+     * @return Status
+     */
+    public function addSesVolumeHoraire(\Masca\PersonnelBundle\Entity\InfoVolumeHoraire $sesVolumeHoraire)
+    {
+        $this->sesVolumeHoraires[] = $sesVolumeHoraire;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesVolumeHoraire
+     *
+     * @param \Masca\PersonnelBundle\Entity\InfoVolumeHoraire $sesVolumeHoraire
+     */
+    public function removeSesVolumeHoraire(\Masca\PersonnelBundle\Entity\InfoVolumeHoraire $sesVolumeHoraire)
+    {
+        $this->sesVolumeHoraires->removeElement($sesVolumeHoraire);
+    }
+
+    /**
+     * Get sesVolumeHoraires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesVolumeHoraires()
+    {
+        return $this->sesVolumeHoraires;
+    }
+
+    /**
+     * Add sesSalaireFix
+     *
+     * @param \Masca\PersonnelBundle\Entity\InfoSalaireFixe $sesSalaireFix
+     *
+     * @return Status
+     */
+    public function addSesSalaireFix(\Masca\PersonnelBundle\Entity\InfoSalaireFixe $sesSalaireFix)
+    {
+        $this->sesSalaireFixes[] = $sesSalaireFix;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesSalaireFix
+     *
+     * @param \Masca\PersonnelBundle\Entity\InfoSalaireFixe $sesSalaireFix
+     */
+    public function removeSesSalaireFix(\Masca\PersonnelBundle\Entity\InfoSalaireFixe $sesSalaireFix)
+    {
+        $this->sesSalaireFixes->removeElement($sesSalaireFix);
+    }
+
+    /**
+     * Get sesSalaireFixes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesSalaireFixes()
+    {
+        return $this->sesSalaireFixes;
     }
 }

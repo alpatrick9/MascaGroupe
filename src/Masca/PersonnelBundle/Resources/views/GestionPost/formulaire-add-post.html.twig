@@ -1,0 +1,69 @@
+{% extends "MascaPersonnelBundle::layout.html.twig" %}
+{% block personnel_body %}
+    <h3>Ajouter un autre poste</h3>
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
+    <div class="row">
+        <form method="post">
+            <div class="span6">
+                <fieldset>
+                    <legend>Etat civil</legend>
+                    <table class="table  table-hover table-bordered table-striped">
+                        <tr>
+                            <td class="text-bold"><b>N° matricule:</b></td>
+                            <td>{{ employer.person.numMatricule }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold"><b>Nom:</b></td>
+                            <td>{{ employer.person.nom }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold"><b>Prénom:</b></td>
+                            <td>{{ employer.person.prenom }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold"><b>Date de naissance:</b></td>
+                            <td>{{ employer.person.dateNaissance |date('d M Y') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold"><b>Lieu de naissance:</b></td>
+                            <td>{{ employer.person.lieuNaissance }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold"><b>CIN:</b></td>
+                            <td>{{ employer.person.numCin }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold"><b>Date delivrance CIN:</b></td>
+                            <td>{{ employer.person.dateDelivranceCin |date('d M Y') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold"><b>à:</b></td>
+                            <td>{{ employer.person.lieuNaissance }}</td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <div class="span6">
+                <fieldset>
+                    <legend>Autre Information</legend>
+                    {{ form_widget(form_status) }}
+                    {{ form_widget(form_employer) }}
+                </fieldset>
+            </div>
+            <div class="clearfix"></div>
+            <div class="submit-style">
+                <div class="floatleft">
+                    <a href="{{ path('personnel_home') }}">
+                        <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                    </a>
+
+                </div>
+                <div class="floatright">
+                    <input type="image" src="{{ asset('assets/next.png') }}" title="Suivant">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

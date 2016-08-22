@@ -52,9 +52,23 @@ class Status
 
     /**
      * @var $employer Employer
-     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", inversedBy="sesStatus", cascade={"persist"})
      */
     private $employer;
+
+    /**
+     * @var $sesVolumeHoraires InfoVolumeHoraire[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\InfoVolumeHoraire", mappedBy="status", cascade={"remove"})
+     */
+    private $sesVolumeHoraires;
+
+    /**
+     * @var $sesSalaireFixes InfoSalaireFixe[]
+     * 
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\InfoSalaireFixe", mappedBy="status", cascade={"remove"})
+     */
+    private $sesSalaireFixes;
 
 
     /**

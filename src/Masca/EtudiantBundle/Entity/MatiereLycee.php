@@ -3,6 +3,7 @@
 namespace Masca\EtudiantBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner;
 
 /**
  * MatiereLycee
@@ -39,6 +40,12 @@ class MatiereLycee
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\EmploiDuTempsLycee", mappedBy="matiere", cascade={"remove"})
      */
     private $emploiDuTemps;
+
+    /**
+     * @var $lesEnseignants MatiereLyceeEnseigner[]
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner", mappedBy="matiere", cascade={"remove"})
+     */
+    private $lesEnseignants;
 
 
     /**
@@ -148,5 +155,39 @@ class MatiereLycee
     public function getNotes()
     {
         return $this->notes;
+    }
+
+    /**
+     * Add lesEnseignant
+     *
+     * @param \Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner $lesEnseignant
+     *
+     * @return MatiereLycee
+     */
+    public function addLesEnseignant(\Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner $lesEnseignant)
+    {
+        $this->lesEnseignants[] = $lesEnseignant;
+
+        return $this;
+    }
+
+    /**
+     * Remove lesEnseignant
+     *
+     * @param \Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner $lesEnseignant
+     */
+    public function removeLesEnseignant(\Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner $lesEnseignant)
+    {
+        $this->lesEnseignants->removeElement($lesEnseignant);
+    }
+
+    /**
+     * Get lesEnseignants
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLesEnseignants()
+    {
+        return $this->lesEnseignants;
     }
 }

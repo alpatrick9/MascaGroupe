@@ -103,6 +103,9 @@
             <th>
                 Taux horaire (Ar)
             </th>
+            <th>
+                Autre(s)
+            </th>
             </thead>
             <tbody>
             {% for poste in posteHoraires %}
@@ -113,6 +116,32 @@
                     <td>{{ poste.status.etablisement }}</td>
                     <td>{{ poste.titrePoste }}</td>
                     <td>{{ poste.tauxHoraire }}</td>
+                    <td>
+                        {% if poste.status.typePoste == 'prof' %}
+                            {% if poste.status.etablisement == 'universite' %}
+                                {% for matiere in matiereUniv[poste.id]%}
+                                    {{ matiere.matiere.intitule }} -
+                                {% else %}
+                                    Aucun matière
+                                {% endfor %}
+                            {% else %}
+                            {% endif %}
+                            {% if poste.status.etablisement == 'lycee' %}
+                                {% for matiere in matiereLycee[poste.id]%}
+                                    {{ matiere.matiere.intitule }} -
+                                {% else %}
+                                    Aucun matière
+                                {% endfor %}
+                            {% else %}
+                            {% endif %}
+                            <div class="clearfix"></div>
+                            <a href="{{ path('add_matiere_enseigner', {'id' : poste.id}) }}">
+                                Ajouter matière
+                            </a>
+                        {% else %}
+                            Aucun information supplementaire
+                        {% endif %}
+                    </td>
                 </tr>
             {% else %}
                 <tr>
@@ -126,6 +155,9 @@
     <div class="align-center">
         <a href="{{ path('personnel_home') }}">
             <img title="Retour" src="{{ asset('assets/cancel.png') }}" class="custom-margin">
+        </a>
+        <a href="{{ path('add_post', {'id': employer.person.id}) }}">
+            <img title="Retour" src="{{ asset('assets/add-item.png') }}" class="custom-margin">
         </a>
     </div>
 {% endblock %}

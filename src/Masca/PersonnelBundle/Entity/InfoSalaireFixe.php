@@ -37,7 +37,7 @@ class InfoSalaireFixe
 
     /**
      * @var $status Status
-     * @ORM\OneToOne(targetEntity="Masca\PersonnelBundle\Entity\Status", cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="Masca\PersonnelBundle\Entity\Status", inversedBy="sesSalaireFixes", cascade={"persist","remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;

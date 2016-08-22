@@ -33,7 +33,7 @@
                         <a href="{{ path('details', {'id': employer.id}) }}">
                             <img title="Afficher détails" src="{{ asset('assets/details.png') }}">
                         </a>
-                        <a href="" onclick="return confirm('Voulez vous supprimer toutes les informations concernat {{ employer.person.nom }} {{ employer.person.prenom }}?')">
+                        <a href="{{ path('delete_employer', {'id': employer.id})}}" onclick="return confirm('Voulez vous supprimer toutes les informations concernat {{ employer.person.nom }} {{ employer.person.prenom }}?')">
                             <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
                         </a>
                     </div>
