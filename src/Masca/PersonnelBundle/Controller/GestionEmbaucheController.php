@@ -9,6 +9,7 @@
 namespace Masca\PersonnelBundle\Controller;
 
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\Person;
 use Masca\EtudiantBundle\Entity\PersonRepository;
 use Masca\EtudiantBundle\MascaEtudiantBundle;
@@ -164,6 +165,41 @@ class GestionEmbaucheController extends Controller
 
         return $this->render('MascaPersonnelBundle:Embauche:formulaire-salaire.html.twig',[
             'form'=>$form->createView()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Person $person
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/edit/{id}", name="edit_info_person")
+     */
+    public function updatePersonInfo(Request $request, Person $person) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+        $employer = $this->getDoctrine()->getManager()->getRepository('MascaPersonnelBundle:Employer')->findOneBy(["person"=>$person->getId()]);
+        $personForm = $this->createForm(PersonType::class, $person);
+        if($request->getMethod() == 'POST') {
+            $personForm->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
+            try {
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaPersonnelBundle:Embauche:formulaire-edit-person.html.twig', [
+                    'form_person' => $personForm->createView(),
+                    'employer'=>$employer,
+                    'error_message' => 'Le numero matricule ' . $person->getNumMatricule() . ' existe déjà! Veuillez le remplacer svp, ou annuler pour revinir au valeur precedent!'
+                ]);
+            }
+            return $this->redirect($this->generateUrl('details',['id'=>$employer->getId()]));
+        }
+        return $this->render('MascaPersonnelBundle:Embauche:formulaire-edit-person.html.twig',[
+            'form_person'=>$personForm->createView(),
+            'employer'=>$employer
         ]);
     }
     

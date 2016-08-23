@@ -10,6 +10,7 @@ namespace Masca\PersonnelBundle\Controller;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\Person;
 use Masca\PersonnelBundle\Entity\Employer;
+use Masca\PersonnelBundle\Entity\InfoSalaireFixe;
 use Masca\PersonnelBundle\Entity\InfoVolumeHoraire;
 use Masca\PersonnelBundle\Entity\MatiereLyceeEnseigner;
 use Masca\PersonnelBundle\Entity\MatiereUnivEnseigner;
@@ -47,7 +48,7 @@ class GestionPostController extends Controller
         $status = new Status();
         $statusForm = $this->createForm(StatusType::class, $status);
 
-        $employer = new Employer();
+        $employer = $this->getDoctrine()->getManager()->getRepository('MascaPersonnelBundle:Employer')->findOneBy(["person"=>$person->getId()]);
         $employerForm = $this->createForm(EmployerType::class, $employer);
 
         $employer->setPerson($person);
@@ -80,10 +81,8 @@ class GestionPostController extends Controller
 
     /**
      * @param Request $request
-     * @param $
-     * @param Employer $employer
-     * @param $etablissement
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param InfoVolumeHoraire $infoVolumeHoraire
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/add-matiere/{id}", name="add_matiere_enseigner")
      */
     public function addMatiere(Request $request,InfoVolumeHoraire $infoVolumeHoraire) {
@@ -129,5 +128,81 @@ class GestionPostController extends Controller
             'form'=> $form->createView(),
             'info'=> $infoVolumeHoraire
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param MatiereUnivEnseigner $matiereUnivEnseigner
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/matiere-univ/delete/{id}", name="delete_matiere_univ_enseigner")
+     */
+    public function deleteMatiereUnivEnseignerAction(Request $request, MatiereUnivEnseigner $matiereUnivEnseigner) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($matiereUnivEnseigner);
+        $em->flush();
+        return $this->redirect($this->generateUrl('details', ['id'=>$matiereUnivEnseigner->getInfo()->getStatus()->getEmployer()->getId()]));
+    }
+
+    /**
+     * @param Request $request
+     * @param MatiereLyceeEnseigner $matiereLyceeEnseigner
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response$
+     * @Route("/matiere-lycee/delele/{id}",name="delete_matiere_lycee_enseigner")
+     */
+    public function deleteMatiereLyceeEnseignerAction(Request $request, MatiereLyceeEnseigner $matiereLyceeEnseigner) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($matiereLyceeEnseigner);
+        $em->flush();
+        return $this->redirect($this->generateUrl('details', ['id'=>$matiereLyceeEnseigner->getInfo()->getStatus()->getEmployer()->getId()]));
+    }
+
+    /**
+     * @param Request $request
+     * @param InfoVolumeHoraire $infoVolumeHoraire
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/post-horaire/delete/{id}", name="delete_poste_horaire")
+     */
+    public function deletePosteHoraireAction(Request $request, InfoVolumeHoraire $infoVolumeHoraire) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($infoVolumeHoraire);
+        $em->flush();
+        return $this->redirect($this->generateUrl('details', ['id'=>$infoVolumeHoraire->getStatus()->getEmployer()->getId()]));
+    }
+
+    /**
+     * @param Request $request
+     * @param InfoSalaireFixe $salaireFixe
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/post-fixe/delete/{id}", name="delete_poste_fixe")
+     */
+    public function deletePosteFixeAction(Request $request, InfoSalaireFixe $salaireFixe) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($salaireFixe);
+        $em->flush();
+        return $this->redirect($this->generateUrl('details', ['id'=>$salaireFixe->getStatus()->getEmployer()->getId()]));
     }
 }

@@ -1,0 +1,21 @@
+{% extends "MascaPersonnelBundle::layout.html.twig" %}
+{% block personnel_body %}
+    <h3>Suivi payement de {{ employer.person.nom }} {{ employer.person.prenom }}</h3>
+    <ul class="nav nav-pills">
+        <li ><a href="" class="btn btn-primary">Payer</a></li>
+        <li ><a href="" class="btn btn-primary">Retirer avance</a></li>
+    </ul>
+    <div class="row">
+        <div class="span6">
+            <fieldset>
+                <legend>Payement</legend>
+
+            </fieldset>
+        </div>
+        <div class="span6">
+            <fieldset>
+                <legend>Avance sur salaire</legend>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}
