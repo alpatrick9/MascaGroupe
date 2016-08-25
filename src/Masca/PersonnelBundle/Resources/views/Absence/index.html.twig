@@ -1,0 +1,44 @@
+{% extends "MascaPersonnelBundle::layout.html.twig" %}
+{% block personnel_body %}
+    <h3>Suivi absence de {{ employer.person.nom }} {{ employer.person.prenom }}</h3>
+    <div class="row link-text  floatleft">
+        <a href="{{ path('details', {'id': employer.id}) }}">
+            <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+        </a>
+        <a href="{{ path('add_absence_employer', {'id': employer.id}) }}">
+            <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
+        </a>
+    </div>
+    <table id="tableshow" class="table table-hover table-bordered table-striped avectri">
+        <thead>
+        <tr>
+            <th data-tri="1" data-type="num">Date</th>
+            <th>Partie de la journé</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for absence in listAbsences %}
+            <tr>
+                <td>{{ absence.dateAbsent | date('d/m/Y') }}</td>
+                <td>{{ absence.partieJournee }}</td>
+                <td>
+                    <div class="align-center">
+                        <a href="{{ path('edit_absence_employe', {'id': absence.id}) }}">
+                            <img title="Modifier" src="{{ asset('assets/edit.png') }}">
+                        </a>
+                        <a href="{{ path('delete_absence_employer', {'id': absence.id}) }}" onclick="return confirm('Voulez vous supprimer cette information?')">
+                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun absence enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

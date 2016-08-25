@@ -44,6 +44,13 @@ class Employer
     private $sesStatus;
 
     /**
+     * @var $sesAbsences AbsenceEmploye[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\AbsenceEmploye", mappedBy="employer", cascade={"remove"})
+     */
+    private $sesAbsences;
+
+    /**
      * Employer constructor.
      * @param float $tauxCnaps
      */

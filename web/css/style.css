@@ -220,7 +220,8 @@ table tbody tr td{
 #retard_lyceen_dateRetard_day,
 #absence_univ_dateAbsent_day,
 #retard_univ_dateRetard_day,
-#status_dateEmbauche_day
+#status_dateEmbauche_day,
+#absence_employe_dateAbsent_day
 {
 	width: 65px !important;
 	margin: 2.5px !important;
@@ -233,7 +234,8 @@ table tbody tr td{
 #retard_lyceen_dateRetard_month,
 #absence_univ_dateAbsent_month,
 #retard_univ_dateRetard_month,
-#status_dateEmbauche_month
+#status_dateEmbauche_month,
+#absence_employe_dateAbsent_month
 {
 	width: 100px !important;
 	margin: 2.5px !important;
@@ -246,7 +248,8 @@ table tbody tr td{
 #retard_lyceen_dateRetard_year,
 #absence_univ_dateAbsent_year,
 #retard_univ_dateRetard_year,
-#status_dateEmbauche_year
+#status_dateEmbauche_year,
+#absence_employe_dateAbsent_year
 {
 	width: 100px !important;
 	margin: 2.5px !important;
@@ -319,12 +322,13 @@ input[type="color"],
 
 #absence_lyceen_partieJournee,
 #absence_univ_partieJournee,
+#absence_employe_partieJournee,
 #status_permanent
 {
 	display: inline-flex;
 }
 
-div#absence_lyceen_partieJournee, div#absence_univ_partieJournee
+div#absence_lyceen_partieJournee, div#absence_univ_partieJournee, div#absence_employe_partieJournee
 input, label {
 	margin: 10px;
 }
