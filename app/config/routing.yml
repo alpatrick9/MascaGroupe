@@ -4,7 +4,7 @@ masca_tresor:
 
 masca_personnel:
     resource: "@MascaPersonnelBundle/Resources/config/routing.yml"
-    prefix:   /presonnel
+    prefix:   /personnel
 
 oc_user:
     resource: "@OCUserBundle/Resources/config/routing.yml"

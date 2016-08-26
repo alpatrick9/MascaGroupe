@@ -51,6 +51,13 @@ class Employer
     private $sesAbsences;
 
     /**
+     * @var $sesPointages PointageEnseignant[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\PointageEnseignant", mappedBy="employer", cascade={"remove"})
+     */
+    private $sesPointages;
+
+    /**
      * Employer constructor.
      * @param float $tauxCnaps
      */
@@ -184,5 +191,39 @@ class Employer
     public function getSesAbsences()
     {
         return $this->sesAbsences;
+    }
+
+    /**
+     * Add sesPointage
+     *
+     * @param \Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage
+     *
+     * @return Employer
+     */
+    public function addSesPointage(\Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage)
+    {
+        $this->sesPointages[] = $sesPointage;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesPointage
+     *
+     * @param \Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage
+     */
+    public function removeSesPointage(\Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage)
+    {
+        $this->sesPointages->removeElement($sesPointage);
+    }
+
+    /**
+     * Get sesPointages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesPointages()
+    {
+        return $this->sesPointages;
     }
 }

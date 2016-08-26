@@ -1,11 +1,11 @@
 {% extends "MascaPersonnelBundle::layout.html.twig" %}
 {% block personnel_body %}
-    <h3>Suivi absence de {{ employer.person.nom }} {{ employer.person.prenom }}</h3>
+    <h3>Suivi pointage de {{ employer.person.nom }} {{ employer.person.prenom }}</h3>
     <div class="row link-text  floatleft">
         <a href="{{ path('personnel_home') }}">
             <img title="Retour" src="{{ asset('assets/cancel.png') }}">
         </a>
-        <a href="{{ path('add_absence_employer', {'id': employer.id}) }}">
+        <a href="{{ path('add_pointage', {'id': employer.id}) }}">
             <img title="Nouvelle enregistrement" src="{{ asset('assets/add.png') }}">
         </a>
     </div>
@@ -13,21 +13,31 @@
         <thead>
         <tr>
             <th data-tri="1" data-type="num">Date</th>
-            <th>Partie de la journé</th>
+            <th>Début du cours</th>
+            <th>Fin du cours</th>
+            <th>Total heures</th>
+            <th>Matière</th>
+            <th>Etablissement</th>
+            <th>Autre</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        {% for absence in listAbsences %}
+        {% for pointage in listePointages %}
             <tr>
-                <td>{{ absence.dateAbsent | date('d/m/Y') }}</td>
-                <td>{{ absence.partieJournee }}</td>
+                <td>{{ pointage.date | date('d/m/Y') }}</td>
+                <td>{{ pointage.heureDebut | date('h:i') }}</td>
+                <td>{{ pointage.heureFin | date('h:i') }}</td>
+                <td>{{ pointage.volumeHoraire }}</td>
+                <td>{{ pointage.matiere }}</td>
+                <td>{{ pointage.etablissement }}</td>
+                <td>{{ pointage.autre }}</td>
                 <td>
                     <div class="align-center">
-                        <a href="{{ path('edit_absence_employe', {'id': absence.id}) }}">
+                        <a href="{{ path('edit_pointage', {'id': pointage.id}) }}">
                             <img title="Modifier" src="{{ asset('assets/edit.png') }}">
                         </a>
-                        <a href="{{ path('delete_absence_employer', {'id': absence.id}) }}" onclick="return confirm('Voulez vous supprimer cette information?')">
+                        <a href="{{ path('delete_pointage', {'id': pointage.id}) }}" onclick="return confirm('Voulez vous supprimer cette information?')">
                             <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
                         </a>
                     </div>
@@ -36,7 +46,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">Aucun absence enregistré</td>
+                <td colspan="8">Aucun pointage enregistré</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -1,0 +1,268 @@
+<?php
+
+namespace Masca\PersonnelBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
+
+/**
+ * PointageEnseignant
+ *
+ * @ORM\Table(name="pointage_enseignant",uniqueConstraints={@ORM\UniqueConstraint(name="idxUnique", columns={"date", "heureDebut", "employer_id"})})
+ * @ORM\Entity(repositoryClass="Masca\PersonnelBundle\Repository\PointageEnseignantRepository")
+ */
+class PointageEnseignant
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date")
+     */
+    private $date;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="heureDebut", type="time")
+     */
+    private $heureDebut;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="heureFin", type="time")
+     */
+    private $heureFin;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="volumeHoraire", type="integer")
+     */
+    private $volumeHoraire;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Matière", type="string", length=255)
+     */
+    private $matière;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Etablissement", type="string", length=255)
+     */
+    private $etablissement;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="autre", type="string", length=255, nullable=true)
+     */
+    private $autre;
+
+    /**
+     * @var Employer
+     *
+     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", inversedBy="sesPointages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $employer;
+
+    /**
+     * PointageEnseignant constructor.
+     * @param \DateTime $date
+     */
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set heureDebut
+     *
+     * @param \DateTime $heureDebut
+     *
+     * @return PointageEnseignant
+     */
+    public function setHeureDebut($heureDebut)
+    {
+        $this->heureDebut = $heureDebut;
+
+        return $this;
+    }
+
+    /**
+     * Get heureDebut
+     *
+     * @return \DateTime
+     */
+    public function getHeureDebut()
+    {
+        return $this->heureDebut;
+    }
+
+    /**
+     * Set heureFin
+     *
+     * @param \DateTime $heureFin
+     *
+     * @return PointageEnseignant
+     */
+    public function setHeureFin($heureFin)
+    {
+        $this->heureFin = $heureFin;
+
+        return $this;
+    }
+
+    /**
+     * Get heureFin
+     *
+     * @return \DateTime
+     */
+    public function getHeureFin()
+    {
+        return $this->heureFin;
+    }
+
+    /**
+     * Set volumeHoraire
+     *
+     * @param integer $volumeHoraire
+     *
+     * @return PointageEnseignant
+     */
+    public function setVolumeHoraire($volumeHoraire)
+    {
+        $this->volumeHoraire = $volumeHoraire;
+
+        return $this;
+    }
+
+    /**
+     * Get volumeHoraire
+     *
+     * @return int
+     */
+    public function getVolumeHoraire()
+    {
+        return $this->volumeHoraire;
+    }
+
+    /**
+     * Set matière
+     *
+     * @param string $matière
+     *
+     * @return PointageEnseignant
+     */
+    public function setMatière($matière)
+    {
+        $this->matière = $matière;
+
+        return $this;
+    }
+
+    /**
+     * Get matière
+     *
+     * @return string
+     */
+    public function getMatière()
+    {
+        return $this->matière;
+    }
+
+    /**
+     * Set etablissement
+     *
+     * @param string $etablissement
+     *
+     * @return PointageEnseignant
+     */
+    public function setEtablissement($etablissement)
+    {
+        $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * Get etablissement
+     *
+     * @return string
+     */
+    public function getEtablissement()
+    {
+        return $this->etablissement;
+    }
+
+    /**
+     * Set autre
+     *
+     * @param string $autre
+     *
+     * @return PointageEnseignant
+     */
+    public function setAutre($autre)
+    {
+        $this->autre = $autre;
+
+        return $this;
+    }
+
+    /**
+     * Get autre
+     *
+     * @return string
+     */
+    public function getAutre()
+    {
+        return $this->autre;
+    }
+
+    /**
+     * Set employer
+     *
+     * @param \Masca\PersonnelBundle\Entity\Employer $employer
+     *
+     * @return PointageEnseignant
+     */
+    public function setEmployer(\Masca\PersonnelBundle\Entity\Employer $employer)
+    {
+        $this->employer = $employer;
+
+        return $this;
+    }
+
+    /**
+     * Get employer
+     *
+     * @return \Masca\PersonnelBundle\Entity\Employer
+     */
+    public function getEmployer()
+    {
+        return $this->employer;
+    }
+}

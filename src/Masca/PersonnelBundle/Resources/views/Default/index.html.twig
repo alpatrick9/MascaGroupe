@@ -19,7 +19,7 @@
             <th class="selection" data-tri="1" data-type="num">N° matricule</th>
             <th>Nom</th>
             <th>Prenom</th>
-            <th>Action</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +32,12 @@
                     <div class="align-center">
                         <a href="{{ path('details', {'id': employer.id}) }}">
                             <img title="Afficher détails" src="{{ asset('assets/details.png') }}">
+                        </a>
+                        <a href="{{ path('list_absence_employer', {'id': employer.id}) }}">
+                            <img title="Liste absence" src="{{ asset('assets/presence.png') }}" class="custom-margin">
+                        </a>
+                        <a href="{{ path('pointage_home', {'id': employer.id}) }}">
+                            <img title="Pointage enseignement" src="{{ asset('assets/pointage.png') }}" class="custom-margin">
                         </a>
                         <a href="{{ path('delete_employer', {'id': employer.id})}}" onclick="return confirm('Voulez vous supprimer toutes les informations concernat {{ employer.person.nom }} {{ employer.person.prenom }}?')">
                             <img title="Supprimer" src="{{ asset('assets/delete.png') }}">

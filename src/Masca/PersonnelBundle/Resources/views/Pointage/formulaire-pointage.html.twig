@@ -1,0 +1,26 @@
+{% extends "MascaPersonnelBundle::layout.html.twig" %}
+{% block personnel_body %}
+    <h3>Formulaire d'enregistrement de pointage de {{ employer.person.nom }} {{ employer.person.prenom }}</h3>
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
+    <div class="row">
+        <form method="post">
+            <div class="span12">
+                {{ form_widget(form) }}
+            </div>
+            <div class="clearfix"></div>
+            <div class="submit-style">
+                <div class="floatleft">
+                    <a href="{{ path('pointage_home', {'id': employer.id}) }}">
+                        <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                    </a>
+
+                </div>
+                <div class="floatright">
+                    <input type="image" src="{{ asset('assets/save.png') }}" title="Enregistrement">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

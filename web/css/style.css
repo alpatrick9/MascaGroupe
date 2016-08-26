@@ -258,7 +258,11 @@ table tbody tr td{
 #retard_lyceen_heure_hour,
 #retard_lyceen_heure_minute,
 #retard_univ_heure_hour,
-#retard_univ_heure_minute {
+#retard_univ_heure_minute,
+#pointage_enseignant_heureDebut_hour,
+#pointage_enseignant_heureDebut_minute,
+#pointage_enseignant_heureFin_hour,
+#pointage_enseignant_heureFin_minute {
 	width: 100px !important;
 	margin: 2.5px !important;
 }
