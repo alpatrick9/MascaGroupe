@@ -58,6 +58,20 @@ class Employer
     private $sesPointages;
 
     /**
+     * @var AvanceSalaire[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\AvanceSalaire", mappedBy="employer", cascade={"remove"})
+     */
+    private $sesAvances;
+
+    /**
+     * @var Salaire[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\Salaire", mappedBy="employer", cascade={"remove"})
+     */
+    private $sesSalaires;
+
+    /**
      * Employer constructor.
      * @param float $tauxCnaps
      */
@@ -191,5 +205,73 @@ class Employer
     public function getSesAbsences()
     {
         return $this->sesAbsences;
+    }
+
+    /**
+     * Add sesPointage
+     *
+     * @param \Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage
+     *
+     * @return Employer
+     */
+    public function addSesPointage(\Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage)
+    {
+        $this->sesPointages[] = $sesPointage;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesPointage
+     *
+     * @param \Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage
+     */
+    public function removeSesPointage(\Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage)
+    {
+        $this->sesPointages->removeElement($sesPointage);
+    }
+
+    /**
+     * Get sesPointages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesPointages()
+    {
+        return $this->sesPointages;
+    }
+
+    /**
+     * Add sesAvance
+     *
+     * @param \Masca\PersonnelBundle\Entity\AvanceSalaire $sesAvance
+     *
+     * @return Employer
+     */
+    public function addSesAvance(\Masca\PersonnelBundle\Entity\AvanceSalaire $sesAvance)
+    {
+        $this->sesAvances[] = $sesAvance;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesAvance
+     *
+     * @param \Masca\PersonnelBundle\Entity\AvanceSalaire $sesAvance
+     */
+    public function removeSesAvance(\Masca\PersonnelBundle\Entity\AvanceSalaire $sesAvance)
+    {
+        $this->sesAvances->removeElement($sesAvance);
+    }
+
+    /**
+     * Get sesAvances
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesAvances()
+    {
+        return $this->sesAvances;
     }
 }

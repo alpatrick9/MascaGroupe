@@ -6,7 +6,7 @@
             <img title="Retour" src="{{ asset('assets/cancel.png') }}">
         </a>
         <a href="" class="btn btn-primary">Payer</a>
-        <a href="" class="btn btn-primary">Retirer avance</a>
+        <a href="{{ path('add_avance_salaire', {'id': employer.id}) }}" class="btn btn-primary">Retirer avance</a>
     </div>
     <div class="clearfix"></div>
     <div class="row">
@@ -19,6 +19,39 @@
         <div class="span6">
             <fieldset>
                 <legend>Avance sur salaire</legend>
+
+                <table id="tableshow" class="table table-hover table-bordered table-striped avectri">
+                    <thead>
+                    <tr>
+                        <th data-tri="1" data-type="num">Date</th>
+                        <th>Mois</th>
+                        <th>Montant (Ar)</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for avance in avances %}
+                        <tr>
+                            <td>{{ avance.date | date('d/m/Y') }}</td>
+                            <td>{{ avance.mois }}</td>
+                            <td>{{ avance.somme}}</td>
+                            <td>
+                                <div class="align-center">
+                                    <a href="{{ path('delete_avance_salaire', {'id': avance.id}) }}"
+                                       onclick="return confirm('Voulez vous supprimer cette information?')">
+                                        <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">Aucun avance enregistré</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </fieldset>
         </div>
     </div>

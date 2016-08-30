@@ -30,6 +30,20 @@ class PointageEnseignant
     private $date;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="mois", type="string", length=255)
+     */
+    private $mois;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="annee", type="string", length=4)
+     */
+    private $annee;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="heureDebut", type="time")
@@ -53,9 +67,9 @@ class PointageEnseignant
     /**
      * @var string
      *
-     * @ORM\Column(name="Matière", type="string", length=255)
+     * @ORM\Column(name="matiere", type="string", length=255)
      */
-    private $matière;
+    private $matiere;
 
     /**
      * @var string
@@ -80,12 +94,12 @@ class PointageEnseignant
     private $employer;
 
     /**
-     * PointageEnseignant constructor.
-     * @param \DateTime $date
+     * PointageEnseignant constructor
      */
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->annee = $this->date->format('Y');
     }
 
     /**
@@ -173,13 +187,13 @@ class PointageEnseignant
     /**
      * Set matière
      *
-     * @param string $matière
+     * @param string $matiere
      *
      * @return PointageEnseignant
      */
-    public function setMatière($matière)
+    public function setMatiere($matiere)
     {
-        $this->matière = $matière;
+        $this->matiere = $matiere;
 
         return $this;
     }
@@ -189,9 +203,9 @@ class PointageEnseignant
      *
      * @return string
      */
-    public function getMatière()
+    public function getMatiere()
     {
-        return $this->matière;
+        return $this->matiere;
     }
 
     /**
@@ -264,5 +278,29 @@ class PointageEnseignant
     public function getEmployer()
     {
         return $this->employer;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return PointageEnseignant
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

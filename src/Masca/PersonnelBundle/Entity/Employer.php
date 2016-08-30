@@ -58,6 +58,20 @@ class Employer
     private $sesPointages;
 
     /**
+     * @var AvanceSalaire[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\AvanceSalaire", mappedBy="employer", cascade={"remove"})
+     */
+    private $sesAvances;
+
+    /**
+     * @var Salaire[]
+     *
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\Salaire", mappedBy="employer", cascade={"remove"})
+     */
+    private $sesSalaires;
+
+    /**
      * Employer constructor.
      * @param float $tauxCnaps
      */
@@ -225,5 +239,73 @@ class Employer
     public function getSesPointages()
     {
         return $this->sesPointages;
+    }
+
+    /**
+     * Add sesAvance
+     *
+     * @param \Masca\PersonnelBundle\Entity\AvanceSalaire $sesAvance
+     *
+     * @return Employer
+     */
+    public function addSesAvance(\Masca\PersonnelBundle\Entity\AvanceSalaire $sesAvance)
+    {
+        $this->sesAvances[] = $sesAvance;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesAvance
+     *
+     * @param \Masca\PersonnelBundle\Entity\AvanceSalaire $sesAvance
+     */
+    public function removeSesAvance(\Masca\PersonnelBundle\Entity\AvanceSalaire $sesAvance)
+    {
+        $this->sesAvances->removeElement($sesAvance);
+    }
+
+    /**
+     * Get sesAvances
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesAvances()
+    {
+        return $this->sesAvances;
+    }
+
+    /**
+     * Add sesSalaire
+     *
+     * @param \Masca\PersonnelBundle\Entity\Salaire $sesSalaire
+     *
+     * @return Employer
+     */
+    public function addSesSalaire(\Masca\PersonnelBundle\Entity\Salaire $sesSalaire)
+    {
+        $this->sesSalaires[] = $sesSalaire;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesSalaire
+     *
+     * @param \Masca\PersonnelBundle\Entity\Salaire $sesSalaire
+     */
+    public function removeSesSalaire(\Masca\PersonnelBundle\Entity\Salaire $sesSalaire)
+    {
+        $this->sesSalaires->removeElement($sesSalaire);
+    }
+
+    /**
+     * Get sesSalaires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesSalaires()
+    {
+        return $this->sesSalaires;
     }
 }

@@ -1,0 +1,26 @@
+{% extends "MascaPersonnelBundle::layout.html.twig" %}
+{% block personnel_body %}
+    <h3>Formulaire Formulaire de retrait d'avance {{ info.employer.person.nom }} {{ info.employer.person.prenom }} du {{ info.date | date('d/m/Y') }}</h3>
+    {% if error_message is defined %}
+        <p style="color: red "> {{ error_message }}</p>
+    {% endif %}
+    <div class="row">
+        <form method="post">
+            <div class="span12">
+                {{ form_widget(form) }}
+            </div>
+            <div class="clearfix"></div>
+            <div class="submit-style">
+                <div class="floatleft">
+                    <a href="{{ path('home_salaire', {'id': info.employer.id}) }}">
+                        <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                    </a>
+
+                </div>
+                <div class="floatright">
+                    <input type="image" src="{{ asset('assets/save.png') }}" title="Enregistrement">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

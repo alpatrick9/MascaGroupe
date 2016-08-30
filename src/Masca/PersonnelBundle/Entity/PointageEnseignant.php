@@ -30,6 +30,20 @@ class PointageEnseignant
     private $date;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="mois", type="string", length=255)
+     */
+    private $mois;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="annee", type="string", length=4)
+     */
+    private $annee;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="heureDebut", type="time")
@@ -80,12 +94,12 @@ class PointageEnseignant
     private $employer;
 
     /**
-     * PointageEnseignant constructor.
-     * @param \DateTime $date
+     * PointageEnseignant constructor
      */
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->annee = $this->date->format('Y');
     }
 
     /**
@@ -288,5 +302,53 @@ class PointageEnseignant
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set mois
+     *
+     * @param string $mois
+     *
+     * @return PointageEnseignant
+     */
+    public function setMois($mois)
+    {
+        $this->mois = $mois;
+
+        return $this;
+    }
+
+    /**
+     * Get mois
+     *
+     * @return string
+     */
+    public function getMois()
+    {
+        return $this->mois;
+    }
+
+    /**
+     * Set annee
+     *
+     * @param string $annee
+     *
+     * @return PointageEnseignant
+     */
+    public function setAnnee($annee)
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    /**
+     * Get annee
+     *
+     * @return string
+     */
+    public function getAnnee()
+    {
+        return $this->annee;
     }
 }
