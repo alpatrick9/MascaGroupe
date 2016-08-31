@@ -66,7 +66,15 @@ class PointageController extends Controller
 
         $pointage = new PointageEnseignant();
         $form = $this->createForm(new PointageEnseignantType(), $pointage);
-
+        $mois = $this->getParameter('mois');
+        $count = 1;
+        foreach ($mois as $m) {
+            if($count == $pointage->getDate()->format('m')) {
+                $pointage->setMois($m);
+                break;
+            }
+            $count++;
+        }
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             $pointage->setEmployer($employer);
