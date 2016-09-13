@@ -32,23 +32,11 @@ class SalaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('salaireFixe', NumberType::class, [
-                'label'=>'Salaire mensuel',
-                'read_only'=>true
-            ])
-            ->add('tauxHoraire', NumberType::class, [
-                'label'=>'Taux Horaire',
-                'read_only'=>true
-            ])
             ->add('mois', ChoiceType::class, [
                 'label' => 'Mois',
                 'choices_as_values' => true,
                 'choices' => $this->mois,
                 'placeholder' => 'Choisissez...'
-            ])
-            ->add('totalAvance', NumberType::class, [
-                'label'=> 'Total Avance',
-                'read_only'=>true
             ])
             ->add('prime', NumberType::class, [
                 'label'=>'Prime',

@@ -86,6 +86,14 @@ class PointageEnseignant
     private $autre;
 
     /**
+     * @var InfoVolumeHoraire
+     * 
+     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\InfoVolumeHoraire", inversedBy="sesPointages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $infoTauxHoraire;
+
+    /**
      * @var Employer
      *
      * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", inversedBy="sesPointages")
@@ -350,5 +358,29 @@ class PointageEnseignant
     public function getAnnee()
     {
         return $this->annee;
+    }
+
+    /**
+     * Set infoTauxHoraire
+     *
+     * @param \Masca\PersonnelBundle\Entity\InfoVolumeHoraire $infoTauxHoraire
+     *
+     * @return PointageEnseignant
+     */
+    public function setInfoTauxHoraire(\Masca\PersonnelBundle\Entity\InfoVolumeHoraire $infoTauxHoraire)
+    {
+        $this->infoTauxHoraire = $infoTauxHoraire;
+
+        return $this;
+    }
+
+    /**
+     * Get infoTauxHoraire
+     *
+     * @return \Masca\PersonnelBundle\Entity\InfoVolumeHoraire
+     */
+    public function getInfoTauxHoraire()
+    {
+        return $this->infoTauxHoraire;
     }
 }

@@ -43,32 +43,31 @@ class Salaire
     private $annee;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="totalAvance", type="decimal", precision=10, scale=0)
      */
     private $totalAvance;
 
     /**
-     * @var string
+     * @var array
      *
-     * @ORM\Column(name="salaireFixe", type="decimal", precision=10, scale=0)
+     * @ORM\Column(name="detailSalaireFixe", type="json_array")
      */
-    private $salaireFixe;
+    private $detailSalaireFixe;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="tauxHoraire", type="decimal", precision=10, scale=0)
+     * @var array
+     * @ORM\Column(name="detailSalaireHoraire", type="json_array")
      */
-    private $tauxHoraire;
+    private $detailSalaireHoraire;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="volumeHoraire", type="integer")
+     * @ORM\Column(name="totalHeures", type="integer")
      */
-    private $volumeHoraire;
+    private $totalHeures;
 
     /**
      * @var string
@@ -92,13 +91,17 @@ class Salaire
     {
         $this->date = new \DateTime();
         $this->annee = $this->date->format('Y');
+        $this->totalAvance = 0;
+        $this->prime = 0;
+        $this->detailSalaireFixe = [];
+        $this->detailSalaireHoraire = [];
+        $this->totalHeures = 0;
     }
-
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -154,6 +157,30 @@ class Salaire
     }
 
     /**
+     * Set annee
+     *
+     * @param string $annee
+     *
+     * @return Salaire
+     */
+    public function setAnnee($annee)
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    /**
+     * Get annee
+     *
+     * @return string
+     */
+    public function getAnnee()
+    {
+        return $this->annee;
+    }
+
+    /**
      * Set totalAvance
      *
      * @param string $totalAvance
@@ -177,76 +204,88 @@ class Salaire
         return $this->totalAvance;
     }
 
+    private function addSalaireFixe($salaireFixe) {
+        array_push($this->detailSalaireFixe, $salaireFixe);
+    }
     /**
-     * Set salaireFixe
+     * Set detailSalaireFixe
      *
-     * @param string $salaireFixe
+     * @param array $detailSalaireFixe
      *
      * @return Salaire
      */
-    public function setSalaireFixe($salaireFixe)
+    public function setDetailSalaireFixe($detailSalaireFixe)
     {
-        $this->salaireFixe = $salaireFixe;
+        $this->detailSalaireFixe = [];
+        foreach ($detailSalaireFixe as $item) {
+            $this->addSalaireFixe($item);
+        }
 
         return $this;
     }
 
     /**
-     * Get salaireFixe
+     * Get detailSalaireFixe
      *
-     * @return string
+     * @return array
      */
-    public function getSalaireFixe()
+    public function getDetailSalaireFixe()
     {
-        return $this->salaireFixe;
+        return $this->detailSalaireFixe;
     }
 
+    private function addSalaireHoraire($key, $value) {
+        $this->detailSalaireHoraire[$key] = $value;
+    }
     /**
-     * Set tauxHoraire
+     * Set detailSalaireHoraire
      *
-     * @param string $tauxHoraire
+     * @param array $detailSalaireHoraire
      *
      * @return Salaire
      */
-    public function setTauxHoraire($tauxHoraire)
+    public function setDetailSalaireHoraire($detailSalaireHoraire)
     {
-        $this->tauxHoraire = $tauxHoraire;
+        $this->detailSalaireHoraire = [];
+        foreach ($detailSalaireHoraire as $key => $value) {
+            $this->addSalaireHoraire($key, $value);
+        }
 
         return $this;
     }
 
     /**
-     * Get tauxHoraire
+     * Get detailSalaireHoraire
      *
-     * @return string
+     * @return array
      */
-    public function getTauxHoraire()
+    public function getDetailSalaireHoraire()
     {
-        return $this->tauxHoraire;
+        return $this->detailSalaireHoraire;
     }
 
     /**
-     * Set volumeHoraire
+     * Set totalHeures
      *
-     * @param integer $volumeHoraire
+     * @param integer $totalHeures
      *
      * @return Salaire
      */
-    public function setVolumeHoraire($volumeHoraire)
+    public function setTotalHeures($totalHeures)
     {
-        $this->volumeHoraire = $volumeHoraire;
+        $this->totalHeures = $totalHeures;
 
         return $this;
     }
 
     /**
-     * Get volumeHoraire
+     * Get totalHeures
      *
-     * @return int
+     * @return integer
      */
-    public function getVolumeHoraire()
+    public function getTotalHeures()
     {
-        return $this->volumeHoraire;
+        return $this->totalHeures;
     }
 
     /**
@@ -296,5 +335,4 @@ class Salaire
     {
         return $this->employer;
     }
-
 }

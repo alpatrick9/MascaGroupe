@@ -1,6 +1,7 @@
 <?php
 
 namespace Masca\PersonnelBundle\Repository;
+use Masca\PersonnelBundle\Entity\Employer;
 
 /**
  * PointageEnseignantRepository
@@ -10,4 +11,11 @@ namespace Masca\PersonnelBundle\Repository;
  */
 class PointageEnseignantRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findPointageBy($mois, $annee, Employer $employer) {
+        $query = $this->createQueryBuilder('pointage')
+            ->where('pointage.employer = :employer')->setParameter('employer', $employer)
+            ->andWhere('pointage.mois = :mois')->setParameter('mois', $mois)
+            ->andWhere('pointage.annee = :annee')->setParameter('annee', $annee);
+        return $query->getQuery()->getResult();
+    }
 }

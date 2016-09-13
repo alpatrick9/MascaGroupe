@@ -86,6 +86,14 @@ class PointageEnseignant
     private $autre;
 
     /**
+     * @var InfoVolumeHoraire
+     * 
+     * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\InfoVolumeHoraire", inversedBy="sesPointages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $infoTauxHoraire;
+
+    /**
      * @var Employer
      *
      * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", inversedBy="sesPointages")
@@ -302,5 +310,53 @@ class PointageEnseignant
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set mois
+     *
+     * @param string $mois
+     *
+     * @return PointageEnseignant
+     */
+    public function setMois($mois)
+    {
+        $this->mois = $mois;
+
+        return $this;
+    }
+
+    /**
+     * Get mois
+     *
+     * @return string
+     */
+    public function getMois()
+    {
+        return $this->mois;
+    }
+
+    /**
+     * Set annee
+     *
+     * @param string $annee
+     *
+     * @return PointageEnseignant
+     */
+    public function setAnnee($annee)
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    /**
+     * Get annee
+     *
+     * @return string
+     */
+    public function getAnnee()
+    {
+        return $this->annee;
     }
 }

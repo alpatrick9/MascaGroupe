@@ -34,6 +34,13 @@ class AvanceSalaire
      * @ORM\Column(name="mois", type="string", length=255)
      */
     private $mois;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="annee", type="string", length=4)
+     */
+    private $annee;
 
     /**
      * @var string
@@ -56,6 +63,7 @@ class AvanceSalaire
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->annee = $this->date->format('Y');
     }
 
 
@@ -163,5 +171,29 @@ class AvanceSalaire
     public function getEmployer()
     {
         return $this->employer;
+    }
+
+    /**
+     * Set annee
+     *
+     * @param string $annee
+     *
+     * @return AvanceSalaire
+     */
+    public function setAnnee($annee)
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    /**
+     * Get annee
+     *
+     * @return string
+     */
+    public function getAnnee()
+    {
+        return $this->annee;
     }
 }

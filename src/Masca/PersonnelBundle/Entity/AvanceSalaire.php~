@@ -34,6 +34,13 @@ class AvanceSalaire
      * @ORM\Column(name="mois", type="string", length=255)
      */
     private $mois;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="annee", type="string", length=4)
+     */
+    private $annee;
 
     /**
      * @var string
@@ -49,6 +56,14 @@ class AvanceSalaire
      * @ORM\JoinColumn(nullable=false)
      */
     private $employer;
+
+    /**
+     * AvanceSalaire constructor
+     */
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
 
     /**
@@ -132,5 +147,28 @@ class AvanceSalaire
     {
         return $this->somme;
     }
-}
 
+    /**
+     * Set employer
+     *
+     * @param \Masca\PersonnelBundle\Entity\Employer $employer
+     *
+     * @return AvanceSalaire
+     */
+    public function setEmployer(\Masca\PersonnelBundle\Entity\Employer $employer)
+    {
+        $this->employer = $employer;
+
+        return $this;
+    }
+
+    /**
+     * Get employer
+     *
+     * @return \Masca\PersonnelBundle\Entity\Employer
+     */
+    public function getEmployer()
+    {
+        return $this->employer;
+    }
+}

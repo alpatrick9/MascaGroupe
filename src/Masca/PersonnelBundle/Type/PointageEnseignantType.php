@@ -9,6 +9,7 @@
 namespace Masca\PersonnelBundle\Type;
 
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -49,7 +50,14 @@ class PointageEnseignantType extends AbstractType
                 'label'=> 'Autre information',
                 'attr'=>['placeholder'=>'Ex: Titre du cours'],
                 'required'=>false
-            ]);
+            ])
+            ->add('infoTauxHoraire', EntityType::class, [
+                'label'=>'Le taux horaire correspondant',
+                'class'=>'Masca\PersonnelBundle\Entity\InfoVolumeHoraire',
+                'property'=>'tauxHoraire',
+                'placeholder'=>'Choisissez'
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

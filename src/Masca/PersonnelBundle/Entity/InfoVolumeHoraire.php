@@ -55,6 +55,13 @@ class InfoVolumeHoraire
     private $sesMatieresLycee;
 
     /**
+     * @var PointageEnseignant[]
+     * 
+     * @ORM\OneToMany(targetEntity="Masca\PersonnelBundle\Entity\PointageEnseignant", mappedBy="infoTauxHoraire", cascade={"remove"})
+     */
+    private $sesPointages;
+
+    /**
      * Get id
      *
      * @return int
@@ -210,5 +217,39 @@ class InfoVolumeHoraire
     public function getSesMatieresLycee()
     {
         return $this->sesMatieresLycee;
+    }
+
+    /**
+     * Add sesPointage
+     *
+     * @param \Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage
+     *
+     * @return InfoVolumeHoraire
+     */
+    public function addSesPointage(\Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage)
+    {
+        $this->sesPointages[] = $sesPointage;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesPointage
+     *
+     * @param \Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage
+     */
+    public function removeSesPointage(\Masca\PersonnelBundle\Entity\PointageEnseignant $sesPointage)
+    {
+        $this->sesPointages->removeElement($sesPointage);
+    }
+
+    /**
+     * Get sesPointages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesPointages()
+    {
+        return $this->sesPointages;
     }
 }

@@ -5,7 +5,7 @@
         <a href="{{ path('details', {'id': employer.id}) }}">
             <img title="Retour" src="{{ asset('assets/cancel.png') }}">
         </a>
-        <a href="" class="btn btn-primary">Payer</a>
+        <a href="{{ path('payement_salaire', {'id': employer.id}) }}" class="btn btn-primary">Payer</a>
         <a href="{{ path('add_avance_salaire', {'id': employer.id}) }}" class="btn btn-primary">Retirer avance</a>
     </div>
     <div class="clearfix"></div>
@@ -13,7 +13,39 @@
         <div class="span6">
             <fieldset>
                 <legend>Payement</legend>
+                <table id="tableshow" class="table table-hover table-bordered table-striped avectri">
+                    <thead>
+                    <tr>
+                        <th data-tri="1" data-type="num">Date</th>
+                        <th>Mois</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for salaire in salaires %}
+                        <tr>
+                            <td>{{ salaire.date | date('d/m/Y') }}</td>
+                            <td>{{ salaire.mois }}</td>
+                            <td>
+                                <div class="align-center">
+                                    <a href="{{ path('detail_salaire', {'id': salaire.id}) }}">
+                                        <img title="Details" src="{{ asset('assets/details.png') }}">
+                                    </a>
+                                    <a href=""
+                                       onclick="return confirm('Voulez vous supprimer cette information?')">
+                                        <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
+                                    </a>
+                                </div>
 
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">Aucun avance enregistré</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </fieldset>
         </div>
         <div class="span6">

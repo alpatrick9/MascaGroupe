@@ -43,6 +43,14 @@ class InfoSalaireFixe
     private $status;
 
     /**
+     * InfoSalaireFixe constructor.
+     */
+    public function __construct()
+    {
+        $this->salaire = 0;
+    }
+
+    /**
      * Get id
      *
      * @return int
