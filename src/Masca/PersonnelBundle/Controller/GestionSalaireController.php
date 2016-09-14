@@ -20,7 +20,10 @@ use Masca\PersonnelBundle\Type\SalaireType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\Tests\Fixtures\TypeHinted;
 
 /**
@@ -183,7 +186,16 @@ class GestionSalaireController extends Controller
             }
             $salaire->setDetailSalaireHoraire($salaireHoraires);
 
-            $em = $this->getDoctrine()->getManager();
+            if($this->getDoctrine()->getRepository('MascaPersonnelBundle:Salaire')->salaireNotValid($salaire->getEmployer(), $salaire->getMois(), $salaire->getAnnee())) {
+                return $this->render('MascaPersonnelBundle:Salaire:formulaire-salaire.html.twig', [
+                    'form'=>$form->createView(),
+                    'info'=>$salaire,
+                    'error_message' => 'Ces informations sont déjà enregistées!'
+                ]);
+            }
+            $session = $this->get('session');
+            $session->set('salaire', serialize($salaire));
+            /*$em = $this->getDoctrine()->getManager();
             try {
                 $em->persist($salaire);
                 $em->flush();
@@ -194,12 +206,101 @@ class GestionSalaireController extends Controller
                     'error_message' => 'Ces informations sont déjà enregistées!'
                 ]);
             }
-            return $this->redirect($this->generateUrl('home_salaire', ['id'=> $employer->getId()]));
+            return $this->redirect($this->generateUrl('home_salaire', ['id'=> $employer->getId()]));*/
+            return $this->redirect($this->generateUrl('validation_salaire', ['id'=> $employer->getId()]));
         }
 
         return $this->render('MascaPersonnelBundle:Salaire:formulaire-salaire.html.twig', [
             'form'=>$form->createView(),
             'info'=>$salaire
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Employer $employer
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/validation/{id}", name="validation_salaire")
+     */
+    public function validationSalaireAction(Request $request, Employer $employer) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+        $session = $this->get('session');
+        if(empty($session->get('salaire')))
+            return $this->redirect($this->generateUrl('home_salaire', ['id'=>$employer->getId()]));
+
+        /**
+         * @var $salaire Salaire
+         */
+        $salaire = unserialize($session->get('salaire'));
+        $salaire->setEmployer($employer);
+
+        $salaireBrute = 0;
+
+        $totalSalaireFixe = 0;
+
+        foreach ($salaire->getDetailSalaireFixe() as $somme) {
+            $totalSalaireFixe += $somme;
+        }
+
+        $salaireBrute += $totalSalaireFixe;
+        $salaireBrute += $salaire->getPrime();
+
+        $totalHoraires = [];
+        foreach ($salaire->getDetailSalaireHoraire() as $key=>$value) {
+            $totalHoraires[$key] = $key*$value;
+            $salaireBrute += $totalHoraires[$key];
+        }
+
+        $retenuCnaps = ($salaireBrute * $salaire->getEmployer()->getTauxCnaps())/100;
+
+        $salaireNet = $salaireBrute - $retenuCnaps -$salaire->getTotalAvance();
+
+        $form = $this->createForm(new SalaireType($this->getParameter('mois')), $salaire);
+
+        $moisField = $form->get('mois');
+        $options = $moisField->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $form->add('mois', ChoiceType::class, $options );
+
+        $primeField = $form->get('prime');
+        $options = $primeField->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $form->add('prime', NumberType::class, $options );
+
+        if($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
+            try {
+                $em->persist($salaire);
+                $em->flush();
+            } catch (ConstraintViolationException $e) {
+                return $this->render('MascaPersonnelBundle:Salaire:validation-salaire.html.twig', [
+                    'salaire'=>$salaire,
+                    'salaireFixeBrute'=> $totalSalaireFixe,
+                    'salaireHoraireBrutes'=>$totalHoraires,
+                    'cnaps'=>$retenuCnaps,
+                    'totalBrute'=>$salaireBrute,
+                    'salaireNet'=>$salaireNet,
+                    'form'=>$form->createView(),
+                    'error_message' => 'une erreur d\'enregistrement s\'est produit!'
+                ]);
+            }
+            return $this->redirect($this->generateUrl('home_salaire', ['id'=> $employer->getId()]));
+        }
+
+        return $this->render('MascaPersonnelBundle:Salaire:validation-salaire.html.twig', [
+            'salaire'=>$salaire,
+            'salaireFixeBrute'=> $totalSalaireFixe,
+            'salaireHoraireBrutes'=>$totalHoraires,
+            'cnaps'=>$retenuCnaps,
+            'totalBrute'=>$salaireBrute,
+            'salaireNet'=>$salaireNet,
+            'form'=>$form->createView()
         ]);
     }
 
@@ -225,6 +326,7 @@ class GestionSalaireController extends Controller
         }
 
         $salaireBrute += $totalSalaireFixe;
+        $salaireBrute += $salaire->getPrime();
 
         $totalHoraires = [];
         foreach ($salaire->getDetailSalaireHoraire() as $key=>$value) {
@@ -244,5 +346,52 @@ class GestionSalaireController extends Controller
             'totalBrute'=>$salaireBrute,
             'salaireNet'=>$salaireNet
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Salaire $salaire
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/delete/{id}", name = "delete_salaire")
+     */
+    public function deleteSalaireAction(Request $request, Salaire $salaire) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($salaire);
+        $em->flush();
+        return $this->redirect($this->generateUrl('home_salaire', ['id'=> $salaire->getEmployer()->getId()]));
+    }
+
+    /**
+     * @param Request $request
+     * @param Salaire $salaire
+     * @return Response|\Symfony\Component\HttpFoundation\Response
+     * @Route("/print/{id}", name="print_fiche_paye")
+     */
+    public function printFichePayeAction(Request $request, Salaire $salaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $html = $this->forward('MascaPersonnelBundle:ImpressionSalaire:printFichePaye',[
+            'salaire'=>$salaire
+        ])->getContent();
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('inline; filename="%s"', 'out.pdf'),
+            ]
+        );
     }
 }

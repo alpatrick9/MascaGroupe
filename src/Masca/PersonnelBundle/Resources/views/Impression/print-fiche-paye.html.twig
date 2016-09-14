@@ -1,5 +1,5 @@
-{% extends "MascaPersonnelBundle::layout.html.twig" %}
-{% block personnel_body %}
+{% extends "::base-impression.html.twig" %}
+{% block body %}
     <h3>Fiche de paye de {{ salaire.employer.person.nom }} {{ salaire.employer.person.prenom }}</h3>
     <div>
         <p>Payé le {{ salaire.date | date('d/m/Y') }}</p>
@@ -12,7 +12,7 @@
             <tr>
                 <th></th>
                 <th>Total Heure</th>
-                <th>Taux (Ar) </th>
+                <th>Taux (Ar)</th>
                 <th>Brute (Ar)</th>
             </tr>
             </thead>
@@ -23,18 +23,18 @@
                 <td></td>
                 <td>{{ salaireFixeBrute }}</td>
             </tr>
-                {% for key, value in salaire.detailSalaireHoraire %}
-                    <tr>
-                        <td></td>
-                        <td>{{ value }}</td>
-                        <td>{{ key }}</td>
-                        <td>{{ salaireHoraireBrutes[key] }}</td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="4"></td>
-                    </tr>
-                {% endfor %}
+            {% for key, value in salaire.detailSalaireHoraire %}
+                <tr>
+                    <td></td>
+                    <td>{{ value }}</td>
+                    <td>{{ key }}</td>
+                    <td>{{ salaireHoraireBrutes[key] }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+            {% endfor %}
             <tr>
                 <td>Retenu CNAPS</td>
                 <td></td>
@@ -68,13 +68,4 @@
             </tbody>
         </table>
     </fieldset>
-    <div class="clearfix"></div>
-    <div class="align-center">
-        <a href="{{ path('home_salaire', {'id': salaire.employer.id}) }}">
-            <img title="Retour" src="{{ asset('assets/cancel.png') }}" class="custom-margin">
-        </a>
-        <a href="{{ path('print_fiche_paye', {'id': salaire.id}) }}" target="_blank">
-            <img title="Imprimer fiche de paye" src="{{ asset('assets/printer.png') }}" class="custom-margin">
-        </a>
-    </div>
 {% endblock %}

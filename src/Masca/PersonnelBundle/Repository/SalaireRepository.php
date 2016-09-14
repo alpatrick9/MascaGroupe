@@ -1,6 +1,7 @@
 <?php
 
 namespace Masca\PersonnelBundle\Repository;
+use Masca\PersonnelBundle\Entity\Employer;
 
 /**
  * SalaireRepository
@@ -10,4 +11,12 @@ namespace Masca\PersonnelBundle\Repository;
  */
 class SalaireRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function salaireNotValid(Employer $employer, $mois, $annee) {
+        $query = $this->createQueryBuilder('salaire')
+            ->where('salaire.employer = :employer')->setParameter('employer',$employer)
+            ->andWhere('salaire.mois = :mois')->setParameter('mois', $mois)
+            ->andWhere('salaire.annee = :annee')->setParameter('annee', $annee)
+            ->getQuery();
+        return $query->getOneOrNullResult() != null;
+    }
 }
