@@ -1,0 +1,61 @@
+{% extends "MascaTresorBundle::traisor-universite.html.twig" %}
+{% block caisse_univ_body %}
+    Solde actuel: {{ solde.solde }} Ar du {{ solde.date |date('d/m/Y H:i') }} dernier mouvement le {{ solde.date |date('d/m/Y H:i') }}
+    <div class="clearfix"></div>
+    <div class="row link-text  floatleft">
+        <a href="{{ path('add_mvmt_universite') }}">
+            <img title="Nouvelle opération" src="{{ asset('assets/add.png') }}">
+        </a>
+    </div>
+    <div class="clearfix"></div>
+    <fieldset>
+        <legend>Details des mouvement</legend>
+        <table id="tableshow" class="table table-hover table-bordered table-striped">
+            <thead>
+            <tr>
+                <th data-tri="1">date</th>
+                <th>Déscription de l'operation</th>
+                <th>Solde avant</th>
+                <th>Débit</th>
+                <th>Crédit</th>
+                <th>Solde après</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for mvmt in mvmts %}
+                <tr>
+                    <td>{{ mvmt.date | date('d/m/Y H:i') }}</td>
+                    <td>{{ mvmt.description }}</td>
+                    <td>{{ mvmt.soldePrecedent }}</td>
+                    <td>
+                        {% if mvmt.typeOperation == 'd' %}
+                            {{ mvmt.somme }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if mvmt.typeOperation == 'c' %}
+                            {{ mvmt.somme }}
+                        {% endif %}
+                    </td>
+                    <td>{{ mvmt.soldeApres }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucun mouvement enregistre</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if mvmts|length > 0 %}
+            <div class="pagination align-center">
+                <ul>
+                    {% for p in range(1, nbPage) %}
+                        <li{% if p == page %} class="active"{% endif %}>
+                            <a href="">{{ p }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </fieldset>
+{% endblock %}

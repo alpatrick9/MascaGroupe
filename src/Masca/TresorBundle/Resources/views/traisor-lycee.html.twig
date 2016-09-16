@@ -1,0 +1,13 @@
+{% extends "MascaTresorBundle::layout.html.twig" %}
+{% block tresor_body %}
+    <div>
+        {% block caisse_lycee_body %}{% endblock %}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var nav = document.getElementById("caisse_lycee");
+        nav.className += "active";
+    </script>
+{% endblock %}

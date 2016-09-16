@@ -3,6 +3,10 @@
 {% block body %}
     <div class="col-md-12">
         <div class="titre">Gestion du tresorerie</div>
+        <ul class="nav nav-pills">
+            <li id="caisse_univ" ><a href="{{ path('home_caisse_universite') }}">Université</a></li>
+            <li id="caisse_lycee"><a href="{{ path('home_caisse_lycee') }}">Lycée</a></li>
+        </ul>
         <div>
             {% block tresor_body %}{% endblock %}
         </div>
