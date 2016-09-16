@@ -1,6 +1,6 @@
-{% extends "MascaTresorBundle::traisor-universite.html.twig" %}
-{% block caisse_univ_body %}
-    <h3>Formulaire de transaction université</h3>
+{% extends "MascaTresorBundle::traisor-lycee.html.twig" %}
+{% block caisse_lycee_body %}
+    <h3>Formulaire de transaction lycee</h3>
     {% if error_message is defined %}
         <p style="color: red "> {{ error_message }}</p>
     {% endif %}
@@ -12,7 +12,7 @@
             <div class="clearfix"></div>
             <div class="submit-style">
                 <div class="floatleft">
-                    <a href="{{ path('home_caisse_universite') }}">
+                    <a href="{{ path('home_caisse_lycee') }}">
                         <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
                     </a>
 

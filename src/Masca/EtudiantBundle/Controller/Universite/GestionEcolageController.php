@@ -15,6 +15,8 @@ use Masca\EtudiantBundle\Entity\FraisScolariteUniv;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite;
 use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
 use Masca\EtudiantBundle\Type\EcolageUnivType;
+use Masca\TresorBundle\Entity\MvmtUniversite;
+use Masca\TresorBundle\Entity\SoldeUniversite;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -136,6 +138,22 @@ class GestionEcolageController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($ecolage);
                 $em->persist($datePayement);
+
+                $mvmt = new MvmtUniversite();
+                $mvmt->setSomme($ecolage->getMontant());
+                $mvmt->setDescription('Ecolage de l\'étudiant matricule '.$universitaireSonFiliere->getUniversitaire()->getPerson()->getNumMatricule().' mois de '.$ecolage->getMois());
+                /**
+                 * @var $solde SoldeUniversite
+                 */
+                $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeUniversite')->find(1);
+                $solde->setDate($mvmt->getDate());
+
+                $mvmt->setSoldePrecedent($solde->getSolde());
+                $mvmt->setTypeOperation('c');
+                $solde->setSolde($solde->getSolde() + $mvmt->getSomme());
+                $mvmt->setSoldeApres($solde->getSolde());
+                $em->persist($mvmt);
+
                 $em->flush();
             } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Universite:formularie-ecolage.html.twig', array(
@@ -218,7 +236,8 @@ class GestionEcolageController extends Controller
                 $datePayement = new DatePayementEcolageUniv();
                 $datePayement->setFraisScolariteUniv($fraisScolariteUniv);
                 $datePayement->setMontant($fraisScolariteUniv->getMontant());
-
+                $mvmt = new MvmtUniversite();
+                $mvmt->setSomme($fraisScolariteUniv->getMontant());
                 $fraisScolariteUniv->setMontant($oldMontant + $fraisScolariteUniv->getMontant());
 
                 if($fraisScolariteUniv->getMontant() + $fraisScolariteUniv->getUnivSonFiliere()->getUniversitaire()->getInfoEtudiant()->getReduction() == $motantEcolage->getMontant()) {
@@ -226,6 +245,21 @@ class GestionEcolageController extends Controller
                 }
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($datePayement);
+
+
+                $mvmt->setDescription('Ecolage de l\'étudiant matricule '.$fraisScolariteUniv->getUnivSonFiliere()->getUniversitaire()->getPerson()->getNumMatricule().' mois de '.$fraisScolariteUniv->getMois());
+                /**
+                 * @var $solde SoldeUniversite
+                 */
+                $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeUniversite')->find(1);
+                $solde->setDate($mvmt->getDate());
+
+                $mvmt->setSoldePrecedent($solde->getSolde());
+                $mvmt->setTypeOperation('c');
+                $solde->setSolde($solde->getSolde() + $mvmt->getSomme());
+                $mvmt->setSoldeApres($solde->getSolde());
+                $em->persist($mvmt);
+
                 $em->flush();
             } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Universite:formularie-ecolage.html.twig', array(

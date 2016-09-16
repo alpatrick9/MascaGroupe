@@ -86,7 +86,7 @@ class CaisseUniversiteController extends Controller
             if($mvmt->getSomme() <= 0) {
                 return $this->render('MascaTresorBundle:Universite:formulaire_operation.html.twig',[
                     'form'=>$form->createView(),
-                    'error_message' => 'La somme entrée "'.$mvmt->getSomme().'"n\'est pas valide! '
+                    'error_message' => 'La somme entrée "'.$mvmt->getSomme().'" n\'est pas valide! '
                 ]);
             }
             $em = $this->getDoctrine()->getManager();

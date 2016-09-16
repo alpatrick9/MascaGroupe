@@ -15,6 +15,8 @@ use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee;
 use Masca\EtudiantBundle\Entity\Lyceen;
 use Masca\EtudiantBundle\Type\EcolageLyceenType;
+use Masca\TresorBundle\Entity\MvmtLycee;
+use Masca\TresorBundle\Entity\SoldeLycee;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -133,12 +135,27 @@ class EcolageLyceenController extends Controller
                 $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
                 $datePayement->setMontant($fraisScolariteLyceen->getMontant());
 
-                if($fraisScolariteLyceen->getMontant() - $lyceen->getInfoEtudiant()->getReduction() == $motantEcolage->getMontant()) {
+                if($fraisScolariteLyceen->getMontant() + $lyceen->getInfoEtudiant()->getReduction() == $motantEcolage->getMontant()) {
                     $fraisScolariteLyceen->setStatus(true);
                 }
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($fraisScolariteLyceen);
                 $em->persist($datePayement);
+
+                $mvmt = new MvmtLycee();
+                $mvmt->setSomme($fraisScolariteLyceen->getMontant());
+                $mvmt->setDescription('Ecolage de l\'élève matricule '.$lyceen->getPerson()->getNumMatricule().' mois de '.$fraisScolariteLyceen->getMois());
+                /**
+                 * @var $solde SoldeLycee
+                 */
+                $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeLycee')->find(1);
+                $solde->setDate($mvmt->getDate());
+
+                $mvmt->setSoldePrecedent($solde->getSolde());
+                $mvmt->setTypeOperation('c');
+                $solde->setSolde($solde->getSolde() + $mvmt->getSomme());
+                $mvmt->setSoldeApres($solde->getSolde());
+                $em->persist($mvmt);
 
                 $em->flush();
             } catch (ConstraintViolationException $e) {
@@ -219,6 +236,9 @@ class EcolageLyceenController extends Controller
             $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
             $datePayement->setMontant($fraisScolariteLyceen->getMontant());
 
+            $mvmt = new MvmtLycee();
+            $mvmt->setSomme($fraisScolariteLyceen->getMontant());
+
             $fraisScolariteLyceen->setMontant($oldMontant + $fraisScolariteLyceen->getMontant());
 
             if($fraisScolariteLyceen->getMontant() + $fraisScolariteLyceen->getLyceen()->getInfoEtudiant()->getReduction() == $motantEcolage->getMontant())
@@ -226,6 +246,20 @@ class EcolageLyceenController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($datePayement);
+
+
+            $mvmt->setDescription('Ecolage de l\'élève matricule '.$fraisScolariteLyceen->getLyceen()->getPerson()->getNumMatricule().' mois de '.$fraisScolariteLyceen->getMois());
+            /**
+             * @var $solde SoldeLycee
+             */
+            $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeLycee')->find(1);
+            $solde->setDate($mvmt->getDate());
+
+            $mvmt->setSoldePrecedent($solde->getSolde());
+            $mvmt->setTypeOperation('c');
+            $solde->setSolde($solde->getSolde() + $mvmt->getSomme());
+            $mvmt->setSoldeApres($solde->getSolde());
+            $em->persist($mvmt);
             $em->flush();
 
             return $this->redirect($this->generateUrl('ecolage_lyceen',array('id'=>$fraisScolariteLyceen->getLyceen()->getId())));

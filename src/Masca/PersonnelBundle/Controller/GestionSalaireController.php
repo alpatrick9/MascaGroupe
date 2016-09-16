@@ -17,6 +17,9 @@ use Masca\PersonnelBundle\Entity\PointageEnseignant;
 use Masca\PersonnelBundle\Entity\Salaire;
 use Masca\PersonnelBundle\Type\AvanceSalaireType;
 use Masca\PersonnelBundle\Type\SalaireType;
+use Masca\TresorBundle\Entity\MvmtLycee;
+use Masca\TresorBundle\Entity\MvmtUniversite;
+use Masca\TresorBundle\Entity\SoldeUniversite;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -182,7 +185,6 @@ class GestionSalaireController extends Controller
                 else {
                     $salaireHoraires[$pointage->getInfoTauxHoraire()->getTauxHoraire()] += $pointage->getVolumeHoraire();
                 }
-
             }
             $salaire->setDetailSalaireHoraire($salaireHoraires);
 
@@ -193,20 +195,10 @@ class GestionSalaireController extends Controller
                     'error_message' => 'Ces informations sont déjà enregistées!'
                 ]);
             }
+
             $session = $this->get('session');
             $session->set('salaire', serialize($salaire));
-            /*$em = $this->getDoctrine()->getManager();
-            try {
-                $em->persist($salaire);
-                $em->flush();
-            } catch (ConstraintViolationException $e) {
-                return $this->render('MascaPersonnelBundle:Salaire:formulaire-salaire.html.twig', [
-                    'form'=>$form->createView(),
-                    'info'=>$salaire,
-                    'error_message' => 'Ces informations sont déjà enregistées!'
-                ]);
-            }
-            return $this->redirect($this->generateUrl('home_salaire', ['id'=> $employer->getId()]));*/
+
             return $this->redirect($this->generateUrl('validation_salaire', ['id'=> $employer->getId()]));
         }
 
@@ -237,6 +229,7 @@ class GestionSalaireController extends Controller
          * @var $salaire Salaire
          */
         $salaire = unserialize($session->get('salaire'));
+
         $salaire->setEmployer($employer);
 
         $salaireBrute = 0;
@@ -277,6 +270,7 @@ class GestionSalaireController extends Controller
             $em = $this->getDoctrine()->getManager();
             try {
                 $em->persist($salaire);
+
                 $em->flush();
             } catch (ConstraintViolationException $e) {
                 return $this->render('MascaPersonnelBundle:Salaire:validation-salaire.html.twig', [
@@ -289,6 +283,8 @@ class GestionSalaireController extends Controller
                     'form'=>$form->createView(),
                     'error_message' => 'une erreur d\'enregistrement s\'est produit!'
                 ]);
+            } finally  {
+                $session->remove('salaire');
             }
             return $this->redirect($this->generateUrl('home_salaire', ['id'=> $employer->getId()]));
         }
