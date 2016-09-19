@@ -146,6 +146,12 @@ class GestionEcolageController extends Controller
                  * @var $solde SoldeUniversite
                  */
                 $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeUniversite')->find(1);
+                if(empty($solde)) {
+                    $solde = new SoldeUniversite();
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($solde);
+                }
+
                 $solde->setDate($mvmt->getDate());
 
                 $mvmt->setSoldePrecedent($solde->getSolde());

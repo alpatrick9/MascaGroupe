@@ -149,6 +149,13 @@ class EcolageLyceenController extends Controller
                  * @var $solde SoldeLycee
                  */
                 $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeLycee')->find(1);
+
+                if(empty($solde)) {
+                    $solde = new SoldeLycee();
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($solde);
+                }
+
                 $solde->setDate($mvmt->getDate());
 
                 $mvmt->setSoldePrecedent($solde->getSolde());
