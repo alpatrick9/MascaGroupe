@@ -58,6 +58,7 @@
                         <th data-tri="1" data-type="num">Date</th>
                         <th>Mois</th>
                         <th>Montant (Ar)</th>
+                        <th>Déduit sur</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -67,6 +68,7 @@
                             <td>{{ avance.date | date('d/m/Y') }}</td>
                             <td>{{ avance.mois }}</td>
                             <td>{{ avance.somme}}</td>
+                            <td>{{ avance.caisse }}</td>
                             <td>
                                 <div class="align-center">
                                     <a href="{{ path('delete_avance_salaire', {'id': avance.id}) }}"
@@ -79,7 +81,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="4">Aucun avance enregistré</td>
+                            <td colspan="5">Aucun avance enregistré</td>
                         </tr>
                     {% endfor %}
                     </tbody>

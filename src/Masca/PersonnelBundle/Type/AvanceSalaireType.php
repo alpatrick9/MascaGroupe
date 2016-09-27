@@ -32,6 +32,12 @@ class AvanceSalaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('caisse', ChoiceType::class, [
+                'label'=>'Caisse',
+                'choices_as_values'=>true,
+                'choices'=>['Université'=>'cu', 'Lycée'=>'cl'],
+                'placeholder'=>'Choisissez...'
+            ])
             ->add('mois',ChoiceType::class,[
                     'label'=>'Mois',
                     'choices_as_values'=>true,
@@ -40,7 +46,8 @@ class AvanceSalaireType extends AbstractType
                 ])
             ->add('somme', NumberType::class, [
                 'label'=>'Somme à retrait'
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

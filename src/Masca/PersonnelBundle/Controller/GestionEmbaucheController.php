@@ -174,7 +174,7 @@ class GestionEmbaucheController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/edit/{id}", name="edit_info_person")
      */
-    public function updatePersonInfo(Request $request, Person $person) {
+    public function updatePersonInfoAction(Request $request, Person $person) {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -200,6 +200,66 @@ class GestionEmbaucheController extends Controller
         return $this->render('MascaPersonnelBundle:Embauche:formulaire-edit-person.html.twig',[
             'form_person'=>$personForm->createView(),
             'employer'=>$employer
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param InfoSalaireFixe $infoSalaireFixe
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/edit/fix/{id}/", name="edit_poste_fixe")
+     */
+    public function updatePosteFixeInfoAction(Request $request, InfoSalaireFixe $infoSalaireFixe) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+
+        $employerForm = $this->createForm(new EmployerType(),$infoSalaireFixe->getStatus()->getEmployer());
+        $infoForm = $this->createForm(new InfoSalaireFixeType(), $infoSalaireFixe);
+        
+        if($request->getMethod() == 'POST') {
+            $employerForm->handleRequest($request);
+            $infoForm->handleRequest($request);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirect($this->generateUrl('details',['id'=>$infoSalaireFixe->getStatus()->getEmployer()->getId()]));
+        }
+        return $this->render('MascaPersonnelBundle:GestionPost:formulaire-update-post-fixe.html.twig',[
+            'employerForm'=>$employerForm->createView(),
+            'infoForm'=>$infoForm->createView(),
+            'info'=>$infoSalaireFixe
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param InfoVolumeHoraire $infoVolumeHoraire
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route("/edit/horaire/{id}/", name="edit_poste_horaire")
+     */
+    public function updatePosteHoraireInfoAction(Request $request, InfoVolumeHoraire $infoVolumeHoraire) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
+
+        $employerForm = $this->createForm(new EmployerType(),$infoVolumeHoraire->getStatus()->getEmployer());
+        $infoForm = $this->createForm(new InfoVolumeHoraireType(), $infoVolumeHoraire);
+
+        if($request->getMethod() == 'POST') {
+            $employerForm->handleRequest($request);
+            $infoForm->handleRequest($request);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirect($this->generateUrl('details',['id'=>$infoVolumeHoraire->getStatus()->getEmployer()->getId()]));
+        }
+        return $this->render('MascaPersonnelBundle:GestionPost:formulaire-update-post-fixe.html.twig',[
+            'employerForm'=>$employerForm->createView(),
+            'infoForm'=>$infoForm->createView(),
+            'info'=>$infoVolumeHoraire
         ]);
     }
     

@@ -45,10 +45,30 @@ class Salaire
     /**
      * @var float
      *
-     * @ORM\Column(name="totalAvance", type="decimal", precision=10, scale=0)
+     * @ORM\Column(name="totalAvanceSalaireL", type="decimal", precision=10, scale=0)
      */
-    private $totalAvance;
+    private $totalAvanceSalaireL;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="totalAvanceSalaireU", type="decimal", precision=10, scale=0)
+     */
+    private $totalAvanceSalaireU;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="totalSalaireL", type="decimal", precision=10, scale=0)
+     */
+    private $totalSalaireL;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="totalSalaireU", type="decimal", precision=10, scale=0)
+     */
+    private $totalSalaireU;
     /**
      * @var array
      *
@@ -91,7 +111,10 @@ class Salaire
     {
         $this->date = new \DateTime();
         $this->annee = $this->date->format('Y');
-        $this->totalAvance = 0;
+        $this->totalAvanceSalaireL = 0;
+        $this->totalAvanceSalaireU = 0;
+        $this->totalSalaireL = 0;
+        $this->totalSalaireU = 0;
         $this->prime = 0;
         $this->totalHeures = 0;
     }
@@ -181,13 +204,13 @@ class Salaire
     /**
      * Set totalAvance
      *
-     * @param string $totalAvance
+     * @param string $totalAvanceSalaireL
      *
      * @return Salaire
      */
-    public function setTotalAvance($totalAvance)
+    public function setTotalAvanceSalaireL($totalAvanceSalaireL)
     {
-        $this->totalAvance = $totalAvance;
+        $this->totalAvanceSalaireL = $totalAvanceSalaireL;
 
         return $this;
     }
@@ -197,9 +220,9 @@ class Salaire
      *
      * @return string
      */
-    public function getTotalAvance()
+    public function getTotalAvanceSalaireL()
     {
-        return $this->totalAvance;
+        return $this->totalAvanceSalaireL;
     }
 
     private function addSalaireFixe($salaireFixe) {
@@ -332,5 +355,77 @@ class Salaire
     public function getEmployer()
     {
         return $this->employer;
+    }
+
+    /**
+     * Set totalAvanceSalaireU
+     *
+     * @param string $totalAvanceSalaireU
+     *
+     * @return Salaire
+     */
+    public function setTotalAvanceSalaireU($totalAvanceSalaireU)
+    {
+        $this->totalAvanceSalaireU = $totalAvanceSalaireU;
+
+        return $this;
+    }
+
+    /**
+     * Get totalAvanceSalaireU
+     *
+     * @return string
+     */
+    public function getTotalAvanceSalaireU()
+    {
+        return $this->totalAvanceSalaireU;
+    }
+
+    /**
+     * Set totalSalaireL
+     *
+     * @param string $totalSalaireL
+     *
+     * @return Salaire
+     */
+    public function setTotalSalaireL($totalSalaireL)
+    {
+        $this->totalSalaireL = $totalSalaireL;
+
+        return $this;
+    }
+
+    /**
+     * Get totalSalaireL
+     *
+     * @return string
+     */
+    public function getTotalSalaireL()
+    {
+        return $this->totalSalaireL;
+    }
+
+    /**
+     * Set totalSalaireU
+     *
+     * @param string $totalSalaireU
+     *
+     * @return Salaire
+     */
+    public function setTotalSalaireU($totalSalaireU)
+    {
+        $this->totalSalaireU = $totalSalaireU;
+
+        return $this;
+    }
+
+    /**
+     * Get totalSalaireU
+     *
+     * @return string
+     */
+    public function getTotalSalaireU()
+    {
+        return $this->totalSalaireU;
     }
 }

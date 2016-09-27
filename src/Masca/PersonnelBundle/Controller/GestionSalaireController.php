@@ -19,6 +19,7 @@ use Masca\PersonnelBundle\Type\AvanceSalaireType;
 use Masca\PersonnelBundle\Type\SalaireType;
 use Masca\TresorBundle\Entity\MvmtLycee;
 use Masca\TresorBundle\Entity\MvmtUniversite;
+use Masca\TresorBundle\Entity\SoldeLycee;
 use Masca\TresorBundle\Entity\SoldeUniversite;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -43,7 +44,8 @@ class GestionSalaireController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/{id}", name="home_salaire")
      */
-    public function indexAction(Request $request, Employer $employer) {
+    public function indexAction(Request $request, Employer $employer)
+    {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -54,17 +56,17 @@ class GestionSalaireController extends Controller
         /**
          * @var Employer[]
          */
-        $avances = $this->getDoctrine()->getRepository('MascaPersonnelBundle:AvanceSalaire')->findBy(['employer'=>$employer->getId()]);
+        $avances = $this->getDoctrine()->getRepository('MascaPersonnelBundle:AvanceSalaire')->findBy(['employer' => $employer->getId()]);
 
         /**
          * @var Salaire[]
          */
-        $salaires = $this->getDoctrine()->getRepository('MascaPersonnelBundle:Salaire')->findBy(['employer'=>$employer->getId()]);
+        $salaires = $this->getDoctrine()->getRepository('MascaPersonnelBundle:Salaire')->findBy(['employer' => $employer->getId()]);
 
         return $this->render('MascaPersonnelBundle:Salaire:index.html.twig', [
-            'employer'=>$employer,
-            'avances'=>$avances,
-            'salaires'=>$salaires
+            'employer' => $employer,
+            'avances' => $avances,
+            'salaires' => $salaires
         ]);
     }
 
@@ -74,37 +76,79 @@ class GestionSalaireController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response$
      * @Route("/avance/{id}", name="add_avance_salaire")
      */
-    public function addAvanceSalaireAction(Request $request, Employer $employer) {
+    public function addAvanceSalaireAction(Request $request, Employer $employer)
+    {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink' => $request->headers->get('referer')
             ]);
         }
-        
+
         $avance = new AvanceSalaire();
         $avance->setEmployer($employer);
         $form = $this->createForm(new AvanceSalaireType($this->getParameter('mois')), $avance);
 
-        if($request->getMethod() == 'POST') {
+        if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
+            $mvmt = null;
+            $solde = null;
             $em = $this->getDoctrine()->getManager();
             try {
+                switch ($avance->getCaisse()) {
+                    case 'cu':
+                        $mvmt = new MvmtUniversite();
+
+                        /**
+                         * @var $solde SoldeUniversite
+                         */
+                        $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeUniversite')->find(1);
+                        if (empty($solde)) {
+                            $solde = new SoldeUniversite();
+                            $em->persist($solde);
+                        }
+                        break;
+                    case 'cl':
+                        $mvmt = new MvmtLycee();
+                        /**
+                         * @var $solde SoldeLycee
+                         */
+                        $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeLycee')->find(1);
+
+                        if(empty($solde)) {
+                            $solde = new SoldeLycee();
+                            $em->persist($solde);
+                        }
+
+                        break;
+                }
+
+                $mvmt->setSomme($avance->getSomme());
+                $mvmt->setDescription('Avance sur salaire de l\'employer matricule ' . $avance->getEmployer()->getPerson()->getNumMatricule() . ' mois de ' . $avance->getMois());
+
+                $solde->setDate($mvmt->getDate());
+
+                $mvmt->setSoldePrecedent($solde->getSolde());
+                $mvmt->setTypeOperation('d');
+                $solde->setSolde($solde->getSolde() - $mvmt->getSomme());
+                $mvmt->setSoldeApres($solde->getSolde());
+                $em->persist($mvmt);
+                
                 $em->persist($avance);
                 $em->flush();
             } catch (ConstraintViolationException $e) {
                 return $this->render('MascaPersonnelBundle:Salaire:formulaire-avance.html.twig', [
-                    'form'=>$form->createView(),
-                    'info'=>$avance,
+                    'form' => $form->createView(),
+                    'info' => $avance,
                     'error_message' => 'Ces informations sont déjà enregistées!'
                 ]);
             }
-            return $this->redirect($this->generateUrl('home_salaire', ['id'=> $employer->getId()]));
+            return $this->redirect($this->generateUrl('home_salaire', ['id' => $employer->getId()]));
         }
 
         return $this->render('MascaPersonnelBundle:Salaire:formulaire-avance.html.twig', [
-            'form'=>$form->createView(),
-            'info'=>$avance
+            'form' => $form->createView(),
+            'info' => $avance
         ]);
     }
 
@@ -114,7 +158,8 @@ class GestionSalaireController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/avance/delete/{id}", name="delete_avance_salaire")
      */
-    public function deleteAvanceSalaireAction(Request $request, AvanceSalaire $avanceSalaire) {
+    public function deleteAvanceSalaireAction(Request $request, AvanceSalaire $avanceSalaire)
+    {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -124,7 +169,7 @@ class GestionSalaireController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($avanceSalaire);
         $em->flush();
-        return $this->redirect($this->generateUrl('home_salaire', ['id'=> $avanceSalaire->getEmployer()->getId()]));
+        return $this->redirect($this->generateUrl('home_salaire', ['id' => $avanceSalaire->getEmployer()->getId()]));
     }
 
     /**
@@ -133,7 +178,8 @@ class GestionSalaireController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/payement/{id}", name="payement_salaire")
      */
-    public function addSalaireAction(Request $request, Employer $employer) {
+    public function addSalaireAction(Request $request, Employer $employer)
+    {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -143,20 +189,28 @@ class GestionSalaireController extends Controller
 
         $salaire = new Salaire();
         $salaire->setEmployer($employer);
-        
+
         $form = $this->createForm(new SalaireType($this->getParameter('mois')), $salaire);
 
-        if($request->getMethod() == 'POST') {
+        if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             /**
              * @var $infoSalaireFixes InfoSalaireFixe[]
              */
             $infoSalaireFixes = $this->getDoctrine()->getRepository('MascaPersonnelBundle:InfoSalaireFixe')->findAllPostFixe($employer);
-            
+
             $salaireFixes = [];
-            
+
             foreach ($infoSalaireFixes as $fix) {
+                switch ($fix->getStatus()->getEtablisement()) {
+                    case 'lycee':
+                        $salaire->setTotalSalaireL($salaire->getTotalSalaireL() + $fix->getSalaire());
+                        break;
+                    case 'universite':
+                        $salaire->setTotalSalaireU($salaire->getTotalSalaireU() + $fix->getSalaire());
+                        break;
+                }
                 array_push($salaireFixes, $fix->getSalaire());
             }
             $salaire->setDetailSalaireFixe($salaireFixes);
@@ -164,10 +218,17 @@ class GestionSalaireController extends Controller
             /**
              * @var $avanceSalaires AvanceSalaire[]
              */
-            $avanceSalaires = $this->getDoctrine()->getRepository('MascaPersonnelBundle:AvanceSalaire')->findBy(['employer'=>$employer, 'mois' => $salaire->getMois(), 'annee'=>$salaire->getAnnee()]);
+            $avanceSalaires = $this->getDoctrine()->getRepository('MascaPersonnelBundle:AvanceSalaire')->findBy(['employer' => $employer, 'mois' => $salaire->getMois(), 'annee' => $salaire->getAnnee()]);
 
             foreach ($avanceSalaires as $avanceSalaire) {
-                $salaire->setTotalAvance($salaire->getTotalAvance() + $avanceSalaire->getSomme());
+                switch ($avanceSalaire->getCaisse()) {
+                    case 'cl':
+                        $salaire->setTotalAvanceSalaireL($salaire->getTotalAvanceSalaireL() + $avanceSalaire->getSomme());
+                        break;
+                    case 'cu':
+                        $salaire->setTotalAvanceSalaireU($salaire->getTotalAvanceSalaireU() + $avanceSalaire->getSomme());
+                        break;
+                }
             }
 
             /**
@@ -179,19 +240,26 @@ class GestionSalaireController extends Controller
 
             foreach ($pointages as $pointage) {
                 $salaire->setTotalHeures($salaire->getTotalHeures() + $pointage->getVolumeHoraire());
-                if(empty($salaireHoraires[$pointage->getInfoTauxHoraire()->getTauxHoraire()])) {
+                if (empty($salaireHoraires[$pointage->getInfoTauxHoraire()->getTauxHoraire()])) {
                     $salaireHoraires[$pointage->getInfoTauxHoraire()->getTauxHoraire()] = $pointage->getVolumeHoraire();
-                }
-                else {
+                } else {
                     $salaireHoraires[$pointage->getInfoTauxHoraire()->getTauxHoraire()] += $pointage->getVolumeHoraire();
+                }
+                switch ($pointage->getEtablissement()) {
+                    case 'lycee':
+                        $salaire->setTotalSalaireL($salaire->getTotalSalaireL() + $pointage->getInfoTauxHoraire()->getTauxHoraire()*$pointage->getVolumeHoraire());
+                        break;
+                    case 'universite':
+                        $salaire->setTotalSalaireU($salaire->getTotalSalaireU() + $pointage->getInfoTauxHoraire()->getTauxHoraire()*$pointage->getVolumeHoraire());
+                        break;
                 }
             }
             $salaire->setDetailSalaireHoraire($salaireHoraires);
 
-            if($this->getDoctrine()->getRepository('MascaPersonnelBundle:Salaire')->salaireNotValid($salaire->getEmployer(), $salaire->getMois(), $salaire->getAnnee())) {
+            if ($this->getDoctrine()->getRepository('MascaPersonnelBundle:Salaire')->salaireNotValid($salaire->getEmployer(), $salaire->getMois(), $salaire->getAnnee())) {
                 return $this->render('MascaPersonnelBundle:Salaire:formulaire-salaire.html.twig', [
-                    'form'=>$form->createView(),
-                    'info'=>$salaire,
+                    'form' => $form->createView(),
+                    'info' => $salaire,
                     'error_message' => 'Ces informations sont déjà enregistées!'
                 ]);
             }
@@ -199,12 +267,12 @@ class GestionSalaireController extends Controller
             $session = $this->get('session');
             $session->set('salaire', serialize($salaire));
 
-            return $this->redirect($this->generateUrl('validation_salaire', ['id'=> $employer->getId()]));
+            return $this->redirect($this->generateUrl('validation_salaire', ['id' => $employer->getId()]));
         }
 
         return $this->render('MascaPersonnelBundle:Salaire:formulaire-salaire.html.twig', [
-            'form'=>$form->createView(),
-            'info'=>$salaire
+            'form' => $form->createView(),
+            'info' => $salaire
         ]);
     }
 
@@ -214,7 +282,8 @@ class GestionSalaireController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/validation/{id}", name="validation_salaire")
      */
-    public function validationSalaireAction(Request $request, Employer $employer) {
+    public function validationSalaireAction(Request $request, Employer $employer)
+    {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -222,8 +291,8 @@ class GestionSalaireController extends Controller
             ]);
         }
         $session = $this->get('session');
-        if(empty($session->get('salaire')))
-            return $this->redirect($this->generateUrl('home_salaire', ['id'=>$employer->getId()]));
+        if (empty($session->get('salaire')))
+            return $this->redirect($this->generateUrl('home_salaire', ['id' => $employer->getId()]));
 
         /**
          * @var $salaire Salaire
@@ -244,59 +313,112 @@ class GestionSalaireController extends Controller
         $salaireBrute += $salaire->getPrime();
 
         $totalHoraires = [];
-        foreach ($salaire->getDetailSalaireHoraire() as $key=>$value) {
-            $totalHoraires[$key] = $key*$value;
+        foreach ($salaire->getDetailSalaireHoraire() as $key => $value) {
+            $totalHoraires[$key] = $key * $value;
             $salaireBrute += $totalHoraires[$key];
         }
 
-        $retenuCnaps = ($salaireBrute * $salaire->getEmployer()->getTauxCnaps())/100;
+        $retenuCnaps = ($salaireBrute * $salaire->getEmployer()->getTauxCnaps()) / 100;
 
-        $salaireNet = $salaireBrute - $retenuCnaps -$salaire->getTotalAvance();
+        $salaireNet = $salaireBrute - $retenuCnaps - $salaire->getTotalAvanceSalaireL() - $salaire->getTotalAvanceSalaireU();
 
         $form = $this->createForm(new SalaireType($this->getParameter('mois')), $salaire);
 
         $moisField = $form->get('mois');
         $options = $moisField->getConfig()->getOptions();
         $options['disabled'] = true;
-        $form->add('mois', ChoiceType::class, $options );
+        $form->add('mois', ChoiceType::class, $options);
 
         $primeField = $form->get('prime');
         $options = $primeField->getConfig()->getOptions();
         $options['disabled'] = true;
-        $form->add('prime', NumberType::class, $options );
+        $form->add('prime', NumberType::class, $options);
 
-        if($request->getMethod() == 'POST') {
+        if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            try {
-                $em->persist($salaire);
 
+            $em = $this->getDoctrine()->getManager();
+
+            try {
+                $mvmtLycee = new MvmtLycee();
+                $mvmtUniversite = new MvmtUniversite();
+                if($salaire->getTotalSalaireL() >= $salaire->getTotalSalaireU()) {
+                    $mvmtLycee->setSomme($salaire->getTotalSalaireL() + $salaire->getPrime() - $salaire->getTotalAvanceSalaireL() - $retenuCnaps);
+                    $mvmtUniversite->setSomme($salaire->getTotalSalaireU() - $salaire->getTotalAvanceSalaireU());
+                }
+                else {
+                    $mvmtLycee->setSomme($salaire->getTotalSalaireL() - $salaire->getTotalAvanceSalaireL());
+                    $mvmtUniversite->setSomme($salaire->getTotalSalaireU() + $salaire->getPrime() - $salaire->getTotalAvanceSalaireU() - $retenuCnaps);
+                }
+
+
+                $mvmtLycee->setDescription('Salaire net de l\'employer matricule '.$salaire->getEmployer()->getPerson()->getNumMatricule().' mois de '.$salaire->getMois());
+                /**
+                 * @var $solde SoldeLycee
+                 */
+                $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeLycee')->find(1);
+
+                if(empty($solde)) {
+                    $solde = new SoldeLycee();
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($solde);
+                }
+
+                $solde->setDate($mvmtLycee->getDate());
+
+                $mvmtLycee->setSoldePrecedent($solde->getSolde());
+                $mvmtLycee->setTypeOperation('d');
+                $solde->setSolde($solde->getSolde() - $mvmtLycee->getSomme());
+                $mvmtLycee->setSoldeApres($solde->getSolde());
+                $em->persist($mvmtLycee);
+
+
+                $mvmtUniversite->setDescription('Salaire net de l\'employer matricule '.$salaire->getEmployer()->getPerson()->getNumMatricule().' mois de '.$salaire->getMois());
+                /**
+                 * @var $solde SoldeUniversite
+                 */
+                $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeUniversite')->find(1);
+                if(empty($solde)) {
+                    $solde = new SoldeUniversite();
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($solde);
+                }
+
+                $solde->setDate($mvmtUniversite->getDate());
+
+                $mvmtUniversite->setSoldePrecedent($solde->getSolde());
+                $mvmtUniversite->setTypeOperation('d');
+                $solde->setSolde($solde->getSolde() + $mvmtUniversite->getSomme());
+                $mvmtUniversite->setSoldeApres($solde->getSolde());
+                $em->persist($mvmtUniversite);
+
+                $em->persist($salaire);
                 $em->flush();
             } catch (ConstraintViolationException $e) {
                 return $this->render('MascaPersonnelBundle:Salaire:validation-salaire.html.twig', [
-                    'salaire'=>$salaire,
-                    'salaireFixeBrute'=> $totalSalaireFixe,
-                    'salaireHoraireBrutes'=>$totalHoraires,
-                    'cnaps'=>$retenuCnaps,
-                    'totalBrute'=>$salaireBrute,
-                    'salaireNet'=>$salaireNet,
-                    'form'=>$form->createView(),
+                    'salaire' => $salaire,
+                    'salaireFixeBrute' => $totalSalaireFixe,
+                    'salaireHoraireBrutes' => $totalHoraires,
+                    'cnaps' => $retenuCnaps,
+                    'totalBrute' => $salaireBrute,
+                    'salaireNet' => $salaireNet,
+                    'form' => $form->createView(),
                     'error_message' => 'une erreur d\'enregistrement s\'est produit!'
                 ]);
-            } finally  {
+            } finally {
                 $session->remove('salaire');
             }
-            return $this->redirect($this->generateUrl('home_salaire', ['id'=> $employer->getId()]));
+            return $this->redirect($this->generateUrl('home_salaire', ['id' => $employer->getId()]));
         }
 
         return $this->render('MascaPersonnelBundle:Salaire:validation-salaire.html.twig', [
-            'salaire'=>$salaire,
-            'salaireFixeBrute'=> $totalSalaireFixe,
-            'salaireHoraireBrutes'=>$totalHoraires,
-            'cnaps'=>$retenuCnaps,
-            'totalBrute'=>$salaireBrute,
-            'salaireNet'=>$salaireNet,
-            'form'=>$form->createView()
+            'salaire' => $salaire,
+            'salaireFixeBrute' => $totalSalaireFixe,
+            'salaireHoraireBrutes' => $totalHoraires,
+            'cnaps' => $retenuCnaps,
+            'totalBrute' => $salaireBrute,
+            'salaireNet' => $salaireNet,
+            'form' => $form->createView()
         ]);
     }
 
@@ -306,7 +428,8 @@ class GestionSalaireController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/details/{id}", name="detail_salaire")
      */
-    public function detailsSalaireAction(Request $request, Salaire $salaire) {
+    public function detailsSalaireAction(Request $request, Salaire $salaire)
+    {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -325,22 +448,22 @@ class GestionSalaireController extends Controller
         $salaireBrute += $salaire->getPrime();
 
         $totalHoraires = [];
-        foreach ($salaire->getDetailSalaireHoraire() as $key=>$value) {
-            $totalHoraires[$key] = $key*$value;
+        foreach ($salaire->getDetailSalaireHoraire() as $key => $value) {
+            $totalHoraires[$key] = $key * $value;
             $salaireBrute += $totalHoraires[$key];
         }
 
-        $retenuCnaps = ($salaireBrute * $salaire->getEmployer()->getTauxCnaps())/100;
+        $retenuCnaps = ($salaireBrute * $salaire->getEmployer()->getTauxCnaps()) / 100;
 
-        $salaireNet = $salaireBrute - $retenuCnaps -$salaire->getTotalAvance();
-        
+        $salaireNet = $salaireBrute - $retenuCnaps - $salaire->getTotalAvanceSalaireL();
+
         return $this->render('MascaPersonnelBundle:Salaire:details-salaire.html.twig', [
-            'salaire'=>$salaire,
-            'salaireFixeBrute'=> $totalSalaireFixe,
-            'salaireHoraireBrutes'=>$totalHoraires,
-            'cnaps'=>$retenuCnaps,
-            'totalBrute'=>$salaireBrute,
-            'salaireNet'=>$salaireNet
+            'salaire' => $salaire,
+            'salaireFixeBrute' => $totalSalaireFixe,
+            'salaireHoraireBrutes' => $totalHoraires,
+            'cnaps' => $retenuCnaps,
+            'totalBrute' => $salaireBrute,
+            'salaireNet' => $salaireNet
         ]);
     }
 
@@ -350,7 +473,8 @@ class GestionSalaireController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/delete/{id}", name = "delete_salaire")
      */
-    public function deleteSalaireAction(Request $request, Salaire $salaire) {
+    public function deleteSalaireAction(Request $request, Salaire $salaire)
+    {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
             return $this->render("::message-layout.html.twig", [
                 'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
@@ -360,7 +484,7 @@ class GestionSalaireController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($salaire);
         $em->flush();
-        return $this->redirect($this->generateUrl('home_salaire', ['id'=> $salaire->getEmployer()->getId()]));
+        return $this->redirect($this->generateUrl('home_salaire', ['id' => $salaire->getEmployer()->getId()]));
     }
 
     /**
@@ -369,23 +493,24 @@ class GestionSalaireController extends Controller
      * @return Response|\Symfony\Component\HttpFoundation\Response
      * @Route("/print/{id}", name="print_fiche_paye")
      */
-    public function printFichePayeAction(Request $request, Salaire $salaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
-            return $this->render("::message-layout.html.twig",[
-                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
-                'previousLink'=>$request->headers->get('referer')
+    public function printFichePayeAction(Request $request, Salaire $salaire)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
             ]);
         }
 
-        $html = $this->forward('MascaPersonnelBundle:ImpressionSalaire:printFichePaye',[
-            'salaire'=>$salaire
+        $html = $this->forward('MascaPersonnelBundle:ImpressionSalaire:printFichePaye', [
+            'salaire' => $salaire
         ])->getContent();
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
             200,
             [
-                'Content-Type'        => 'application/pdf',
+                'Content-Type' => 'application/pdf',
                 'Content-Disposition' => sprintf('inline; filename="%s"', 'out.pdf'),
             ]
         );

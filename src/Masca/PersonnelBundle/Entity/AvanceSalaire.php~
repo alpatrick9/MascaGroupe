@@ -50,6 +50,13 @@ class AvanceSalaire
     private $somme;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="caisse", type="string", length=2)
+     */
+    private $caisse;
+
+    /**
      * @var Employer
      *
      * @ORM\ManyToOne(targetEntity="Masca\PersonnelBundle\Entity\Employer", inversedBy="sesAvances")
@@ -63,6 +70,7 @@ class AvanceSalaire
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->annee = $this->date->format('Y');
     }
 
 
@@ -170,5 +178,29 @@ class AvanceSalaire
     public function getEmployer()
     {
         return $this->employer;
+    }
+
+    /**
+     * Set annee
+     *
+     * @param string $annee
+     *
+     * @return AvanceSalaire
+     */
+    public function setAnnee($annee)
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    /**
+     * Get annee
+     *
+     * @return string
+     */
+    public function getAnnee()
+    {
+        return $this->annee;
     }
 }

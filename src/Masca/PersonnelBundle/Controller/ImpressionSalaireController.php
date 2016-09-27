@@ -50,7 +50,7 @@ class ImpressionSalaireController extends Controller
 
         $retenuCnaps = ($salaireBrute * $salaire->getEmployer()->getTauxCnaps())/100;
 
-        $salaireNet = $salaireBrute - $retenuCnaps -$salaire->getTotalAvance();
+        $salaireNet = $salaireBrute - $retenuCnaps -$salaire->getTotalAvanceSalaireL();
 
         return $this->render('MascaPersonnelBundle:Impression:print-fiche-paye.html.twig', [
             'salaire'=>$salaire,

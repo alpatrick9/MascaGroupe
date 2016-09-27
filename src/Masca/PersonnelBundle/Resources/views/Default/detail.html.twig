@@ -73,6 +73,9 @@
                     <td>{{ poste.titrePoste }}</td>
                     <td>{{ poste.salaire }}</td>
                     <td>
+                        <a href="{{ path('edit_poste_fixe', {'id': poste.id}) }}">
+                            <img title="Modifier" src="{{ asset('assets/edit-icon.png') }}" class="custom-margin">
+                        </a>
                         <a href="{{ path('delete_poste_fixe', {'id': poste.id}) }}" onclick="return confirm('Voulez vous supprimer le poste {{ poste.titrePoste }} ?')">
                             <img title="Supprimer ce poste" src="{{ asset('assets/delete-icone.png') }}" class="custom-margin">
                         </a>
@@ -161,6 +164,9 @@
                         {% endif %}
                     </td>
                     <td>
+                        <a href="{{ path('edit_poste_horaire', {'id': poste.id}) }}">
+                            <img title="Modifier" src="{{ asset('assets/edit-icon.png') }}" class="custom-margin">
+                        </a>
                         <a href="{{ path('delete_poste_horaire', {'id': poste.id}) }}" onclick="return confirm('Voulez vous supprimer le poste {{ poste.titrePoste }} ?')">
                             <img title="Supprimer ce poste" src="{{ asset('assets/delete-icone.png') }}" class="custom-margin">
                         </a>
