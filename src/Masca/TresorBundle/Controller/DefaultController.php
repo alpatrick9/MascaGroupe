@@ -27,6 +27,15 @@ class DefaultController extends Controller
                 'previousLink' => $request->headers->get('referer')
             ]);
         }
+
+        $now = new \DateTime();
+
+        $mvmtLRep = $this->getDoctrine()->getRepository('MascaTresorBundle:MvmtLycee');
+        $mvmtLRep->deleteMouvement($now->format('Y')-$this->getParameter('interval'));
+
+
+        $mvmtURep = $this->getDoctrine()->getRepository('MascaTresorBundle:MvmtUniversite');
+        $mvmtURep->deleteMouvement($now->format('Y')-$this->getParameter('interval'));
         return $this->render('MascaTresorBundle:Default:index.html.twig');
     }
 }

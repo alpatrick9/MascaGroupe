@@ -23,4 +23,12 @@ class MvmtUniversiteRepository extends \Doctrine\ORM\EntityRepository
         $query->setFirstResult(($page-1) * $nbParPage)->setMaxResults($nbParPage);
         return new Paginator($query);
     }
+
+    public function deleteMouvement($yearMin) {
+        $query = $this->createQueryBuilder('mvmt')
+            ->delete()
+            ->where('YEAR(mvmt.date) <= :min')->setParameter('min', $yearMin)
+            ->getQuery();
+        $query->execute();
+    }
 }
