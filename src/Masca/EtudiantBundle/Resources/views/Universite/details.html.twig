@@ -26,6 +26,18 @@
                         <td><b>Lieu de naissance:</b></td>
                         <td>{{ universitaire.person.lieuNaissance }}</td>
                     </tr>
+                    <tr>
+                        <td><b>CIN:</b></td>
+                        <td>{{ universitaire.person.numCin }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Date delivrance CIN:</b></td>
+                        <td>{{ universitaire.person.dateDelivranceCin | date('d M Y')}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Lieu delivrance CIN:</b></td>
+                        <td>{{ universitaire.person.lieuDelivranceCin}}</td>
+                    </tr>
                 </table>
             </fieldset>
         </div>

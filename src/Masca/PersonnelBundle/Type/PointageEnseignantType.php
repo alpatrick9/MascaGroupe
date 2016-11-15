@@ -9,6 +9,8 @@
 namespace Masca\PersonnelBundle\Type;
 
 
+use Masca\PersonnelBundle\Entity\Employer;
+use Masca\PersonnelBundle\Repository\InfoVolumeHoraireRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,6 +23,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PointageEnseignantType extends AbstractType
 {
+    /**
+     * @var Employer
+     */
+    protected $employe;
+
+    /**
+     * PointageEnseignantType constructor.
+     * @param $employe
+     */
+    public function __construct($employe)
+    {
+        $this->employe = $employe;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -55,6 +71,14 @@ class PointageEnseignantType extends AbstractType
                 'label'=>'Le taux horaire correspondant',
                 'class'=>'Masca\PersonnelBundle\Entity\InfoVolumeHoraire',
                 'property'=>'tauxHoraire',
+                'query_builder'=> function(InfoVolumeHoraireRepository $repository) {
+                    return $repository->createQueryBuilder('info')
+                        ->leftJoin('info.status','status')
+                        ->leftJoin('status.employer','employer')
+                        ->where('employer.id = :id')->setParameter('id',$this->employe->getId())
+                        ->orderBy('employer.id', 'DESC');
+                },
+                'choice_label'=>'titrePoste',
                 'placeholder'=>'Choisissez'
             ])
         ;

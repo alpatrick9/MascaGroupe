@@ -92,7 +92,7 @@ class UniversiteController extends Controller
         $cinField = $personForm->get('numCin');
         $options = $cinField->getConfig()->getOptions();
         $options['required'] = false;
-        $personForm->add('numCin',IntegerType::class,$options);
+        $personForm->add('numCin',TextType::class,$options);
 
         $dateCinField = $personForm->get('dateDelivranceCin');
         $options = $dateCinField->getConfig()->getOptions();
@@ -194,7 +194,7 @@ class UniversiteController extends Controller
         $cinField = $personForm->get('numCin');
         $options = $cinField->getConfig()->getOptions();
         $options['required'] = false;
-        $personForm->add('numCin',IntegerType::class,$options);
+        $personForm->add('numCin',TextType::class,$options);
 
         $dateCinField = $personForm->get('dateDelivranceCin');
         $options = $dateCinField->getConfig()->getOptions();

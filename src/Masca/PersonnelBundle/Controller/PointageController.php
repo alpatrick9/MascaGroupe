@@ -65,7 +65,7 @@ class PointageController extends Controller
         }
 
         $pointage = new PointageEnseignant();
-        $form = $this->createForm(new PointageEnseignantType(), $pointage);
+        $form = $this->createForm(new PointageEnseignantType($employer), $pointage);
         $mois = $this->getParameter('mois');
         $count = 1;
         foreach ($mois as $m) {
@@ -112,7 +112,7 @@ class PointageController extends Controller
             ]);
         }
 
-        $form = $this->createForm(new PointageEnseignantType(), $pointageEnseignant);
+        $form = $this->createForm(new PointageEnseignantType($pointageEnseignant->getEmployer()), $pointageEnseignant);
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);

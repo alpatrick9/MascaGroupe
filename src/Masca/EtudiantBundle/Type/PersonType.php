@@ -4,10 +4,10 @@ namespace Masca\EtudiantBundle\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 /**
  * Created by PhpStorm.
@@ -33,17 +33,16 @@ class PersonType extends AbstractType
             ->add('dateNaissance',DateType::class,array(
                 'label'=>'Date de naissance',
                 'format'=>'dd MMMM yyyy',
-                'years'=>range(date('Y')-50,date('Y')),
+                'years'=>range(date('Y')-80,date('Y')),
                 'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
 
             ))
             ->add('lieuNaissance',TextType::class,array(
                 'label'=>'Lieu de Naissance'
             ))
-            ->add('numCin',IntegerType::class,array(
+            ->add('numCin',TextType::class,array(
                 'label'=>'Numeros CIN',
                 'attr'=>array(
-                    'min'=>100000000000,
                     'placeholder'=>112991012188)
             ))
             ->add('dateDelivranceCin',DateType::class,array(

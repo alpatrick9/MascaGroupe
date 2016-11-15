@@ -3,7 +3,7 @@
 namespace Masca\EtudiantBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Masca\PersonnelBundle\Entity\Status;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Person
@@ -58,7 +58,7 @@ class Person
     private $lieuNaissance;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="numCin", type="bigint", nullable=true)
      */
@@ -206,7 +206,7 @@ class Person
     /**
      * Set numCin
      *
-     * @param integer $numCin
+     * @param string $numCin
      * @return Person
      */
     public function setNumCin($numCin)
@@ -219,7 +219,7 @@ class Person
     /**
      * Get numCin
      *
-     * @return integer 
+     * @return string
      */
     public function getNumCin()
     {

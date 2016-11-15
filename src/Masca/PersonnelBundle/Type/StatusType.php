@@ -41,7 +41,7 @@ class StatusType extends AbstractType
             ->add('dateEmbauche',DateType::class,[
                 'label'=>'Embaucher le',
                 'format'=>'dd MMMM yyyy',
-                'years'=>range(date('Y')-2,date('Y')+2),
+                'years'=>range(date('Y')-50,date('Y')+2),
                 'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
             ])
         ;
