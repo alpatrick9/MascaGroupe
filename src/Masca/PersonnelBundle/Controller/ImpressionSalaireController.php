@@ -52,13 +52,36 @@ class ImpressionSalaireController extends Controller
 
         $salaireNet = $salaireBrute - $retenuCnaps -$salaire->getTotalAvanceSalaireL();
 
+        $sommeForBilletage = $salaireNet;
+
+        $billetage = [
+            10000 => 0,
+            5000 => 0,
+            2000 => 0,
+            1000 => 0,
+            500 => 0,
+            200 => 0,
+            100 => 0,
+            50 => 0,
+            20 => 0,
+            10 => 0
+        ];
+
+        foreach ($billetage as $key => $value) {
+            while ($sommeForBilletage >= $key) {
+                $sommeForBilletage = $sommeForBilletage - $key;
+                $billetage[$key]++;
+            }
+        }
+
         return $this->render('MascaPersonnelBundle:Impression:print-fiche-paye.html.twig', [
             'salaire'=>$salaire,
             'salaireFixeBrute'=> $totalSalaireFixe,
             'salaireHoraireBrutes'=>$totalHoraires,
             'cnaps'=>$retenuCnaps,
             'totalBrute'=>$salaireBrute,
-            'salaireNet'=>$salaireNet
+            'salaireNet'=>$salaireNet,
+            'billetage' => $billetage
         ]);
     }
 

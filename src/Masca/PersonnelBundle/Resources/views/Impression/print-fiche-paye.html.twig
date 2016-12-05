@@ -90,5 +90,25 @@
             </tr>
             </tbody>
         </table>
+
+        <h4>Billetage</h4>
+        <table class="table  table-hover table-bordered table-striped">
+            <thead>
+                {% for key, value in billetage %}
+                    <th>
+                        {{ key }} Ar
+                    </th>
+                {% endfor %}
+            </thead>
+            <tbody>
+            <tr>
+                {% for key, value in billetage %}
+                    <td class="align-center">
+                        {{ value }}
+                    </td>
+                {% endfor %}
+            </tr>
+            </tbody>
+        </table>
     </fieldset>
 {% endblock %}
