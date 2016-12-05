@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap.css')) }}"/>
+    <link rel="stylesheet" href="{{ absolute_url(asset('css/style.css')) }}"/>
+    <script type="text/javascript" src="{{ absolute_url(asset('js/jquery-1.11.3.min.js')) }}"></script>
+    <script type="text/javascript" src="{{ absolute_url(asset('js/bootstrap.min.js')) }}"></script>
+    <script type="text/javascript" src="{{ absolute_url(asset('js/js.js')) }}"></script>
+</head>
+<body>
+<div class="clearfix"></div>
+<div class="content-wrapper">
+    <div class="milieupage">
+        {% block body %}{% endblock %}
+    </div><!-- FIN row milieupage//-->
+</div><!-- FIN content-wrapper//-->
+</body>
+</html>

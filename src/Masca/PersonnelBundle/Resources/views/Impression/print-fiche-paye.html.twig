@@ -1,114 +1,247 @@
-{% extends "::base-impression.html.twig" %}
+{% extends ":default:base-impression-fiche-paye.html.twig" %}
 {% block body %}
-    <h3>Fiche de paye de {{ salaire.employer.person.nom }} {{ salaire.employer.person.prenom }}</h3>
-    <div>
-        <p>Payé le {{ salaire.date | date('d/m/Y') }}</p>
-        <p> Mois de {{ salaire.mois }}</p>
-    </div>
-    <fieldset>
-        <legend>Détails</legend>
-        <table class="table  table-hover table-bordered table-striped">
-            <thead>
-            <tr>
-                <th></th>
-                <th>Total Heure</th>
-                <th>Taux (Ar) </th>
-                <th>Brute (Ar)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Salaire fixe</td>
-                <td></td>
-                <td></td>
-                <td>{{ salaireFixeBrute }}</td>
-            </tr>
-            {% for key, value in salaire.detailSalaireHoraire %}
-                <tr>
-                    <td></td>
-                    <td>{{ value }}</td>
-                    <td>{{ key }}</td>
-                    <td>{{ salaireHoraireBrutes[key] }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4"></td>
-                </tr>
-            {% endfor %}
-            <tr>
-                <td>Retenu CNAPS</td>
-                <td></td>
-                <td>{{ salaire.employer.tauxCnaps }} %</td>
-                <td>{{ cnaps }}</td>
-            </tr>
-            <tr>
-                <td>Avance sur salaire </td>
-                <td></td>
-                <td></td>
-                <td>
-                    <table>
+    <div class="row">
+        <div class="span6">
+            <div class="entete-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="span4"><img src="{{ absolute_url(asset('assets/logo.png')) }}" class="logo-home">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>Fiche de paye de {{ salaire.employer.person.nom }} {{ salaire.employer.person.prenom }}</h3>
+            <div>
+                <p>Payé le {{ salaire.date | date('d/m/Y') }}</p>
+                <p> Mois de {{ salaire.mois }}</p>
+            </div>
+            <fieldset>
+                <legend>Détails</legend>
+                <table class="table  table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Total Heure</th>
+                        <th>Taux (Ar)</th>
+                        <th>Brute (Ar)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Salaire fixe</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaireFixeBrute }}</td>
+                    </tr>
+                    {% for key, value in salaire.detailSalaireHoraire %}
                         <tr>
-                            <td>CU</td>
-                            <td>{{ salaire.totalAvanceSalaireU }}</td>
+                            <td></td>
+                            <td>{{ value }}</td>
+                            <td>{{ key }}</td>
+                            <td>{{ salaireHoraireBrutes[key] }}</td>
                         </tr>
+                    {% else %}
                         <tr>
-                            <td>CL</td>
-                            <td>{{ salaire.totalAvanceSalaireL }}</td>
+                            <td colspan="4"></td>
                         </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>Prime</td>
-                <td></td>
-                <td></td>
-                <td>{{ salaire.prime }}</td>
-            </tr>
-            <tr>
-                <td>Total brute salaire poste universitaire</td>
-                <td></td>
-                <td></td>
-                <td>{{ salaire.totalSalaireU }}</td>
-            </tr>
-            <tr>
-                <td>Total brute salaire poste lycée</td>
-                <td></td>
-                <td></td>
-                <td>{{ salaire.totalSalaireL }}</td>
-            </tr>
-            <tr>
-                <td>Total brute</td>
-                <td></td>
-                <td></td>
-                <td>{{ totalBrute }}</td>
-            </tr>
-            <tr>
-                <td>Net à payer</td>
-                <td></td>
-                <td></td>
-                <td>{{ salaireNet }}</td>
-            </tr>
-            </tbody>
-        </table>
+                    {% endfor %}
+                    <tr>
+                        <td>Retenu CNAPS</td>
+                        <td></td>
+                        <td>{{ salaire.employer.tauxCnaps }} %</td>
+                        <td>{{ cnaps }}</td>
+                    </tr>
+                    <tr>
+                        <td>Avance sur salaire</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>CU</td>
+                                    <td>{{ salaire.totalAvanceSalaireU }}</td>
+                                </tr>
+                                <tr>
+                                    <td>CL</td>
+                                    <td>{{ salaire.totalAvanceSalaireL }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Prime</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaire.prime }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total brute salaire poste universitaire</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaire.totalSalaireU }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total brute salaire poste lycée</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaire.totalSalaireL }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total brute</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ totalBrute }}</td>
+                    </tr>
+                    <tr>
+                        <td>Net à payer</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaireNet }}</td>
+                    </tr>
+                    </tbody>
+                </table>
 
-        <h4>Billetage</h4>
-        <table class="table  table-hover table-bordered table-striped">
-            <thead>
-                {% for key, value in billetage %}
-                    <th>
-                        {{ key }} Ar
-                    </th>
-                {% endfor %}
-            </thead>
-            <tbody>
-            <tr>
-                {% for key, value in billetage %}
-                    <td class="align-center">
-                        {{ value }}
-                    </td>
-                {% endfor %}
-            </tr>
-            </tbody>
-        </table>
-    </fieldset>
+                <h4>Billetage</h4>
+                <table class="table  table-hover table-bordered table-striped">
+                    <thead>
+                    {% for key, value in billetage %}
+                        <th>
+                            {{ key }} Ar
+                        </th>
+                    {% endfor %}
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for key, value in billetage %}
+                            <td class="align-center">
+                                {{ value }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+        <div class="span6">
+            <div class="entete-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="span4"><img src="{{ absolute_url(asset('assets/logo.png')) }}" class="logo-home">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>Fiche de paye de {{ salaire.employer.person.nom }} {{ salaire.employer.person.prenom }}</h3>
+            <div>
+                <p>Payé le {{ salaire.date | date('d/m/Y') }}</p>
+                <p> Mois de {{ salaire.mois }}</p>
+            </div>
+            <fieldset>
+                <legend>Détails</legend>
+                <table class="table  table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Total Heure</th>
+                        <th>Taux (Ar)</th>
+                        <th>Brute (Ar)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Salaire fixe</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaireFixeBrute }}</td>
+                    </tr>
+                    {% for key, value in salaire.detailSalaireHoraire %}
+                        <tr>
+                            <td></td>
+                            <td>{{ value }}</td>
+                            <td>{{ key }}</td>
+                            <td>{{ salaireHoraireBrutes[key] }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>Retenu CNAPS</td>
+                        <td></td>
+                        <td>{{ salaire.employer.tauxCnaps }} %</td>
+                        <td>{{ cnaps }}</td>
+                    </tr>
+                    <tr>
+                        <td>Avance sur salaire</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>CU</td>
+                                    <td>{{ salaire.totalAvanceSalaireU }}</td>
+                                </tr>
+                                <tr>
+                                    <td>CL</td>
+                                    <td>{{ salaire.totalAvanceSalaireL }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Prime</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaire.prime }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total brute salaire poste universitaire</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaire.totalSalaireU }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total brute salaire poste lycée</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaire.totalSalaireL }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total brute</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ totalBrute }}</td>
+                    </tr>
+                    <tr>
+                        <td>Net à payer</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ salaireNet }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4>Billetage</h4>
+                <table class="table  table-hover table-bordered table-striped">
+                    <thead>
+                    {% for key, value in billetage %}
+                        <th>
+                            {{ key }} Ar
+                        </th>
+                    {% endfor %}
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for key, value in billetage %}
+                            <td class="align-center">
+                                {{ value }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+    </div>
 {% endblock %}
