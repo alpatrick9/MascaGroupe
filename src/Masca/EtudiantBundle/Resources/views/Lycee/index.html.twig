@@ -20,7 +20,7 @@
             <table id="tableshow" class="table  table-hover table-bordered table-striped avectri" data-role="table">
                 <thead>
                 <tr>
-                    <th class="selection" data-tri="1" data-type="num">N°</th>
+                    <th class="selection" data-tri="1" data-type="num">N° Matricule</th>
                     <th >Nom</th>
                     <th >Prénom</th>
                     <th >classe</th>
@@ -30,7 +30,7 @@
                 <tbody>
                 {% for lyceen in lyceens %}
                     <tr>
-                        <td>{{ lyceen.numeros }}</td>
+                        <td>{{ lyceen.person.numMatricule }}</td>
                         <td>{{ lyceen.person.nom }}</td>
                         <td>{{ lyceen.person.prenom }}</td>
                         <td>{{ lyceen.sonClasse.intitule }}</td>
