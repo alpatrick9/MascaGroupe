@@ -1,15 +1,25 @@
-{% extends ":default:base-impression-fiche-paye.html.twig" %}
+{% extends "::base-impression-fiche-paye.html.twig" %}
 {% block body %}
     <div class="row">
         <div class="span6">
+            <div class="floatleft">
+                <img src="{{ absolute_url(asset('assets/logo-universite.png')) }}" class="logo-home">
+            </div>
+            <div class="floatright">
+                <img src="{{ absolute_url(asset('assets/logo-lycee.png')) }}" class="logo-home">
+            </div>
+            <div class="clearfix"></div>
             <div class="entete-wrapper">
                 <div class="container">
                     <div class="row">
-                        <div class="span4"><img src="{{ absolute_url(asset('assets/logo.png')) }}" class="logo-home">
+                        <div class="span2"><img src="{{ absolute_url(asset('assets/logo.png')) }}" class="logo-home"></div>
+                        <div class="span4">
+                            Système d'information du GROUPE MASCA
                         </div>
                     </div>
                 </div>
             </div>
+
             <h3>Fiche de paye de {{ salaire.employer.person.nom }} {{ salaire.employer.person.prenom }}</h3>
             <div>
                 <p>Payé le {{ salaire.date | date('d/m/Y') }}</p>
@@ -123,14 +133,24 @@
             </fieldset>
         </div>
         <div class="span6">
+            <div class="floatleft">
+                <img src="{{ absolute_url(asset('assets/logo-universite.png')) }}" class="logo-home">
+            </div>
+            <div class="floatright">
+                <img src="{{ absolute_url(asset('assets/logo-lycee.png')) }}" class="logo-home">
+            </div>
+            <div class="clearfix"></div>
             <div class="entete-wrapper">
                 <div class="container">
                     <div class="row">
-                        <div class="span4"><img src="{{ absolute_url(asset('assets/logo.png')) }}" class="logo-home">
+                        <div class="span2"><img src="{{ absolute_url(asset('assets/logo.png')) }}" class="logo-home"></div>
+                        <div class="span4">
+                            Système d'information du GROUPE MASCA
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="clearfix"></div>
             <h3>Fiche de paye de {{ salaire.employer.person.nom }} {{ salaire.employer.person.prenom }}</h3>
             <div>
                 <p>Payé le {{ salaire.date | date('d/m/Y') }}</p>

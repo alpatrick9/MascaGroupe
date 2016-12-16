@@ -8,6 +8,7 @@ parameters:
     operation: {Débit: 'd', Crédit: 'c'}
     interval: 3
     locale: fr
+    nbparpage: 60
 
 services:
 #    service_name:

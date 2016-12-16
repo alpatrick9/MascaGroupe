@@ -33,7 +33,7 @@ class LyceeImpressionController extends Controller
                 'previousLink'=>$request->headers->get('referer')
             ]);
         }
-        $nbParPage = 30;
+        $nbParPage = $this->getParameter('nbparpage');
         /**
          * @var $repository LyceenRepository
          */
@@ -43,10 +43,7 @@ class LyceeImpressionController extends Controller
          * @var $lyceens Lyceen[]
          */
         $lyceens = $repository->getLyceens($nbParPage,$page);
-
-        if($request->getMethod() == 'POST') {
-            $lyceens = $repository->findLyceens($nbParPage,$page,$request->get('key_word'));
-        }
+        
         return $this->render('MascaEtudiantBundle:Impression/Lycee:list-lyceen.html.twig',array(
             'lyceens'=>$lyceens,
             'page'=> $page,

@@ -19,7 +19,7 @@ class LyceenRepository extends EntityRepository
         }
 
         $query = $this->createQueryBuilder('lyceen')
-            ->orderBy('lyceen.numeros', 'DESC')
+            ->orderBy('lyceen.id', 'DESC')
             ->getQuery();
 
         $query->setFirstResult(($page-1) * $nbParPage)->setMaxResults($nbParPage);

@@ -52,7 +52,7 @@ class UniversiteController extends Controller
                 'previousLink'=>$request->headers->get('referer')
             ]);
         }
-        $nbParPage = 30;
+        $nbParPage = $this->getParameter('nbparpage');
         /**
          * @var $repository UniversitaireRepository
          */
