@@ -32,7 +32,7 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/", name="emploi_du_temps_univerite")
      */
     public function indexAction(Request $request){
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -53,7 +53,7 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/creer/", name="creer_emploi_du_temps_universite")
      */
     public function creerEmploiDuTemps(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -90,7 +90,7 @@ class AdminEmploiDuTempController extends Controller
      * @ParamConverter("filierParNiveau", options={"mapping": {"filiereParNiveau_id":"id"}})
      */
     public function voirEmploiDuTempsAction(Request $request, FiliereParNiveau $filierParNiveau) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -136,7 +136,7 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/ajouter-matiere/{filiereParNiveau_id}/{jourIndex}/{heureIndex}", name="ajouter_emplois_du_temps_universite")
      */
     public function ajouterMatiereAction(Request $request, FiliereParNiveau $filiereParNiveau,$jourIndex, $heureIndex) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -177,7 +177,7 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/modifier-matiere/{emploiDuTempsUniv_id}", name="modifier_emplois_du_temps_universite")
      */
     public function modifierMatiereAction(Request $request, EmploiDuTempsUniv $emploiDuTempsUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -210,7 +210,7 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/supprimer-matiere/{emploiDuTempsUniv_id}", name="supprimer_matiere_emplois_du_temps_universite")
      */
     public function supprimerMatierAction(Request $request, EmploiDuTempsUniv $emploiDuTempsUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -229,7 +229,7 @@ class AdminEmploiDuTempController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_emplois_du_temps_universite")
      */
     public function supprimerFilierParNiveauAction(Request $request, FiliereParNiveau $filiereParNiveau) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

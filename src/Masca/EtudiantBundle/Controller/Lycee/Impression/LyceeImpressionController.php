@@ -27,7 +27,7 @@ class LyceeImpressionController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listLyceePrintAction(Request $request, $page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

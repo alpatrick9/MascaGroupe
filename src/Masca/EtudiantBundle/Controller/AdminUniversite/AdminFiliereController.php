@@ -32,7 +32,7 @@ class AdminFiliereController extends Controller
      * @Route("/{page}", name="admin_univ_filiere", defaults={"page"=1})
      */
     public function indexAction(Request $request,$page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -61,7 +61,7 @@ class AdminFiliereController extends Controller
      * @Route("/ajoute/", name="ajouter_filiere_univ")
      */
     public function ajouterFiliereAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -97,7 +97,7 @@ class AdminFiliereController extends Controller
      * @ParamConverter("filiere", options={"mapping": {"filiere_id":"id"}})
      */
     public function modifierFiliereAction(Request $request, Filiere $filiere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -129,7 +129,7 @@ class AdminFiliereController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_filiere_univ")
      */
     public function supprimerFiliereAction(Request $request, Filiere $fileiere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

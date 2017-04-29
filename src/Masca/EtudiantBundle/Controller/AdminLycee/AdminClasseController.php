@@ -34,7 +34,7 @@ class AdminClasseController extends Controller
      * @Route("/{page}", name="admin_lycee_classe", defaults={"page" = 1})
      */
     public function indexAction(Request $request,$page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -63,7 +63,7 @@ class AdminClasseController extends Controller
      * @Route("/classe/ajoute/", name="ajouter_classe_lycee")
      */
     public function creerClasseAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -101,7 +101,7 @@ class AdminClasseController extends Controller
      * @Route("/modifier/classe/{classe_id}", name="modifier_classe_lycee")
      */
     public function modiferClasseAction(Request $request, Classe $classe) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -134,7 +134,7 @@ class AdminClasseController extends Controller
      * @Route("/emploi-du-temps/{id}", name="emploi_du_temps_lycee")
      */
     public function emploiDuTempsAction(Request $request, Classe $classe) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -180,7 +180,7 @@ class AdminClasseController extends Controller
      * @Route("/emploi-du-temps/ajouter-matiere/{classe_id}/{jourIndex}/{heureIndex}", name="ajouter_matiere_emplois_du_temps_lycee")
      */
     public function ajouterMatiereEmploiDuTempsAction(Request $request, Classe $classe,$jourIndex, $heureIndex) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -222,7 +222,7 @@ class AdminClasseController extends Controller
      * @Route("/emploi-du-temps/modifier-matiere/{emploiDuTempsLycee_id}", name="modifier_matiere_emplois_du_temps_lycee")
      */
     public function modifierMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -259,7 +259,7 @@ class AdminClasseController extends Controller
      * @Route("/emploi-du-temps/supprimer-matiere/{emploiDuTempsLycee_id}", name="supprimer_matiere_emplois_du_temps_lycee")
      */
     public function supprimerMatiereEmploiDuTempsAction(Request $request, EmploiDuTempsLycee $emploiDuTempsLycee) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -278,7 +278,7 @@ class AdminClasseController extends Controller
      * @Route("/supprimer-classe/{id}", name="supprimer_classe_lycee")
      */
     public function deleteClasseAction(Request $request, Classe $classe){
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

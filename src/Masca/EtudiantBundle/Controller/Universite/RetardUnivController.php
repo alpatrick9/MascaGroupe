@@ -33,7 +33,7 @@ class RetardUnivController extends Controller
      * @Route("/{id}", name="retard_universitaire")
      */
     public function indexAction(Request $request, Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -57,7 +57,7 @@ class RetardUnivController extends Controller
      * @Route("/enregistrement/{id}", name="enregistrement_retard_universitaire")
      */
     public function creerRetardAction(Request $request, Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -95,7 +95,7 @@ class RetardUnivController extends Controller
      * @Route("/modifier/{id}", name="modifier_retard_universitaire")
      */
     public function modifierRetardAction(Request $request, RetardUniv $retardUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -128,7 +128,7 @@ class RetardUnivController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_retard_universitaire")
      */
     public function supprimerRetardAction(Request $request, RetardUniv $retardUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

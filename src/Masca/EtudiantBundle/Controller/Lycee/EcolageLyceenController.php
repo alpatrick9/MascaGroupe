@@ -38,7 +38,7 @@ class EcolageLyceenController extends Controller
      * @Route("/accueil/{id}", name="ecolage_lyceen")
      */
     public function ecolageAction(Request $request,Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -94,7 +94,7 @@ class EcolageLyceenController extends Controller
      * @Route("/payement/{id}", name="payer_ecolage_lyceen")
      */
     public function payerEcolageAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -192,7 +192,7 @@ class EcolageLyceenController extends Controller
      * @Route("/regularisation-reste/{frais_scolarite_id}", name="regularisation_reste_ecolage_lyceen")
      */
     public function regularisationResteEcolageAction(Request $request, FraisScolariteLyceen $fraisScolariteLyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -285,7 +285,7 @@ class EcolageLyceenController extends Controller
      * @Route("/delete/{id}", name="supprimer_ecolage_lyceen")
      */
     public function deleteEcolageAction(Request $request, FraisScolariteLyceen $fraisScolariteLyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -304,7 +304,7 @@ class EcolageLyceenController extends Controller
      * @Route("/print/{id}", name="print_ecolage")
      */
     public function printEcolageAction(Request $request,Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

@@ -46,7 +46,7 @@ class UniversiteController extends Controller
      * @Route("/accueil/{page}", name="accueil_universite", defaults={"page" = 1})
      */
     public function indexAction(Request $request, $page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -80,7 +80,7 @@ class UniversiteController extends Controller
      * @Route("/inscription/", name="inscription_universite")
      */
     public  function inscriptionAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -159,7 +159,7 @@ class UniversiteController extends Controller
      * @Route("/details/{id}", name="details_universite")
      */
     public function detailsAction(Request $request, Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -183,7 +183,7 @@ class UniversiteController extends Controller
      * @Route("/modifier/{id}", name="modifier_universite")
      */
     public function modifierAction(Request $request, Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -243,7 +243,7 @@ class UniversiteController extends Controller
      * @Route("/supprimer-etudiant/{id}", name="supprimer_etudiant_univ")
      */
     public function supprimerDetailsEtudiantAction(Request $request, Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -263,7 +263,7 @@ class UniversiteController extends Controller
      * @Route("/print/list/{page}", name="print_liste_universite")
      */
     public function printListeAction(Request $request,$page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

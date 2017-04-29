@@ -35,7 +35,7 @@ class NoteLyceenController extends Controller
      * @Route("/liste/{lyceen_id}", name="liste_notes_lyceen")
      */
     public function noteAction(Request $request,Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -93,7 +93,7 @@ class NoteLyceenController extends Controller
      * @Route("/ajouter/{lyceen_id}", name="ajouter_note_lyceen")
      */
     public function ajouterNoteAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -134,7 +134,7 @@ class NoteLyceenController extends Controller
      * @Route("/modifier/{lyceenNote_id}", name="modifier_note_lyceen")
      */
     public function modifierNoteAction(Request $request, LyceenNote $lyceenNote) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -165,7 +165,7 @@ class NoteLyceenController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_note_lyceen")
      */
     public function deleteNoteLyceenAction(Request $request, LyceenNote $lyceenNote) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -185,7 +185,7 @@ class NoteLyceenController extends Controller
      * @Route("/print/{id}", name="print_notes_lyceen")
      */
     public function printNoteAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

@@ -37,7 +37,7 @@ class GestionEcolageController extends Controller
      * @Route("/{id}", name="ecolage_universitaire")
      */
     public function indexAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -91,7 +91,7 @@ class GestionEcolageController extends Controller
      * @Route("/payement/{id}", name="payer_ecolage_univeristaire")
      */
     public function payerEcolageAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -189,7 +189,7 @@ class GestionEcolageController extends Controller
      * @Route("/regularisation-reste/{id}", name="regularisation_rest_ecolage_univesitaire")
      */
     public function regularisationResteEcolageAction(Request $request, FraisScolariteUniv $fraisScolariteUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -294,7 +294,7 @@ class GestionEcolageController extends Controller
      * @Route("/supprimer-ecolage/{id}", name="supprimer_ecolage_univ")
      */
     public function supprimerEcolageUnivAction(Request $request, FraisScolariteUniv $fraisScolariteUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -312,7 +312,7 @@ class GestionEcolageController extends Controller
      * @Route("/print/ecolage/{id}", name="print_ecolage_universite")
      */
     public function printEcolageUnivAction(Request $request,UniversitaireSonFiliere $universitaireSonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

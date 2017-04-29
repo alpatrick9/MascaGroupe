@@ -34,7 +34,7 @@ class AdminUeController extends Controller
      * @Route("/", name="ue_universite")
      */
     public function indexAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -55,7 +55,7 @@ class AdminUeController extends Controller
      * @Route("/creer/", name="creer_ue_universite")
      */
     public function creerUeAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -91,7 +91,7 @@ class AdminUeController extends Controller
      * @Route("/modifier/{id}", name="modifier_ue_universite")
      */
     public function modifierUeAction(Request $request, Ue $ue) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -122,7 +122,7 @@ class AdminUeController extends Controller
      * @Route("/repartition/{page}",name="repartition_unite_enseignement_univeriste", defaults={"page" = 1})
      */
     public function repartionUeParFiliereAction(Request $request, $page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -155,7 +155,7 @@ class AdminUeController extends Controller
      * @Route("/repartion/creer/", name="creer_repartition_unite_enseignement_universite")
      */
     public function creationRepartitionUeAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -190,7 +190,7 @@ class AdminUeController extends Controller
      * @Route("/repartion/matiere/{id}", name="ajouter_m_repartition_unite_enseignement_universite")
      */
     public function ajouterMatiereUeAction(Request $request, UeParFiliere $ueParFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -227,7 +227,7 @@ class AdminUeController extends Controller
      * 
      */
     public function supprimerMatiereUeAction(Request $request, MatiereParUeFiliere $matiereParUeFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -246,7 +246,7 @@ class AdminUeController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_ue_univ")
      */
     public function supprimerUeAction(Request $request, Ue $ue) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

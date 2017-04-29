@@ -33,7 +33,7 @@ class AbsenceUnivController extends Controller
      * @Route("/{id}", name="absence_universitaire")
      */
     public function indexAction(Request $request, Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -57,7 +57,7 @@ class AbsenceUnivController extends Controller
      * @Route("/creer/{id}", name="enregistrement_absence_universitaire")
      */
     public function enregistrementAbsenceAction(Request $request, Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -97,7 +97,7 @@ class AbsenceUnivController extends Controller
      * @Route("/modifier/{id}", name="modifier_absence_universitaire")
      */
     public function modificationAbsenceAction(Request $request, AbsenceUniv $absenceUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -130,7 +130,7 @@ class AbsenceUnivController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_absence_universitaire")
      */
     public function supprimerAbsenceAction(Request $request, AbsenceUniv $absenceUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

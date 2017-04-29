@@ -32,7 +32,7 @@ class RetardLyceenController extends Controller
      * @Route("/{id}", name="retard_lyceen")
      */
     public function indexAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -56,7 +56,7 @@ class RetardLyceenController extends Controller
      * @Route("/creer/{id}", name="creer_retard_lyceen")
      */
     public function creerRetardAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -94,7 +94,7 @@ class RetardLyceenController extends Controller
      * @Route("/modifier/{id}", name="modifier_retard_lyceen")
      */
     public function modifierRetardAction(Request $request, RetardLyceen $retardLyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -127,7 +127,7 @@ class RetardLyceenController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_retard_lyceen")
      */
     public function supprimerRetardAction(Request $request, RetardLyceen $retardLyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

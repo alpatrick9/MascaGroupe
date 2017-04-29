@@ -2,10 +2,13 @@ security:
     encoders:
         OC\UserBundle\Entity\User: sha512
     role_hierarchy:
-            ROLE_ECONOMAT:    ROLE_USER
-            ROLE_SECRETAIRE:  ROLE_USER
-            ROLE_SG:          ROLE_USER
-            ROLE_DAF:         [ROLE_SG, ROLE_SECRETAIRE, ROLE_ECONOMAT]
+            ROLE_USER_L:      ROLE_USER
+            ROLE_ECO_L:       ROLE_USER_L
+            ROLE_SG_L:        ROLE_USER_L
+            ROLE_USER_U:      ROLE_USER
+            ROLE_ECO_U:       ROLE_USER_U
+            ROLE_SG_U:        ROLE_USER_U
+            ROLE_DAF:         [ROLE_ECO_L, ROLE_ECO_U, ROLE_SG_L, ROLE_SG_U]
             ROLE_ADMIN:       ROLE_DAF
             ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 

@@ -33,7 +33,7 @@ class GestionNoteController extends Controller
      * @Route("/{id}", name="note_univeritaire")
      */
     public function indexAction(UniversitaireSonFiliere $universitaireSonFiliere, Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -105,7 +105,7 @@ class GestionNoteController extends Controller
      * @ParamConverter("universitaireSonFiliere", options={"mapping": {"son_filiere_id":"id"}})
      */
     public function modifierNoteAction(Request $request, MatiereParUeFiliere $matiereParUeFiliere, UniversitaireSonFiliere $universitaireSonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -150,7 +150,7 @@ class GestionNoteController extends Controller
      * @Route("/supprimer/note/{id}", name="supprimer_note_univ")
      */
     public function supprimerNoteUnivAction (Request $request, NoteUniv $noteUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -169,7 +169,7 @@ class GestionNoteController extends Controller
      * @Route("/print/note/{id}", name="print_note_université")
      */
     public function printNoteUnivAction(Request $request,UniversitaireSonFiliere $universitaireSonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

@@ -42,7 +42,7 @@ class LyceeController extends Controller
      * @Route("/accueil/{page}", name="accueil_lycee", defaults={"page" = 1})
      */
     public function indexAction($page, Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -75,7 +75,7 @@ class LyceeController extends Controller
      * @Route("/inscription/", name="inscription_lycee")
      */
     public function inscriptionAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -148,7 +148,7 @@ class LyceeController extends Controller
      * @Route("/modifier/{id}", name="modifier_lyceen")
      */
     public function modifierAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -197,7 +197,7 @@ class LyceeController extends Controller
      * @Route("/reinscription/{id}", name="reinscription_lyceen")
      */
     public function reinscriptionAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -235,7 +235,7 @@ class LyceeController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_lyceen")
      */
     public function deleteLyceenAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -255,7 +255,7 @@ class LyceeController extends Controller
      * @Route("/print/{page}", name="print_list_lyceen")
      */
     public function printNoteAction(Request $request, $page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

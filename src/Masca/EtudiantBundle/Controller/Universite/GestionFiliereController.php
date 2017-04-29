@@ -36,7 +36,7 @@ class GestionFiliereController extends Controller
      * @Route("/reinscription/{id}", name="reinscription_universite")
      */
     public function reinscriptionAction(Request $request, UniversitaireSonFiliere $sonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -76,7 +76,7 @@ class GestionFiliereController extends Controller
      * @Route("/details-etude/{sonFiliere_id}", name="details_etude_universitaire")
      */
     public function detailsEtudeAction(Request $request,UniversitaireSonFiliere $sonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -94,7 +94,7 @@ class GestionFiliereController extends Controller
      * @Route("/supprimer-detail-filiere/{id}", name="supprimer_detail_filiere_univ")
      */
     public function supprimerDetailsFiliereAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -114,7 +114,7 @@ class GestionFiliereController extends Controller
      * @Route("/ajouter/filiere/{id}", name="ajouter_filiere_etudiant_univ")
      */
     public function ajouteFilièreAction(Request $request, Universitaire $universitaire) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

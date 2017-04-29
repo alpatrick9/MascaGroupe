@@ -31,7 +31,7 @@ class AdminEcolageUniversiteController extends Controller
      * @Route("/grille/", name="grille_ecolage_universite")
      */
     public function grilleFraisScolariteAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -48,7 +48,7 @@ class AdminEcolageUniversiteController extends Controller
      * @Route("/ajouter-grille/", name="ajouter_grille_ecolage_universite")
      */
     public function ajouterGrilleAction(Request $request) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -83,7 +83,7 @@ class AdminEcolageUniversiteController extends Controller
      * @ParamConverter("grilleFraisScolariteUniversite", options={"mapping": {"grille_id":"id"}})
      */
     public function modifierGrilleAction(Request $request, GrilleFraisScolariteUniversite $grilleFraisScolariteUniversite) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -117,7 +117,7 @@ class AdminEcolageUniversiteController extends Controller
      * @Route("/supprimer/{id}", name="supprimer_grille_univ")
      */
     public function supprimerGrilleEcolageAction(Request $request, GrilleFraisScolariteUniversite $grilleFraisScolariteUniversite) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

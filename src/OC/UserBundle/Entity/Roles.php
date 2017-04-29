@@ -14,9 +14,10 @@ class Roles
     public static $roles = [
         'Administrateur du system'=>'ROLE_ADMIN',
         'DAF'=>'ROLE_DAF',
-        'Secrétaire'=>'ROLE_SECRETAIRE',
-        'Economat'=>'ROLE_ECONOMAT',
-        'SG'=>'ROLE_SG'
+        'Economa université'=>'ROLE_ECO_U',
+        'Economa lycée'=>'ROLE_ECO_L',
+        'SG université'=>'ROLE_SG_U',
+        'SG lycée'=>'ROLE_SG_L'
     ];
 
 }
