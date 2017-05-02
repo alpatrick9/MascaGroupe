@@ -100,12 +100,12 @@ class UniversiteImpressionController extends Controller
                 ]);
                 $notes[$matiere->getId()] = $noteTemp;
                 if($noteTemp) {
-                    $notesUe[$key] =+ $noteTemp->getCoefficient() * $noteTemp->getMoyenne();
-                    $countCoef =+ $noteTemp->getCoefficient();
+                    $notesUe[$key] += $noteTemp->getCoefficient() * $noteTemp->getMoyenne();
+                    $countCoef += $noteTemp->getCoefficient();
                 }
             }
             if($countCoef != 0)
-                $notesUe[$key] = $notesUe[$key] / $countCoef;
+                $notesUe[$key] = number_format($notesUe[$key] / $countCoef, 2, '.', '');
         }
 
         return $this->render('MascaEtudiantBundle:Impression/Universite:note.html.twig', [
