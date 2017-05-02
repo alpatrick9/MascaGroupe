@@ -35,6 +35,7 @@ class UniversitaireRepository extends EntityRepository
             ->leftJoin('universitaire.person','person')
             ->where('person.nom like :nom')->setParameter('nom','%'.$keyword.'%')
             ->orWhere('person.prenom like :prenom')->setParameter('prenom', '%'.$keyword.'%')
+            ->orWhere('person.numMatricule like :matr')->setParameter('matr', '%'.$keyword.'%')
             ->orderBy('universitaire.id', 'DESC')
             ->getQuery();
 
