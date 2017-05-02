@@ -68,11 +68,11 @@ class UniversitaireSonFiliere
     private $semestre;
 
     /**
-     * @var float
+     * @var boolean
      *
-     * @ORM\Column(name="droit", type="float", options={"default":0})
+     * @ORM\Column(name="droit", type="boolean", options={"default":false})
      */
-    private $droitInscription;
+    private $droitInscription = false;
 
     /**
      * @var $sesNotes NoteUniv[]
@@ -313,7 +313,7 @@ class UniversitaireSonFiliere
     /**
      * Set droitInscription
      *
-     * @param float $droitInscription
+     * @param boolean $droitInscription
      *
      * @return UniversitaireSonFiliere
      */
@@ -327,7 +327,7 @@ class UniversitaireSonFiliere
     /**
      * Get droitInscription
      *
-     * @return float
+     * @return boolean
      */
     public function getDroitInscription()
     {

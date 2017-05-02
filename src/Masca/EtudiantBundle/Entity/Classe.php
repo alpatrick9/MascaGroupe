@@ -29,6 +29,13 @@ class Classe
     private $intitule;
 
     /**
+     * @var $droitInscription
+     *
+     * @ORM\Column(name="droit", type="float", options={"default":0})
+     */
+    private $droitInscription;
+
+    /**
      * @var $niveauEtude NiveauEtude
      *
      * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude", inversedBy="lesClasses")
@@ -217,5 +224,29 @@ class Classe
     public function getGrillesEcolages()
     {
         return $this->grillesEcolages;
+    }
+
+    /**
+     * Set droitInscription
+     *
+     * @param float $droitInscription
+     *
+     * @return Classe
+     */
+    public function setDroitInscription($droitInscription)
+    {
+        $this->droitInscription = $droitInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get droitInscription
+     *
+     * @return float
+     */
+    public function getDroitInscription()
+    {
+        return $this->droitInscription;
     }
 }

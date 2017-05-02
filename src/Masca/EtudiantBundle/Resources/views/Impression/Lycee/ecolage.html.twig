@@ -3,7 +3,12 @@
     <h3>Suivi status d'écolage</h3>
     <h5>Année scolaire {{ lyceen.anneeScolaire }}</h5>
     <p> {{ lyceen.person.nom }} {{ lyceen.person.prenom }} en classe de {{ lyceen.sonClasse.intitule }} n° {{ lyceen.numeros }}</p>
-    <p>Reduction {{ lyceen.infoEtudiant.reduction }} Ar</p>
+    <p>Droid d'inscription: {{ lyceen.sonClasse.droitInscription }}Ar &nbsp;&nbsp;&nbsp; Reduction {{ lyceen.infoEtudiant.reduction }} Ar</p>
+    {% if lyceen.droitInscription %}
+        <p>Droit payer</p>
+    {% else %}
+        <p style="color: red">Droit impayer</p>
+    {% endif %}
     <div class="row">
         <div class="span12">
             <table class="table table-hover table-bordered table-striped avectri">

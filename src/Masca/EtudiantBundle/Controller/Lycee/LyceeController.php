@@ -8,6 +8,7 @@
 
 namespace Masca\EtudiantBundle\Controller\Lycee;
 
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\FraisScolariteLyceenRepository;
 use Masca\EtudiantBundle\Entity\InfoEtudiant;
@@ -218,6 +219,7 @@ class LyceeController extends Controller
 
         if($request->getMethod() == 'POST') {
             $lyceenForm->handleRequest($request);
+            $lyceen->setDroitInscription(false);
             $this->getDoctrine()->getManager()->flush();
             return $this->redirect($this->generateUrl('details_lyceen',array('id'=>$lyceen->getId())));
         }

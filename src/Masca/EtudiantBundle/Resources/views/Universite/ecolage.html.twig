@@ -5,8 +5,15 @@
     <p>Filière: <b>{{ sonFiliere.sonFiliere.intitule }}</b></p>
     <p>Niveau: <b>{{ sonFiliere.sonNiveauEtude.intitule }}</b></p>
     <p>Montant: <b>{{ montant }} Ar. </b></p>
-    <p>Reduction: <b>{{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</b></p>
-
+    <p>Droit d'inscription: {{ sonFiliere.sonFiliere.droitInscription }} Ar &nbsp;&nbsp; Reduction: <b>{{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</b></p>
+    {% if sonFiliere.droitInscription %}
+        <p>Droit payer</p>
+    {% else %}
+        <p style="color: red">Droit impayer</p>
+        <form method="post" action="{{ path('payer_droit_univ', {'id': sonFiliere.id}) }}">
+            <input type="submit" value="Regulariser droit">
+        </form>
+    {% endif %}
     <div class="row">
         <div class="span12">
             <table class="table table-hover table-bordered table-striped avectri">

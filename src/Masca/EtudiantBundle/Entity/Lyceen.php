@@ -63,11 +63,11 @@ class Lyceen
     private $sonClasse;
 
     /**
-     * @var float
+     * @var boolean
      *
-     * @ORM\Column(name="droit", type="float", options={"default":0})
+     * @ORM\Column(name="droit", type="boolean", options={"default":false})
      */
-    private $droitInscription;
+    private $droitInscription = false;
 
     /**
      * @var $sesNotes LyceenNote[]
@@ -351,30 +351,6 @@ class Lyceen
     {
         return $this->sesRetards;
     }
-
-    /**
-     * Set droitInscription
-     *
-     * @param float $droitInscription
-     *
-     * @return Lyceen
-     */
-    public function setDroitInscription($droitInscription)
-    {
-        $this->droitInscription = $droitInscription;
-
-        return $this;
-    }
-
-    /**
-     * Get droitInscription
-     *
-     * @return float
-     */
-    public function getDroitInscription()
-    {
-        return $this->droitInscription;
-    }
     
 
     /**
@@ -409,5 +385,29 @@ class Lyceen
     public function getSesEcolages()
     {
         return $this->sesEcolages;
+    }
+
+    /**
+     * Set droitInscription
+     *
+     * @param boolean $droitInscription
+     *
+     * @return Lyceen
+     */
+    public function setDroitInscription($droitInscription)
+    {
+        $this->droitInscription = $droitInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get droitInscription
+     *
+     * @return boolean
+     */
+    public function getDroitInscription()
+    {
+        return $this->droitInscription;
     }
 }

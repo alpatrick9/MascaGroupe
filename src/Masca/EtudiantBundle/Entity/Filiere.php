@@ -29,6 +29,13 @@ class Filiere
     private $intitule;
 
     /**
+     * @var $droitInscription
+     *
+     * @ORM\Column(name="droit", type="float", options={"default":0})
+     */
+    private $droitInscription;
+
+    /**
      * @var $lesEtudiants UniversitaireSonFiliere[]
      * @ORM\OneToMany(targetEntity="Masca\EtudiantBundle\Entity\UniversitaireSonFiliere", mappedBy="sonFiliere", cascade={"remove"})
      */
@@ -271,5 +278,29 @@ class Filiere
     public function getLesNiveaux()
     {
         return $this->lesNiveaux;
+    }
+
+    /**
+     * Set droitInscription
+     *
+     * @param float $droitInscription
+     *
+     * @return Filiere
+     */
+    public function setDroitInscription($droitInscription)
+    {
+        $this->droitInscription = $droitInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get droitInscription
+     *
+     * @return float
+     */
+    public function getDroitInscription()
+    {
+        return $this->droitInscription;
     }
 }

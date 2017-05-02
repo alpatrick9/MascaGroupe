@@ -49,10 +49,7 @@ class SonFiliereType extends AbstractType
                 'format'=>'dd MMMM yyyy',
                 'years'=>range(date('Y')-1,date('Y')+5),
                 'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
-            ))
-            ->add('droitInscription', NumberType::class, [
-                'label'=>'droit inscription/reinscription (Ar)'
-            ]);
+            ));
     }
 
     /**

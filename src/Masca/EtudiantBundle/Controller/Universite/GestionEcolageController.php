@@ -15,6 +15,7 @@ use Masca\EtudiantBundle\Entity\FraisScolariteUniv;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite;
 use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
 use Masca\EtudiantBundle\Type\EcolageUnivType;
+use Masca\EtudiantBundle\Type\SonFiliereType;
 use Masca\TresorBundle\Entity\MvmtUniversite;
 use Masca\TresorBundle\Entity\SoldeUniversite;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -305,6 +306,51 @@ class GestionEcolageController extends Controller
         $em->flush();
         return $this->redirect($this->generateUrl('ecolage_universitaire', array('id'=>$fraisScolariteUniv->getUnivSonFiliere()->getId())));
     }
+
+    /**
+     * @param Request $request
+     * @param UniversitaireSonFiliere $universitaireSonFiliere
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/droit/{id}", name="payer_droit_univ")
+     */
+    public function payerDroitInscription(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        if($request->getMethod() == "POST") {
+            $em = $this->getDoctrine()->getManager();
+            $universitaireSonFiliere->setDroitInscription(true);
+            $mvmt = new MvmtUniversite();
+            $mvmt->setSomme($universitaireSonFiliere->getSonFiliere()->getDroitInscription());
+            $mvmt->setDescription('Droit d\'inscription de l\'étudiant matricule '.
+                $universitaireSonFiliere->getUniversitaire()->getPerson()->getNumMatricule().' en filière de '.$universitaireSonFiliere->getSonFiliere()->getIntitule().
+                ' niveau d\'etude '.$universitaireSonFiliere->getSonNiveauEtude()->getIntitule());
+            /**
+             * @var $solde SoldeUniversite
+             */
+            $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeUniversite')->find(1);
+
+            if(empty($solde)) {
+                $solde = new SoldeUniversite();
+                $em->persist($solde);
+            }
+
+            $solde->setDate($mvmt->getDate());
+
+            $mvmt->setSoldePrecedent($solde->getSolde());
+            $mvmt->setTypeOperation('c');
+            $solde->setSolde($solde->getSolde() + $mvmt->getSomme());
+            $mvmt->setSoldeApres($solde->getSolde());
+            $em->persist($mvmt);
+            $em->flush();
+        }
+        return $this->redirect($this->generateUrl('ecolage_universitaire', ['id'=>$universitaireSonFiliere->getId()]));
+    }
+    
     /**
      * @param Request $request
      * @param UniversitaireSonFiliere $universitaireSonFiliere

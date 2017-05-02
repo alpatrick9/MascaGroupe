@@ -10,6 +10,7 @@ namespace Masca\EtudiantBundle\Type;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,11 @@ class FiliereType extends AbstractType
         $builder
             ->add('intitule',TextType::class,[
                 'label'=>'Intitulé du filière'
-            ]);
+            ])
+            ->add('droitInscription', NumberType::class, [
+                'label'=>'Droit d\'inscription'
+            ])
+        ;
     }
 
     /**

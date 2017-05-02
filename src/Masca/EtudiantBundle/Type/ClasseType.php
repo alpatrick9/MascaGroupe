@@ -11,6 +11,7 @@ namespace Masca\EtudiantBundle\Type;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +31,11 @@ class ClasseType extends AbstractType
                 'choice_label'=>'intitule',
                 'placeholder'=>"choisissez...",
                 'empty_data'=>null
-            ));
+            ))
+            ->add('droitInscription', NumberType::class, [
+                'label'=>'Droit d\'inscription'
+            ])
+        ;
     }
 
     /**

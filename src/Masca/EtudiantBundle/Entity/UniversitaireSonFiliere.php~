@@ -68,11 +68,11 @@ class UniversitaireSonFiliere
     private $semestre;
 
     /**
-     * @var float
+     * @var boolean
      *
-     * @ORM\Column(name="droit", type="float", options={"default":0})
+     * @ORM\Column(name="droit", type="boolean", options={"default":false})
      */
-    private $droitInscription;
+    private $droitInscription = false;
 
     /**
      * @var $sesNotes NoteUniv[]

@@ -4,7 +4,12 @@
     <p>Filière: <b>{{ sonFiliere.sonFiliere.intitule }}</b></p>
     <p>Niveau: <b>{{ sonFiliere.sonNiveauEtude.intitule }}</b></p>
     <p>Montant: <b>{{ montant }} Ar. </b></p>
-    <p>Reduction: <b>{{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</b></p>
+    <p>Droit d'inscription: {{ sonFiliere.sonFiliere.droitInscription }} Ar &nbsp;&nbsp; Reduction: <b>{{ sonFiliere.universitaire.infoEtudiant.reduction }} Ar</b></p>
+    {% if sonFiliere.droitInscription %}
+        <p>Droit payer</p>
+    {% else %}
+        <p style="color: red">Droit impayer</p>
+    {% endif %}
 
     <div class="row">
         <div class="span12">

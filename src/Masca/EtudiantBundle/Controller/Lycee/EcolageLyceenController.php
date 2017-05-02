@@ -300,6 +300,48 @@ class EcolageLyceenController extends Controller
     /**
      * @param Request $request
      * @param Lyceen $lyceen
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/droit-lycee/{id}", name="payer_droit_lycee")
+     */
+    public function payerDroitInscription(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        if($request->getMethod() == "POST") {
+            $em = $this->getDoctrine()->getManager();
+            $lyceen->setDroitInscription(true);
+            $mvmt = new MvmtLycee();
+            $mvmt->setSomme($lyceen->getSonClasse()->getDroitInscription());
+            $mvmt->setDescription('Droit d\'inscription de l\'élève matricule '.$lyceen->getPerson()->getNumMatricule().' en classe de '.$lyceen->getSonClasse()->getIntitule());
+            /**
+             * @var $solde SoldeLycee
+             */
+            $solde = $this->getDoctrine()->getRepository('MascaTresorBundle:SoldeLycee')->find(1);
+
+            if(empty($solde)) {
+                $solde = new SoldeLycee();
+                $em->persist($solde);
+            }
+
+            $solde->setDate($mvmt->getDate());
+
+            $mvmt->setSoldePrecedent($solde->getSolde());
+            $mvmt->setTypeOperation('c');
+            $solde->setSolde($solde->getSolde() + $mvmt->getSomme());
+            $mvmt->setSoldeApres($solde->getSolde());
+            $em->persist($mvmt);
+            $em->flush();
+        }
+        return $this->redirect($this->generateUrl('ecolage_lyceen', ['id'=>$lyceen->getId()]));
+    }
+
+    /**
+     * @param Request $request
+     * @param Lyceen $lyceen
      * @return Response
      * @Route("/print/{id}", name="print_ecolage")
      */

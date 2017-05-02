@@ -47,9 +47,6 @@ class LyceenType extends AbstractType
                 'placeholder'=>'choississez ...',
                 'empty_data'=>null
             ))
-            ->add('droitInscription', NumberType::class, [
-                'label'=>'droit inscription/reinscription (Ar)'
-            ])
         ;
     }
 

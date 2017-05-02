@@ -29,9 +29,16 @@ class Classe
     private $intitule;
 
     /**
+     * @var $droitInscription
+     *
+     * @ORM\Column(name="droit", type="float", options={"default":0})
+     */
+    private $droitInscription;
+
+    /**
      * @var $niveauEtude NiveauEtude
      *
-     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude")
+     * @ORM\ManyToOne(targetEntity="Masca\EtudiantBundle\Entity\NiveauEtude", inversedBy="lesClasses")
      * @ORM\JoinColumn(nullable=false)
      */
     private $niveauEtude;
@@ -183,5 +190,39 @@ class Classe
     public function getLyceens()
     {
         return $this->lyceens;
+    }
+
+    /**
+     * Add grillesEcolage
+     *
+     * @param \Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee $grillesEcolage
+     *
+     * @return Classe
+     */
+    public function addGrillesEcolage(\Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee $grillesEcolage)
+    {
+        $this->grillesEcolages[] = $grillesEcolage;
+    
+        return $this;
+    }
+
+    /**
+     * Remove grillesEcolage
+     *
+     * @param \Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee $grillesEcolage
+     */
+    public function removeGrillesEcolage(\Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee $grillesEcolage)
+    {
+        $this->grillesEcolages->removeElement($grillesEcolage);
+    }
+
+    /**
+     * Get grillesEcolages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGrillesEcolages()
+    {
+        return $this->grillesEcolages;
     }
 }

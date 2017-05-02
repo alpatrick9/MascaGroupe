@@ -9,6 +9,7 @@
         <thead>
         <tr>
             <th class="selection" data-tri="1" data-type="num">Filière</th>
+            <th>Droit (Ar)</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -16,6 +17,7 @@
         {% for filiere in filieres %}
             <tr>
                 <td>{{ filiere.intitule }}</td>
+                <td>{{ filiere.droitInscription }}</td>
                 <td>
                     <div class="align-center">
                         <a href="{{ path('modifier_filiere_univ',{'filiere_id':filiere.id}) }}">

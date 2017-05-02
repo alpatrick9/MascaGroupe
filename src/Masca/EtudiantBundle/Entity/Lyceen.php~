@@ -63,9 +63,9 @@ class Lyceen
     private $sonClasse;
 
     /**
-     * @var float
+     * @var boolean
      *
-     * @ORM\Column(name="droit", type="float", options={"default":0})
+     * @ORM\Column(name="droit", type="boolean", options={"default":true})
      */
     private $droitInscription;
 
@@ -351,29 +351,39 @@ class Lyceen
     {
         return $this->sesRetards;
     }
+    
 
     /**
-     * Set droitInscription
+     * Add sesEcolage
      *
-     * @param float $droitInscription
+     * @param \Masca\EtudiantBundle\Entity\FraisScolariteLyceen $sesEcolage
      *
      * @return Lyceen
      */
-    public function setDroitInscription($droitInscription)
+    public function addSesEcolage(\Masca\EtudiantBundle\Entity\FraisScolariteLyceen $sesEcolage)
     {
-        $this->droitInscription = $droitInscription;
+        $this->sesEcolages[] = $sesEcolage;
 
         return $this;
     }
 
     /**
-     * Get droitInscription
+     * Remove sesEcolage
      *
-     * @return float
+     * @param \Masca\EtudiantBundle\Entity\FraisScolariteLyceen $sesEcolage
      */
-    public function getDroitInscription()
+    public function removeSesEcolage(\Masca\EtudiantBundle\Entity\FraisScolariteLyceen $sesEcolage)
     {
-        return $this->droitInscription;
+        $this->sesEcolages->removeElement($sesEcolage);
     }
-    
+
+    /**
+     * Get sesEcolages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesEcolages()
+    {
+        return $this->sesEcolages;
+    }
 }

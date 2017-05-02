@@ -10,6 +10,7 @@
         <tr>
             <th class="selection" data-tri="1" data-type="num">Classe</th>
             <th>Niveau d'étude</th>
+            <th>Droit (Ar)</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -18,6 +19,7 @@
             <tr>
                 <td>{{ classe.intitule }}</td>
                 <td>{{ classe.niveauEtude.intitule }}</td>
+                <td>{{ classe.droitInscription }}</td>
                 <td>
                     <div class="align-center">
                         <a href="{{ path('modifier_classe_lycee',{'classe_id':classe.id}) }}">

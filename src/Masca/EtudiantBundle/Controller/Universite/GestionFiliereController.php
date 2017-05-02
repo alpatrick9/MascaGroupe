@@ -56,6 +56,7 @@ class GestionFiliereController extends Controller
         }
         if($request->getMethod() == 'POST') {
             $sonFiliereForm->handleRequest($request);
+            $sonFiliere->setDroitInscription(false);
             $this->getDoctrine()->getManager()->flush();
             return $this->redirect($this->generateUrl('details_etude_universitaire', array('sonFiliere_id'=>$sonFiliere->getId())));
         }
