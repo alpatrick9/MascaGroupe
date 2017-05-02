@@ -303,7 +303,7 @@ class EcolageLyceenController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @Route("/droit-lycee/{id}", name="payer_droit_lycee")
      */
-    public function payerDroitInscription(Request $request, Lyceen $lyceen) {
+    public function payerDroitInscriptionAction(Request $request, Lyceen $lyceen) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',

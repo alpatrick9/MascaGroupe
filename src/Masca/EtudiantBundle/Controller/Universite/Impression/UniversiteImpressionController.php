@@ -10,6 +10,8 @@ namespace Masca\EtudiantBundle\Controller\Universite\Impression;
 
 
 use Masca\EtudiantBundle\Entity\DatePayementEcolageUniv;
+use Masca\EtudiantBundle\Entity\EmploiDuTempsUniv;
+use Masca\EtudiantBundle\Entity\FiliereParNiveau;
 use Masca\EtudiantBundle\Entity\FraisScolariteUniv;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite;
 use Masca\EtudiantBundle\Entity\MatiereParUeFiliere;
@@ -160,6 +162,43 @@ class UniversiteImpressionController extends Controller
             'statusEcolages'=> $statusEcolages,
             'montant'=>$motantEcolage->getMontant(),
             'datesPayement'=>$datePayements
+        ));
+    }
+    
+    public function emploiDuTempsPrintAction(Request $request, FiliereParNiveau $filiereParNiveau) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $jours = $this->getParameter('jours');
+        $heures = $this->getParameter('heures');
+        /**
+         * @var $matieres EmploiDuTempsUniv[][]
+         */
+        $matieres = array();
+        for($j=0 ;$j<sizeof($jours);$j++) {
+            $matieresJournalier = array();
+            for($h=0 ;$h<sizeof($heures);$h++) {
+                $matiereTemp = $this->getDoctrine()->getManager()
+                    ->getRepository('MascaEtudiantBundle:EmploiDuTempsUniv')->getMatiereBy($filiereParNiveau,$j,$h);
+                if($matiereTemp != null) {
+                    array_push($matieresJournalier,$matiereTemp);
+                }
+                else {
+                    array_push($matieresJournalier,'');
+                }
+            }
+            array_push($matieres,$matieresJournalier);
+        }
+        return $this->render('MascaEtudiantBundle:Impression/Universite:emploidutemps.html.twig', array(
+            'jours'=>$jours,
+            'heures'=>$heures,
+            'nbJours'=> sizeof($jours),
+            'nbHeures'=> sizeof($heures),
+            'matieres'=> $matieres,
+            'filiere'=>$filiereParNiveau
         ));
     }
 }

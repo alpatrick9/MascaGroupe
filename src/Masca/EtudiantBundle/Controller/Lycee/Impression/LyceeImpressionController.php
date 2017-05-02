@@ -9,7 +9,9 @@
 namespace Masca\EtudiantBundle\Controller\Lycee\Impression;
 
 
+use Masca\EtudiantBundle\Entity\Classe;
 use Masca\EtudiantBundle\Entity\DatePayementEcolageLycee;
+use Masca\EtudiantBundle\Entity\EmploiDuTempsLycee;
 use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee;
 use Masca\EtudiantBundle\Entity\Lyceen;
@@ -149,6 +151,43 @@ class LyceeImpressionController extends Controller
             'statusEcolages'=> $statusEcolages,
             'montant'=>$motantEcolage->getMontant(),
             'datesPayement'=>$datePayements
+        ));
+    }
+    
+    public function emploiDuTempsPrintAction(Request $request, Classe $classe) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+        $jours = $this->getParameter('jours');
+        $heures = $this->getParameter('heures');
+        /**
+         * @var $matieres EmploiDuTempsLycee[][]
+         */
+        $matieres = array();
+        for($j=0 ;$j<sizeof($jours);$j++) {
+            $matieresJournalier = array();
+            for($h=0 ;$h<sizeof($heures);$h++) {
+                $matiereTemp = $this->getDoctrine()->getManager()
+                    ->getRepository('MascaEtudiantBundle:EmploiDuTempsLycee')->getMatiereBy($classe,$j,$h);
+                if($matiereTemp != null) {
+                    array_push($matieresJournalier,$matiereTemp);
+                }
+                else {
+                    array_push($matieresJournalier,'');
+                }
+            }
+            array_push($matieres,$matieresJournalier);
+        }
+        return $this->render('MascaEtudiantBundle:Impression/Lycee:emploidutemps.html.twig', array(
+            'jours'=>$jours,
+            'heures'=>$heures,
+            'nbJours'=> sizeof($jours),
+            'nbHeures'=> sizeof($heures),
+            'matieres'=> $matieres,
+            'classe'=>$classe
         ));
     }
 

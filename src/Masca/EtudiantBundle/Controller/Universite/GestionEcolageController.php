@@ -313,7 +313,7 @@ class GestionEcolageController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @Route("/droit/{id}", name="payer_droit_univ")
      */
-    public function payerDroitInscription(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
+    public function payerDroitInscriptionAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',

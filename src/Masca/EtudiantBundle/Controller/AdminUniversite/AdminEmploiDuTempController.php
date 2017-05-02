@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AdminEmploiDuTempController
@@ -239,5 +240,33 @@ class AdminEmploiDuTempController extends Controller
         $em->remove($filiereParNiveau);
         $em->flush();
         return $this->redirect($this->generateUrl('emploi_du_temps_univerite'));
+    }
+
+    /**
+     * @param Request $request
+     * @param FiliereParNiveau $filiereParNiveau
+     * @return Response
+     * @Route("/print/{id}", name="print_employedutemps_univ")
+     */
+    public function printEmploiDuTempsAction(Request $request, FiliereParNiveau $filiereParNiveau) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $html = $this->forward('MascaEtudiantBundle:Universite/Impression/UniversiteImpression:emploiDuTempsPrint',[
+            'filiereParNiveau'=>$filiereParNiveau
+        ])->getContent();
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('inline; filename="%s"', 'out.pdf'),
+            ]
+        );
     }
 }
