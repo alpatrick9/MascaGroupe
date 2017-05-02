@@ -13,6 +13,7 @@ use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\FraisScolariteLyceenRepository;
 use Masca\EtudiantBundle\Entity\InfoEtudiant;
 use Masca\EtudiantBundle\Entity\Lyceen;
+use Masca\EtudiantBundle\Entity\LyceenNote;
 use Masca\EtudiantBundle\Entity\LyceenRepository;
 use Masca\EtudiantBundle\Entity\Person;
 use Masca\EtudiantBundle\Type\InfoEtudiantType;
@@ -205,7 +206,7 @@ class LyceeController extends Controller
          */
         $ecolageRepository = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:FraisScolariteLyceen');
 
-        if($ecolageRepository->statusEcolage($lyceen)) {
+        if($ecolageRepository->statusEcolage($lyceen) || !$lyceen->getDroitInscription()) {
             return $this->render('MascaEtudiantBundle:Lycee:details.html.twig',array(
                 'lyceen'=>$lyceen,
                 'error_message'=>'Reinscription refuser. Il reste encore des frais de scolarités qui ne sont pas encore regularisés pour l\'année scolaire '.$lyceen->getAnneeScolaire()
@@ -215,7 +216,24 @@ class LyceeController extends Controller
         if($request->getMethod() == 'POST') {
             $lyceenForm->handleRequest($request);
             $lyceen->setDroitInscription(false);
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+
+            foreach ($lyceen->getSesNotes() as $note) {
+                $em->remove($note);
+            }
+
+            foreach ($lyceen->getSesEcolages() as $ecolage) {
+                $em->remove($ecolage);
+            }
+
+            foreach ($lyceen->getSesAbsences() as $absence) {
+                $em->remove($absence);
+            }
+
+            foreach ($lyceen->getSesRetards() as $retard) {
+                $em->remove($retard);
+            }
+            $em->flush();
             return $this->redirect($this->generateUrl('details_lyceen',array('id'=>$lyceen->getId())));
         }
 

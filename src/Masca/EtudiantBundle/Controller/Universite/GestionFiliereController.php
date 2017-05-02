@@ -48,7 +48,7 @@ class GestionFiliereController extends Controller
          */
         $ecolageRepository = $this->getDoctrine()->getManager()->getRepository('MascaEtudiantBundle:FraisScolariteUniv');
 
-        if($ecolageRepository->statusEcolage($sonFiliere->getUniversitaire())) {
+        if($ecolageRepository->statusEcolage($sonFiliere->getUniversitaire()) || !$sonFiliere->getDroitInscription()) {
             return $this->render('MascaEtudiantBundle:Universite:details-etude.html.twig',[
                 'sonFiliere'=>$sonFiliere,
                 'error_message'=>'Reinscription refuser. Il reste encore des frais de scolarités qui ne sont pas encore regularisés pour l\'année d\'etude '.$sonFiliere->getAnneeEtude()
@@ -57,7 +57,14 @@ class GestionFiliereController extends Controller
         if($request->getMethod() == 'POST') {
             $sonFiliereForm->handleRequest($request);
             $sonFiliere->setDroitInscription(false);
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            foreach ($sonFiliere->getSesNotes() as $note) {
+                $em->remove($note);
+            }
+            foreach ($sonFiliere->getSesEcolages() as $ecolage) {
+                $em->remove($ecolage);
+            }
+            $em->flush();
             return $this->redirect($this->generateUrl('details_etude_universitaire', array('sonFiliere_id'=>$sonFiliere->getId())));
         }
 
