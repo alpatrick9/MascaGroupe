@@ -3,6 +3,9 @@
     <h3>Resultat d'examen de {{ sonFiliere.universitaire.person.nom }} {{ sonFiliere.universitaire.person.prenom }}</h3>
     <p>Filière: <b>{{ sonFiliere.sonFiliere.intitule }}</b></p>
     <p>Semestre: <b>{{ sonFiliere.semestre.intitule }}</b></p>
+    <div class="floatright">
+       {{ date | date('d - m - Y') }} &nbsp; &nbsp;
+    </div>
     <table id="tableshow" class="table  table-hover table-bordered table-striped">
         <thead>
         <tr>
@@ -67,4 +70,8 @@
         {% endfor %}
         </tbody>
     </table>
+    <div>
+        <div class="floatleft"> &nbsp; &nbsp; Directeur Pédagogique</div>
+        <div class="floatright">Président &nbsp; &nbsp; </div>
+    </div>
 {% endblock %}

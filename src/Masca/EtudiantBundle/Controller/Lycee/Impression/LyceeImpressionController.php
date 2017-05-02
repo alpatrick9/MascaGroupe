@@ -54,7 +54,7 @@ class LyceeImpressionController extends Controller
     }
 
     public function noteLyceePrintAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -89,7 +89,14 @@ class LyceeImpressionController extends Controller
             $moyenneTrimestre3 = $totalTrimestre3 / $totalCoef;
         }
 
-        $moyenGeneral = ($moyenneTrimestre1 + $moyenneTrimestre2 + $moyenneTrimestre3)/3;
+        $moyenGeneral = $moyenneTrimestre1;
+        if($moyenneTrimestre2 !=0 ) {
+            $moyenGeneral = ($moyenneTrimestre1 + $moyenneTrimestre2)/2;
+        }
+        if($moyenneTrimestre2 != 0 && $moyenneTrimestre3 != 0) {
+            $moyenGeneral = ($moyenneTrimestre1 + $moyenneTrimestre2 + $moyenneTrimestre3)/3;
+        }
+
         return $this->render('MascaEtudiantBundle:Impression/Lycee:note.html.twig',[
             'notes'=>$notes,
             'lyceen'=>$lyceen,
@@ -100,12 +107,13 @@ class LyceeImpressionController extends Controller
             'moyenne1'=>$moyenneTrimestre1,
             'moyenne2'=>$moyenneTrimestre2,
             'moyenne3'=>$moyenneTrimestre3,
-            'moyenneGeneral'=>$moyenGeneral
+            'moyenneGeneral'=>$moyenGeneral,
+            'date'=>new \DateTime()
         ]);
     }
 
     public function ecolageLyceePrintAction(Request $request, Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECONOMAT')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

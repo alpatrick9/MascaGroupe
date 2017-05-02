@@ -70,7 +70,14 @@ class NoteLyceenController extends Controller
             $moyenneTrimestre3 = $totalTrimestre3 / $totalCoef;
         }
 
-        $moyenGeneral = ($moyenneTrimestre1 + $moyenneTrimestre2 + $moyenneTrimestre3)/3;
+        $moyenGeneral = $moyenneTrimestre1;
+        if($moyenneTrimestre2 !=0 ) {
+            $moyenGeneral = ($moyenneTrimestre1 + $moyenneTrimestre2)/2;
+        }
+        if($moyenneTrimestre2 != 0 && $moyenneTrimestre3 != 0) {
+            $moyenGeneral = ($moyenneTrimestre1 + $moyenneTrimestre2 + $moyenneTrimestre3)/3;
+        }
+
         return $this->render('MascaEtudiantBundle:Lycee:notes.html.twig',[
             'notes'=>$notes,
             'lyceen'=>$lyceen,

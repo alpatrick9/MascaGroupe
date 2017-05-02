@@ -14,6 +14,8 @@ use Masca\EtudiantBundle\Entity\DatePayementEcolageUniv;
 use Masca\EtudiantBundle\Entity\FraisScolariteUniv;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteUniversite;
 use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
+use Masca\EtudiantBundle\Type\DatePayementEcoLyceeType;
+use Masca\EtudiantBundle\Type\DatePayementEcoUnivType;
 use Masca\EtudiantBundle\Type\EcolageUnivType;
 use Masca\EtudiantBundle\Type\SonFiliereType;
 use Masca\TresorBundle\Entity\MvmtUniversite;
@@ -125,11 +127,12 @@ class GestionEcolageController extends Controller
             ]
         ]);
 
+        $datePayement = new DatePayementEcolageUniv();
+        $dateForm = $this->createForm(DatePayementEcoUnivType::class, $datePayement);
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-
+            $dateForm->handleRequest($request);
             try {
-                $datePayement = new DatePayementEcolageUniv();
                 $datePayement->setFraisScolariteUniv($ecolage);
                 $datePayement->setMontant($ecolage->getMontant());
 
@@ -165,6 +168,7 @@ class GestionEcolageController extends Controller
             } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Universite:formularie-ecolage.html.twig', array(
                     'form'=>$form->createView(),
+                    'dateForm'=>$dateForm->createView(),
                     'sonFiliere'=>$universitaireSonFiliere,
                     'montant'=>$motantEcolage->getMontant(),
                     'reduction'=>$universitaireSonFiliere->getUniversitaire()->getInfoEtudiant()->getReduction(),
@@ -176,6 +180,7 @@ class GestionEcolageController extends Controller
 
         return $this->render('MascaEtudiantBundle:Universite:formularie-ecolage.html.twig', array(
             'form'=>$form->createView(),
+            'dateForm'=>$dateForm->createView(),
             'sonFiliere'=>$universitaireSonFiliere,
             'montant'=>$motantEcolage->getMontant(),
             'reduction'=>$universitaireSonFiliere->getUniversitaire()->getInfoEtudiant()->getReduction()
@@ -236,11 +241,14 @@ class GestionEcolageController extends Controller
         $options['data'] = null;
         $form->add('montant',$montatField->getConfig()->getType()->getInnerType(),$options);
 
+        $datePayement = new DatePayementEcolageUniv();
+        $dateForm = $this->createForm(DatePayementEcoUnivType::class, $datePayement);
+
         if($request->getMethod() == 'POST') {
             $oldMontant = $fraisScolariteUniv->getMontant();
             $form->handleRequest($request);
+            $dateForm->handleRequest($request);
             try {
-                $datePayement = new DatePayementEcolageUniv();
                 $datePayement->setFraisScolariteUniv($fraisScolariteUniv);
                 $datePayement->setMontant($fraisScolariteUniv->getMontant());
                 $mvmt = new MvmtUniversite();
@@ -271,6 +279,7 @@ class GestionEcolageController extends Controller
             } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Universite:formularie-ecolage.html.twig', array(
                     'form'=>$form->createView(),
+                    'dateForm'=>$dateForm->createView(),
                     'sonFiliere'=>$fraisScolariteUniv->getUnivSonFiliere(),
                     'montant'=>$motantEcolage->getMontant(),
                     'reduction'=>$fraisScolariteUniv->getUnivSonFiliere()->getUniversitaire()->getInfoEtudiant()->getReduction(),
@@ -281,6 +290,7 @@ class GestionEcolageController extends Controller
         }
         return $this->render('MascaEtudiantBundle:Universite:formularie-ecolage.html.twig', array(
             'form'=>$form->createView(),
+            'dateForm'=>$dateForm->createView(),
             'sonFiliere'=>$fraisScolariteUniv->getUnivSonFiliere(),
             'montant'=>$motantEcolage->getMontant(),
             'reduction'=>$fraisScolariteUniv->getUnivSonFiliere()->getUniversitaire()->getInfoEtudiant()->getReduction(),

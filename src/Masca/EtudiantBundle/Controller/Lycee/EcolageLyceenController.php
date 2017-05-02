@@ -14,6 +14,7 @@ use Masca\EtudiantBundle\Entity\DatePayementEcolageLycee;
 use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\GrilleFraisScolariteLycee;
 use Masca\EtudiantBundle\Entity\Lyceen;
+use Masca\EtudiantBundle\Type\DatePayementEcoLyceeType;
 use Masca\EtudiantBundle\Type\EcolageLyceenType;
 use Masca\TresorBundle\Entity\MvmtLycee;
 use Masca\TresorBundle\Entity\SoldeLycee;
@@ -127,11 +128,15 @@ class EcolageLyceenController extends Controller
             ]
         ]);
 
+
+        $datePayement = new DatePayementEcolageLycee();
+        
+        $datePayementForm = $this->createForm(DatePayementEcoLyceeType::class, $datePayement);
+
         if($request->getMethod() == 'POST') {
             $ecolageFrom->handleRequest($request);
-
+            $datePayementForm->handleRequest($request);
             try {
-                $datePayement = new DatePayementEcolageLycee();
                 $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
                 $datePayement->setMontant($fraisScolariteLyceen->getMontant());
 
@@ -168,6 +173,7 @@ class EcolageLyceenController extends Controller
             } catch (ConstraintViolationException $e) {
                 return $this->render('MascaEtudiantBundle:Lycee:payementecolage.html.twig', array(
                     'ecolageForm'=>$ecolageFrom->createView(),
+                    'dateForm'=>$datePayementForm->createView(),
                     'lyceen'=>$lyceen,
                     'montant'=>$motantEcolage->getMontant(),
                     'reduction'=>$lyceen->getInfoEtudiant()->getReduction(),
@@ -178,6 +184,7 @@ class EcolageLyceenController extends Controller
         }
         return $this->render('MascaEtudiantBundle:Lycee:payementecolage.html.twig', array(
             'ecolageForm'=>$ecolageFrom->createView(),
+            'dateForm'=>$datePayementForm->createView(),
             'lyceen'=>$lyceen,
             'montant'=>$motantEcolage->getMontant(),
             'reduction'=>$lyceen->getInfoEtudiant()->getReduction()
@@ -230,16 +237,16 @@ class EcolageLyceenController extends Controller
         $options = $montatField->getConfig()->getOptions();
         $options['data'] = null;
         $ecolageFrom->add('montant',$montatField->getConfig()->getType()->getInnerType(),$options);
+        
+        $datePayement = new DatePayementEcolageLycee();
+
+        $datePayementForm = $this->createForm(DatePayementEcoLyceeType::class, $datePayement);
 
         if($request->getMethod() == 'POST') {
             $oldMontant = $fraisScolariteLyceen->getMontant();
             $ecolageFrom->handleRequest($request);
+            $datePayementForm->handleRequest($request);
 
-            $datePayement = new DatePayementEcolageLycee();
-            $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
-            $datePayement->setMontant($fraisScolariteLyceen->getMontant());
-
-            $datePayement = new DatePayementEcolageLycee();
             $datePayement->setFraisScolariteLyceen($fraisScolariteLyceen);
             $datePayement->setMontant($fraisScolariteLyceen->getMontant());
 
@@ -273,6 +280,7 @@ class EcolageLyceenController extends Controller
         }
         return $this->render('MascaEtudiantBundle:Lycee:regularisation-reste-ecolage.html.twig', array(
             'form'=>$ecolageFrom->createView(),
+            'dateForm'=>$datePayementForm->createView(),
             'renseignement'=>$fraisScolariteLyceen,
             'reste'=>$motantEcolage->getMontant()-$fraisScolariteLyceen->getMontant()-$fraisScolariteLyceen->getLyceen()->getInfoEtudiant()->getReduction()
         ));

@@ -55,7 +55,7 @@ class UniversiteImpressionController extends Controller
     }
 
     public function NotePrintAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
@@ -113,12 +113,13 @@ class UniversiteImpressionController extends Controller
             'listUe'=>$listUe,
             'listMatieres'=>$matieres,
             'notes'=>$notes,
-            'notesUe'=>$notesUe
+            'notesUe'=>$notesUe,
+            'date'=>new \DateTime()
         ]);
     }
 
     public function ecolagePrintAction(Request $request, UniversitaireSonFiliere $universitaireSonFiliere) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SECRETAIRE')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

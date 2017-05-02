@@ -9,6 +9,7 @@
         <div class="span10">
             <form method="post">
                 {{ form_widget(form) }}
+                {{ form_widget(dateForm) }}
                 <div class="submit-style">
                     <div class="floatleft">
                         <a href="{{ path('ecolage_lyceen', {'id':renseignement.lyceen.id}) }}">

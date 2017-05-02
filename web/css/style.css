@@ -221,7 +221,9 @@ table tbody tr td{
 #absence_univ_dateAbsent_day,
 #retard_univ_dateRetard_day,
 #status_dateEmbauche_day,
-#absence_employe_dateAbsent_day
+#absence_employe_dateAbsent_day,
+#date_payement_eco_lycee_datePayement_day,
+#date_payement_eco_univ_datePayement_day
 {
 	width: 65px !important;
 	margin: 2.5px !important;
@@ -235,7 +237,9 @@ table tbody tr td{
 #absence_univ_dateAbsent_month,
 #retard_univ_dateRetard_month,
 #status_dateEmbauche_month,
-#absence_employe_dateAbsent_month
+#absence_employe_dateAbsent_month,
+#date_payement_eco_lycee_datePayement_month,
+#date_payement_eco_univ_datePayement_month
 {
 	width: 100px !important;
 	margin: 2.5px !important;
@@ -249,9 +253,11 @@ table tbody tr td{
 #absence_univ_dateAbsent_year,
 #retard_univ_dateRetard_year,
 #status_dateEmbauche_year,
-#absence_employe_dateAbsent_year
+#absence_employe_dateAbsent_year,
+#date_payement_eco_lycee_datePayement_year,
+#date_payement_eco_univ_datePayement_year
 {
-	width: 100px !important;
+	width: 80px !important;
 	margin: 2.5px !important;
 }
 

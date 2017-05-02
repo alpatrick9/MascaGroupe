@@ -3,6 +3,9 @@
     <h3>Resultat d'examen de {{ lyceen.person.nom }} {{ lyceen.person.prenom }}</h3>
     <h5>Année scolaire {{ lyceen.anneeScolaire }}</h5>
     <p>Classe de {{ lyceen.sonClasse.intitule }} n° {{ lyceen.numeros }}</p>
+    <div class="floatright">
+       {{ date | date('d - m - Y') }} &nbsp; &nbsp;
+    </div>
     <div class="row">
         <div class="span12">
             <table class="table  table-hover table-bordered table-striped">
@@ -48,5 +51,9 @@
             </table>
         </div>
 
+    </div>
+    <div>
+        <div class="floatleft"> &nbsp; &nbsp; Directeur Pédagogique</div>
+        <div class="floatright">Président &nbsp; &nbsp; </div>
     </div>
 {% endblock %}
