@@ -1,6 +1,6 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block etudiant_body %}
-    <h3>Listes de retards de {{ lyceen.person.nom }} {{ lyceen.person.prenom }}</h3>
+    <h3>Liste des retards de {{ lyceen.person.nom }} {{ lyceen.person.prenom }}</h3>
     <div>
         <a href="{{ path('details_lyceen',{'id': lyceen.id}) }}">
             <img title="Retour" src="{{ asset('assets/cancel.png') }}">

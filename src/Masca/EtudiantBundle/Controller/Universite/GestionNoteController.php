@@ -150,7 +150,7 @@ class GestionNoteController extends Controller
      * @Route("/supprimer/note/{id}", name="supprimer_note_univ")
      */
     public function supprimerNoteUnivAction (Request $request, NoteUniv $noteUniv) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')

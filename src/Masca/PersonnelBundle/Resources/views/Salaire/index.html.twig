@@ -1,6 +1,6 @@
 {% extends "MascaPersonnelBundle::layout.html.twig" %}
 {% block personnel_body %}
-    <h3>Suivi payement de {{ employer.person.nom }} {{ employer.person.prenom }}</h3>
+    <h3>Suivi paiement de {{ employer.person.nom }} {{ employer.person.prenom }}</h3>
     <div class="row link-text  floatleft">
         <a href="{{ path('details', {'id': employer.id}) }}">
             <img title="Retour" src="{{ asset('assets/cancel.png') }}">

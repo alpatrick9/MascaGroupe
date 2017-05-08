@@ -35,7 +35,7 @@ class NoteLyceenController extends Controller
      * @Route("/liste/{lyceen_id}", name="liste_notes_lyceen")
      */
     public function noteAction(Request $request,Lyceen $lyceen) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_L')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_SG_L')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
