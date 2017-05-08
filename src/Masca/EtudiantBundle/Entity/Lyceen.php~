@@ -42,6 +42,13 @@ class Lyceen
     private $anneeScolaire;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="nb", type="text", nullable=true)
+     */
+    private $nb;
+
+    /**
      * @var $person Person
      * @ORM\OneToOne(targetEntity="Masca\EtudiantBundle\Entity\Person", cascade={"persist","remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -65,9 +72,9 @@ class Lyceen
     /**
      * @var boolean
      *
-     * @ORM\Column(name="droit", type="boolean", options={"default":true})
+     * @ORM\Column(name="droit", type="boolean", options={"default":false})
      */
-    private $droitInscription;
+    private $droitInscription = false;
 
     /**
      * @var $sesNotes LyceenNote[]
@@ -385,5 +392,29 @@ class Lyceen
     public function getSesEcolages()
     {
         return $this->sesEcolages;
+    }
+
+    /**
+     * Set droitInscription
+     *
+     * @param boolean $droitInscription
+     *
+     * @return Lyceen
+     */
+    public function setDroitInscription($droitInscription)
+    {
+        $this->droitInscription = $droitInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get droitInscription
+     *
+     * @return boolean
+     */
+    public function getDroitInscription()
+    {
+        return $this->droitInscription;
     }
 }

@@ -104,6 +104,20 @@
         </div>
     </div>
     <div class="row">
+        <div class="span12">
+            <table>
+                <tr>
+                    <td style="    max-width: 58em;width: 58em;">
+                        <b>NB: </b></br> <textarea disabled rows="5">{{ lyceen.nb}}</textarea>
+                    </td>
+                    <td>
+                        <a href="{{ path('nb_lyceen', {'id': lyceen.id}) }}" class="btn btn-primary">Modifier NB</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
         <div class="align-center">
             <a href="{{ path('accueil_lycee')}}">
                 <img title="Retour" src="{{ asset('assets/cancel.png') }}" class="custom-margin">

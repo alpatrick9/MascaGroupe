@@ -1,0 +1,22 @@
+{% extends 'MascaEtudiantBundle::layout.html.twig' %}
+{% block etudiant_body %}
+    <h3>Remarques pour {{ lyceen.person.prenom }} {{ lyceen.person.nom }}</h3>
+    <div class="row">
+        <div class="span12">
+            <form method="post">
+                {{ form_widget(form) }}
+                <div class="submit-style">
+                    <div class="floatleft">
+                        <a href="{{ path('details_lyceen',{'id':lyceen.id}) }}">
+                            <img title="Annuler" src="{{ asset('assets/cancel.png') }}">
+                        </a>
+
+                    </div>
+                    <div class="floatright">
+                        <input type="image" src="{{ asset('assets/save.png') }}" title="Enregitrer">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

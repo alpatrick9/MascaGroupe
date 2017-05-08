@@ -16,8 +16,10 @@ use Masca\EtudiantBundle\Entity\Lyceen;
 use Masca\EtudiantBundle\Entity\LyceenNote;
 use Masca\EtudiantBundle\Entity\LyceenRepository;
 use Masca\EtudiantBundle\Entity\Person;
+use Masca\EtudiantBundle\Model\Nb;
 use Masca\EtudiantBundle\Type\InfoEtudiantType;
 use Masca\EtudiantBundle\Type\LyceenType;
+use Masca\EtudiantBundle\Type\NbType;
 use Masca\EtudiantBundle\Type\PersonType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -136,6 +138,37 @@ class LyceeController extends Controller
         return $this->render('MascaEtudiantBundle:Lycee:details.html.twig',array(
             'lyceen'=>$lyceen
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param Lyceen $lyceen
+     * @return Response
+     * @Route("/nb/{id}", name="nb_lyceen")
+     */
+    public function addRemarqueAction(Request $request, Lyceen $lyceen) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $nb = new Nb();
+        $nb->setNb($lyceen->getNb());
+        $form = $this->createForm(NbType::class, $nb);
+
+        if($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $lyceen->setNb($nb->getNb());
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirect($this->generateUrl('details_lyceen', ['id'=> $lyceen->getId()]));
+        }
+
+        return $this->render('MascaEtudiantBundle:Lycee:remarque-form.html.twig', [
+            'lyceen'=>$lyceen,
+            'form'=>$form->createView()
+        ]);
     }
 
     /**

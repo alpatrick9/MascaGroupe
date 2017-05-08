@@ -15,8 +15,10 @@ use Masca\EtudiantBundle\Entity\Person;
 use Masca\EtudiantBundle\Entity\Universitaire;
 use Masca\EtudiantBundle\Entity\UniversitaireRepository;
 use Masca\EtudiantBundle\Entity\UniversitaireSonFiliere;
+use Masca\EtudiantBundle\Model\Nb;
 use Masca\EtudiantBundle\Repository\FraisScolariteUnivRepository;
 use Masca\EtudiantBundle\Type\InfoEtudiantType;
+use Masca\EtudiantBundle\Type\NbType;
 use Masca\EtudiantBundle\Type\PersonType;
 use Masca\EtudiantBundle\Type\SonFiliereType;
 use Masca\EtudiantBundle\Type\UniversitaireType;
@@ -174,6 +176,37 @@ class UniversiteController extends Controller
             'universitaire'=>$universitaire,
             'sesFilieres'=>$sesFilieres
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param Universitaire $universitaire
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/nb/{id}", name="nb_univ")
+     */
+    public function addRemarqueAction(Request $request, Universitaire $universitaire) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
+
+        $nb = new Nb();
+        $nb->setNb($universitaire->getNb());
+        $form = $this->createForm(NbType::class, $nb);
+
+        if($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $universitaire->setNb($nb->getNb());
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirect($this->generateUrl('details_universite', ['id'=> $universitaire->getId()]));
+        }
+
+        return $this->render('MascaEtudiantBundle:Universite:remarque-form.html.twig', [
+            'universitaire'=>$universitaire,
+            'form'=>$form->createView()
+        ]);
     }
 
     /**

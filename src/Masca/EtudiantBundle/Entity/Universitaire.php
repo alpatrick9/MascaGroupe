@@ -29,6 +29,13 @@ class Universitaire
     private $serieBacc;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="nb", type="text", nullable=true)
+     */
+    private $nb;
+
+    /**
      * @var $person Person
      *
      * @ORM\OneToOne(targetEntity="Masca\EtudiantBundle\Entity\Person", cascade={"persist","remove"})
@@ -250,5 +257,29 @@ class Universitaire
     public function getSesRetards()
     {
         return $this->sesRetards;
+    }
+
+    /**
+     * Set nb
+     *
+     * @param string $nb
+     *
+     * @return Universitaire
+     */
+    public function setNb($nb)
+    {
+        $this->nb = $nb;
+
+        return $this;
+    }
+
+    /**
+     * Get nb
+     *
+     * @return string
+     */
+    public function getNb()
+    {
+        return $this->nb;
     }
 }

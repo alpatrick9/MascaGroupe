@@ -32,11 +32,11 @@
                     </tr>
                     <tr>
                         <td><b>Date delivrance CIN:</b></td>
-                        <td>{{ universitaire.person.dateDelivranceCin | date('d M Y')}}</td>
+                        <td>{{ universitaire.person.dateDelivranceCin | date('d M Y') }}</td>
                     </tr>
                     <tr>
                         <td><b>Lieu delivrance CIN:</b></td>
-                        <td>{{ universitaire.person.lieuDelivranceCin}}</td>
+                        <td>{{ universitaire.person.lieuDelivranceCin }}</td>
                     </tr>
                 </table>
             </fieldset>
@@ -83,6 +83,19 @@
                     </tr>
                 </table>
             </fieldset>
+        </div>
+        <div class="span12">
+            <table>
+                <tr>
+                    <td style="    max-width: 58em;width: 58em;">
+                        <b>NB: </b></br> <textarea disabled rows="5">{{ universitaire.nb }}</textarea>
+                    </td>
+                    <td>
+                        <a href="{{ path('nb_univ', {'id': universitaire.id}) }}" class="btn btn-primary">Modifier
+                            NB</a>
+                    </td>
+                </tr>
+            </table>
         </div>
         <div class="span12">
             <fieldset>

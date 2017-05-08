@@ -29,6 +29,13 @@ class Universitaire
     private $serieBacc;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="nb", type="text", nullable=true)
+     */
+    private $nb;
+
+    /**
      * @var $person Person
      *
      * @ORM\OneToOne(targetEntity="Masca\EtudiantBundle\Entity\Person", cascade={"persist","remove"})
@@ -139,5 +146,116 @@ class Universitaire
     public function getInfoEtudiant()
     {
         return $this->infoEtudiant;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sesFilieres = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sesAbsences = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sesRetards = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add sesFiliere
+     *
+     * @param \Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $sesFiliere
+     *
+     * @return Universitaire
+     */
+    public function addSesFiliere(\Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $sesFiliere)
+    {
+        $this->sesFilieres[] = $sesFiliere;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesFiliere
+     *
+     * @param \Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $sesFiliere
+     */
+    public function removeSesFiliere(\Masca\EtudiantBundle\Entity\UniversitaireSonFiliere $sesFiliere)
+    {
+        $this->sesFilieres->removeElement($sesFiliere);
+    }
+
+    /**
+     * Get sesFilieres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesFilieres()
+    {
+        return $this->sesFilieres;
+    }
+
+    /**
+     * Add sesAbsence
+     *
+     * @param \Masca\EtudiantBundle\Entity\AbsenceUniv $sesAbsence
+     *
+     * @return Universitaire
+     */
+    public function addSesAbsence(\Masca\EtudiantBundle\Entity\AbsenceUniv $sesAbsence)
+    {
+        $this->sesAbsences[] = $sesAbsence;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesAbsence
+     *
+     * @param \Masca\EtudiantBundle\Entity\AbsenceUniv $sesAbsence
+     */
+    public function removeSesAbsence(\Masca\EtudiantBundle\Entity\AbsenceUniv $sesAbsence)
+    {
+        $this->sesAbsences->removeElement($sesAbsence);
+    }
+
+    /**
+     * Get sesAbsences
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesAbsences()
+    {
+        return $this->sesAbsences;
+    }
+
+    /**
+     * Add sesRetard
+     *
+     * @param \Masca\EtudiantBundle\Entity\RetardUniv $sesRetard
+     *
+     * @return Universitaire
+     */
+    public function addSesRetard(\Masca\EtudiantBundle\Entity\RetardUniv $sesRetard)
+    {
+        $this->sesRetards[] = $sesRetard;
+
+        return $this;
+    }
+
+    /**
+     * Remove sesRetard
+     *
+     * @param \Masca\EtudiantBundle\Entity\RetardUniv $sesRetard
+     */
+    public function removeSesRetard(\Masca\EtudiantBundle\Entity\RetardUniv $sesRetard)
+    {
+        $this->sesRetards->removeElement($sesRetard);
+    }
+
+    /**
+     * Get sesRetards
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSesRetards()
+    {
+        return $this->sesRetards;
     }
 }

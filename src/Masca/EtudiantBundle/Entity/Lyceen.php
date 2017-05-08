@@ -42,6 +42,13 @@ class Lyceen
     private $anneeScolaire;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="nb", type="text", nullable=true)
+     */
+    private $nb;
+
+    /**
      * @var $person Person
      * @ORM\OneToOne(targetEntity="Masca\EtudiantBundle\Entity\Person", cascade={"persist","remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -409,5 +416,29 @@ class Lyceen
     public function getDroitInscription()
     {
         return $this->droitInscription;
+    }
+
+    /**
+     * Set nb
+     *
+     * @param string $nb
+     *
+     * @return Lyceen
+     */
+    public function setNb($nb)
+    {
+        $this->nb = $nb;
+
+        return $this;
+    }
+
+    /**
+     * Get nb
+     *
+     * @return string
+     */
+    public function getNb()
+    {
+        return $this->nb;
     }
 }
