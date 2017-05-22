@@ -49,6 +49,10 @@ class ComposerStaticInit32e959be8948e69d592a2d2266fa324e
         array (
             'Monolog\\' => 8,
         ),
+        'L' => 
+        array (
+            'Liuggio\\ExcelBundle\\' => 20,
+        ),
         'K' => 
         array (
             'Knp\\Bundle\\SnappyBundle\\' => 24,
@@ -158,6 +162,10 @@ class ComposerStaticInit32e959be8948e69d592a2d2266fa324e
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Liuggio\\ExcelBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/liuggio/ExcelBundle',
+        ),
         'Knp\\Bundle\\SnappyBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/knplabs/knp-snappy-bundle',
@@ -224,6 +232,10 @@ class ComposerStaticInit32e959be8948e69d592a2d2266fa324e
             'Psr\\Log\\' => 
             array (
                 0 => __DIR__ . '/..' . '/psr/log',
+            ),
+            'PHPExcel' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
             ),
         ),
         'K' => 

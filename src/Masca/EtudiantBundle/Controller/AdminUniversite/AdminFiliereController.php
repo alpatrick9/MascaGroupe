@@ -32,7 +32,7 @@ class AdminFiliereController extends Controller
      * @Route("/{page}", name="admin_univ_filiere", defaults={"page"=1})
      */
     public function indexAction(Request $request,$page) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
