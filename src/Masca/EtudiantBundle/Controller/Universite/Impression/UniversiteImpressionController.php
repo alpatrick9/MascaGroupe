@@ -167,7 +167,7 @@ class UniversiteImpressionController extends Controller
     }
     
     public function emploiDuTempsPrintAction(Request $request, FiliereParNiveau $filiereParNiveau) {
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ECO_U')){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
             return $this->render("::message-layout.html.twig",[
                 'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
                 'previousLink'=>$request->headers->get('referer')
