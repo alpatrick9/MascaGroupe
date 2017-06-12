@@ -40,6 +40,12 @@ class PointageEnseignantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('date', DateType::class, [
+                'label'=>'Date du pointage',
+                'format'=>'dd MMMM yyyy',
+                'years'=>range(date('Y'),date('Y')),
+                'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
+            ])
             ->add('heureDebut', TimeType::class, [
                 'label'=> 'Debut du cours',
                 'placeholder'=>['hour' => 'Heure', 'minute' => 'Minute']

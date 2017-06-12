@@ -7,60 +7,20 @@
         </a>
     </div>
     <div class="row link-text floatright">
-        <form method="post">
-            <input id="search" placeholder="Entrez un nom ou prénom" name="key_word">
-            <input type="image" src="{{ absolute_url(asset('assets/find.png')) }}">
-        </form>
+        <input id="search_emp" placeholder="Nom/Prénom/Matricule" onkeyup="find()">
     </div>
-    <table id="tableshow" class="table table-hover table-bordered table-striped avectri">
-        <thead>
-        <tr>
-            <th class="selection" data-tri="1" data-type="num">N° matricule</th>
-            <th>Nom</th>
-            <th>Prenom</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for employer in employers %}
-            <tr>
-                <td>{{ employer.person.numMatricule }}</td>
-                <td>{{ employer.person.nom }}</td>
-                <td>{{ employer.person.prenom }}</td>
-                <td>
-                    <div class="align-center">
-                        <a href="{{ path('details', {'id': employer.id}) }}">
-                            <img title="Afficher détails" src="{{ asset('assets/details.png') }}">
-                        </a>
-                        <a href="{{ path('list_absence_employer', {'id': employer.id}) }}">
-                            <img title="Liste absence" src="{{ asset('assets/presence.png') }}" class="custom-margin">
-                        </a>
-                        <a href="{{ path('pointage_home', {'id': employer.id}) }}">
-                            <img title="Pointage enseignement" src="{{ asset('assets/pointage.png') }}" class="custom-margin">
-                        </a>
-                        <a href="{{ path('delete_employer', {'id': employer.id})}}" onclick="return confirm('Voulez vous supprimer toutes les informations concernat {{ employer.person.nom }} {{ employer.person.prenom }}?')">
-                            <img title="Supprimer" src="{{ asset('assets/delete.png') }}">
-                        </a>
-                    </div>
+    <div id="employer-list">
+        {{ render(controller('MascaPersonnelBundle:Default:listEmploye', {'page': page, 'keyword': ''})) }}
+    </div>
+    <script>
+        function find() {
+            keyword = document.getElementById("search_emp").value;
+            url = "{{ path('list_emp') }}" + "/"+{{ page }};
 
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucun employer enregistré</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% if employers|length > 0 %}
-        <div class="pagination align-center">
-            <ul>
-                {% for p in range(1, nbPage) %}
-                    <li{% if p == page %} class="active"{% endif %}>
-                        <a href="{{ path('personnel_home', {'page': p}) }}">{{ p }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+            if(keyword != "")
+                url = url + "/" + keyword;
+            $("#employer-list").load(url, function () {});
+
+        }
+    </script>
 {% endblock %}

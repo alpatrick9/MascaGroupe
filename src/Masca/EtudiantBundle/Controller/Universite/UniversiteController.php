@@ -54,6 +54,26 @@ class UniversiteController extends Controller
                 'previousLink'=>$request->headers->get('referer')
             ]);
         }
+
+        return $this->render('MascaEtudiantBundle:Universite:index.html.twig',array(
+            'page'=> $page
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param $page
+     * @param $keyword
+     * @return Response
+     * @Route("/list-univ/{page}/{keyword}", name="list_univ", defaults={"page" = 1, "keyword" = ""})
+     */
+    public function listUnivAction(Request $request, $page, $keyword) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_U')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = $this->getParameter('nbparpage');
         /**
          * @var $repository UniversitaireRepository
@@ -63,13 +83,15 @@ class UniversiteController extends Controller
         /**
          * @var $universitaires Universitaire[]
          */
-        $universitaires = $repository->getUniversitiares($nbParPage,$page);
+        $universitaires = [];
 
-        if($request->getMethod() == 'POST') {
-            $universitaires = $repository->findUniversitaires($nbParPage,$page,$request->get('key_word'));
+        if($keyword == "") {
+            $universitaires = $repository->getUniversitiares($nbParPage,$page);
+        } else {
+            $universitaires = $repository->findUniversitaires($nbParPage,$page,$keyword);
         }
 
-        return $this->render('MascaEtudiantBundle:Universite:index.html.twig',array(
+        return $this->render('MascaEtudiantBundle:Universite:list.html.twig',array(
             'universitaires'=>$universitaires,
             'page'=> $page,
             'nbPage' => ceil(count($universitaires)/$nbParPage)

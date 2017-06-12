@@ -35,6 +35,25 @@ class DefaultController extends Controller
                 'previousLink' => $request->headers->get('referer')
             ]);
         }
+        
+        return $this->render('MascaPersonnelBundle:Default:index.html.twig', [
+            'page' => $page,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $page
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/list-emp/{page}/{keyword}", name="list_emp", defaults={"page" = 1, "keyword" = ""})
+     */
+    public function listEmployeAction(Request $request, $page, $keyword) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
+            return $this->render("::message-layout.html.twig", [
+                'message' => 'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink' => $request->headers->get('referer')
+            ]);
+        }
         $nbParPage = 30;
         /**
          * @var $repository EmployerRepository
@@ -44,12 +63,14 @@ class DefaultController extends Controller
         /**
          * @var $listEmployer Employer[]
          */
-        $listEmployer = $repository->getEmployers($nbParPage,$page);
-
-        if($request->getMethod() == 'POST') {
-            $listEmployer = $repository->findEmployer($nbParPage,$page,$request->get('key_word'));
+        $listEmployer = [];
+        if($keyword == "") {
+            $listEmployer = $repository->getEmployers($nbParPage,$page);
+        } else {
+            $listEmployer = $repository->findEmployer($nbParPage,$page,$keyword);
         }
-        return $this->render('MascaPersonnelBundle:Default:index.html.twig', [
+        
+        return $this->render('MascaPersonnelBundle:Default:list.html.twig', [
             'employers' => $listEmployer,
             'page' => $page,
             'nbPage' => ceil(count($listEmployer) / $nbParPage)

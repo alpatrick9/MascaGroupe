@@ -223,7 +223,8 @@ table tbody tr td{
 #status_dateEmbauche_day,
 #absence_employe_dateAbsent_day,
 #date_payement_eco_lycee_datePayement_day,
-#date_payement_eco_univ_datePayement_day
+#date_payement_eco_univ_datePayement_day,
+#pointage_enseignant_date_day
 {
 	width: 65px !important;
 	margin: 2.5px !important;
@@ -239,7 +240,8 @@ table tbody tr td{
 #status_dateEmbauche_month,
 #absence_employe_dateAbsent_month,
 #date_payement_eco_lycee_datePayement_month,
-#date_payement_eco_univ_datePayement_month
+#date_payement_eco_univ_datePayement_month,
+#pointage_enseignant_date_month
 {
 	width: 100px !important;
 	margin: 2.5px !important;
@@ -255,7 +257,8 @@ table tbody tr td{
 #status_dateEmbauche_year,
 #absence_employe_dateAbsent_year,
 #date_payement_eco_lycee_datePayement_year,
-#date_payement_eco_univ_datePayement_year
+#date_payement_eco_univ_datePayement_year,
+#pointage_enseignant_date_year
 {
 	width: 80px !important;
 	margin: 2.5px !important;

@@ -47,21 +47,42 @@ class LyceeController extends Controller
                 'previousLink'=>$request->headers->get('referer')
             ]);
         }
+        return $this->render('MascaEtudiantBundle:Lycee:index.html.twig',array(
+            'page'=> $page
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param $page
+     * @param $keyword
+     * @return Response
+     * @Route("/list-lyc/{page}/{keyword}", name="list_lyc", defaults={"page" = 1, "keyword" = ""})
+     */
+    public function listLyceenAction(Request $request, $page, $keyword) {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_USER_L')){
+            return $this->render("::message-layout.html.twig",[
+                'message'=>'Vous n\'avez pas le droit d\'accès necessaire!',
+                'previousLink'=>$request->headers->get('referer')
+            ]);
+        }
         $nbParPage = $this->getParameter('nbparpage');
         /**
          * @var $repository LyceenRepository
          */
         $repository = $this->getDoctrine()->getManager()
-                            ->getRepository('MascaEtudiantBundle:Lyceen');
+            ->getRepository('MascaEtudiantBundle:Lyceen');
         /**
          * @var $lyceens Lyceen[]
          */
-        $lyceens = $repository->getLyceens($nbParPage,$page);
+        $lyceens = [];
 
-        if($request->getMethod() == 'POST') {
-            $lyceens = $repository->findLyceens($nbParPage,$page,$request->get('key_word'));
+        if($keyword == "") {
+            $lyceens = $repository->getLyceens($nbParPage,$page);
+        } else {
+            $lyceens = $repository->findLyceens($nbParPage,$page,$keyword);
         }
-        return $this->render('MascaEtudiantBundle:Lycee:index.html.twig',array(
+        return $this->render('MascaEtudiantBundle:Lycee:list.html.twig',array(
             'lyceens'=>$lyceens,
             'page'=> $page,
             'nbPage' => ceil(count($lyceens)/$nbParPage)

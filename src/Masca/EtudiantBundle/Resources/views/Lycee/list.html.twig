@@ -1,0 +1,47 @@
+<table id="tableshow" class="table  table-hover table-bordered table-striped avectri" data-role="table">
+    <thead>
+    <tr>
+        <th >N° matricule</th>
+        <th >Nom</th>
+        <th >Prénom</th>
+        <th >classe</th>
+        <th >Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for lyceen in lyceens %}
+        <tr>
+            <td>{{ lyceen.person.numMatricule }}</td>
+            <td>{{ lyceen.person.nom }}</td>
+            <td>{{ lyceen.person.prenom }}</td>
+            <td>{{ lyceen.sonClasse.intitule }}</td>
+            <td>
+                <div class="align-center">
+                    <a href="{{ path('details_lyceen',{ 'id': lyceen.id }) }}">
+                        <img title="Plus de details" src="{{ absolute_url(asset('assets/plus-info.png')) }}">
+                    </a>
+                    <a href="{{ path('supprimer_lyceen',{ 'id': lyceen.id }) }}" onclick="return confirm('Voulez vous supprimer {{ lyceen.person.nom }} {{ lyceen.person.prenom }}? si OUI, tous les renseignement concernant cet élève serons supprimer!')">
+                        <img title="Supprimer" src="{{ absolute_url(asset('assets/delete.png')) }}">
+                    </a>
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">Aucun étudiant enregistré</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% if lyceens|length > 0 %}
+    <div class="pagination align-center">
+        <ul>
+            {% for p in range(1, nbPage) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('accueil_lycee', {'page': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
