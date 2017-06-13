@@ -7,6 +7,7 @@
         </a>
     </div>
     <div class="row link-text floatright">
+        <img src="{{ asset('assets/loading.gif') }}" class="loading">
         <input id="search-emp" placeholder="Nom/Prénom/Matricule">
     </div>
     <div id="employer-list">
@@ -14,11 +15,15 @@
     </div>
     <script>
         $(function () {
+            $(".loading").hide();
             $("#search-emp").keyup(function () {
+                $(".loading").show();
                 var url = "{{ path('list_emp') }}" + "/"+{{ page }};
                 if(this.value != "")
                     url = url + "/" + this.value;
-                $("#employer-list").load(url, function () {});
+                $("#employer-list").load(url, function () {
+                    $(".loading").hide();
+                });
             })
         })
     </script>

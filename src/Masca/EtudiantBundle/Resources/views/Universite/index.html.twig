@@ -13,6 +13,7 @@
         </a>
     </div>
     <div class="row link-text floatright">
+        <img src="{{ asset('assets/loading.gif') }}" class="loading">
         <input id="search-univ" placeholder="Nom/Prénom/Matricule" >
     </div>
     <div class="clearfix"></div>
@@ -21,11 +22,15 @@
     </div>
     <script>
         $(function () {
+            $(".loading").hide();
             $("#search-univ").keyup(function () {
+                $(".loading").show();
                 var url = "{{ path('list_univ') }}" + "/"+{{ page }};
                 if(this.value != "")
                     url = url + "/" + this.value;
-                $("#univ-list").load(url, function () {});
+                $("#univ-list").load(url, function () {
+                    $(".loading").hide();
+                });
             })
         })
     </script>

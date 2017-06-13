@@ -11,6 +11,7 @@
         </a>
     </div>
     <div class="row link-text floatright">
+        <img src="{{ asset('assets/loading.gif') }}" class="loading">
         <input id="search-lyc" placeholder="Nom/Prénom/Matricule">
     </div>
     <div class="clearfix"></div>
@@ -19,11 +20,15 @@
     </div>
     <script>
         $(function () {
+            $(".loading").hide();
             $("#search-lyc").keyup(function () {
+                $(".loading").show();
                 var url = "{{ path('list_lyc') }}" + "/"+{{ page }};
                 if(this.value != "")
                     url = url + "/" + this.value;
-                $("#lyceen-list").load(url, function () {});
+                $("#lyceen-list").load(url, function () {
+                    $(".loading").hide();
+                });
             })
         })
     </script>

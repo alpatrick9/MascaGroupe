@@ -357,3 +357,7 @@ input, label {
 table, tr, td, th, tbody, thead, tfoot {
 	page-break-inside: avoid;!important;
 }
+
+.loading {
+	width: 25px;
+}
