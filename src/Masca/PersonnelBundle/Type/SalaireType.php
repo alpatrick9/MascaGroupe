@@ -31,7 +31,6 @@ class SalaireType extends AbstractType
         foreach( $tempYears as $year) {
             $this->years[$year] = $year;
         }
-        var_dump($this->years);
     }
 
 

@@ -324,6 +324,11 @@ class GestionSalaireController extends Controller
 
         $form = $this->createForm(new SalaireType($this->getParameter('mois')), $salaire);
 
+        $anneeField = $form->get('annee');
+        $options = $anneeField->getConfig()->getOptions();
+        $options['disabled'] = true;
+        $form->add('annee', ChoiceType::class, $options);
+
         $moisField = $form->get('mois');
         $options = $moisField->getConfig()->getOptions();
         $options['disabled'] = true;
