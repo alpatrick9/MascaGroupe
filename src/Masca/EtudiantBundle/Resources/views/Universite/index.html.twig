@@ -13,21 +13,20 @@
         </a>
     </div>
     <div class="row link-text floatright">
-        <input id="search-univ" placeholder="Nom/Prénom/Matricule" onkeyup="find()">
+        <input id="search-univ" placeholder="Nom/Prénom/Matricule" >
     </div>
     <div class="clearfix"></div>
     <div id="univ-list">
         {{ render(controller('MascaEtudiantBundle:Universite/Universite:listUniv', {'page': page, 'keyword': ''})) }}
     </div>
     <script>
-        function find() {
-            keyword = document.getElementById("search-univ").value;
-            url = "{{ path('list_univ') }}" + "/"+{{ page }};
-
-            if(keyword != "")
-                url = url + "/" + keyword;
-            $("#univ-list").load(url, function () {});
-
-        }
+        $(function () {
+            $("#search-univ").keyup(function () {
+                var url = "{{ path('list_univ') }}" + "/"+{{ page }};
+                if(this.value != "")
+                    url = url + "/" + this.value;
+                $("#univ-list").load(url, function () {});
+            })
+        })
     </script>
 {% endblock %}

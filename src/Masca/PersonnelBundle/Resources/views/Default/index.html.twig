@@ -7,20 +7,19 @@
         </a>
     </div>
     <div class="row link-text floatright">
-        <input id="search_emp" placeholder="Nom/Prénom/Matricule" onkeyup="find()">
+        <input id="search-emp" placeholder="Nom/Prénom/Matricule">
     </div>
     <div id="employer-list">
         {{ render(controller('MascaPersonnelBundle:Default:listEmploye', {'page': page, 'keyword': ''})) }}
     </div>
     <script>
-        function find() {
-            keyword = document.getElementById("search_emp").value;
-            url = "{{ path('list_emp') }}" + "/"+{{ page }};
-
-            if(keyword != "")
-                url = url + "/" + keyword;
-            $("#employer-list").load(url, function () {});
-
-        }
+        $(function () {
+            $("#search-emp").keyup(function () {
+                var url = "{{ path('list_emp') }}" + "/"+{{ page }};
+                if(this.value != "")
+                    url = url + "/" + this.value;
+                $("#employer-list").load(url, function () {});
+            })
+        })
     </script>
 {% endblock %}
