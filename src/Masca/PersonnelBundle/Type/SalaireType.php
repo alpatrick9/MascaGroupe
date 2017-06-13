@@ -18,6 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class SalaireType extends AbstractType
 {
     private $mois;
+    private $years = [];
 
     /**
      * SalaireType constructor.
@@ -26,12 +27,23 @@ class SalaireType extends AbstractType
     public function __construct($mois)
     {
         $this->mois = $mois;
+        $tempYears = range(date('Y')-2,date('Y'));
+        foreach( $tempYears as $year) {
+            $this->years[$year] = $year;
+        }
+        var_dump($this->years);
     }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('annee', ChoiceType::class, [
+                'label' => 'Année',
+                'choices_as_values'=> true,
+                'choices'=>$this->years,
+                'placeholder' => 'Choisissez'
+            ])
             ->add('mois', ChoiceType::class, [
                 'label' => 'Mois',
                 'choices_as_values' => true,

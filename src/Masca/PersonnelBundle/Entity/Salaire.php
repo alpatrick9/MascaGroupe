@@ -110,7 +110,6 @@ class Salaire
     public function __construct()
     {
         $this->date = new \DateTime();
-        $this->annee = $this->date->format('Y');
         $this->totalAvanceSalaireL = 0;
         $this->totalAvanceSalaireU = 0;
         $this->totalSalaireL = 0;

@@ -78,6 +78,7 @@ class PointageController extends Controller
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             $pointage->setEmployer($employer);
+            $pointage->setAnnee($pointage->getDate()->format('YYYY'));
             $em = $this->getDoctrine()->getManager();
             try{
                 $em->persist($pointage);
@@ -116,6 +117,7 @@ class PointageController extends Controller
 
         if($request->getMethod() == 'POST') {
             $form->handleRequest($request);
+            $pointageEnseignant->setAnnee($pointageEnseignant->getDate()->format('YYYY'));
             $em = $this->getDoctrine()->getManager();
             try{
                 $em->flush();
