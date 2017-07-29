@@ -36,7 +36,7 @@ class FraisScolariteLyceen
     private $mois;
 
     /**
-     * @var string
+     * @var integer
      *
      * @ORM\Column(name="annee", type="integer")
      */

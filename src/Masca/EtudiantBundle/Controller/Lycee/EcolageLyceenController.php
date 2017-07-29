@@ -104,7 +104,7 @@ class EcolageLyceenController extends Controller
         $anneeData = explode('-',$lyceen->getAnneeScolaire());
         $choicesAnnee = [];
         foreach ($anneeData as $annee) {
-            $choicesAnnee[$annee] = $annee;
+            $choicesAnnee[$annee] = trim($annee);
         }
 
 
