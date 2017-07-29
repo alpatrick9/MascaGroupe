@@ -34,7 +34,7 @@ class CaisseUniversiteController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/", name="home_caisse_universite", defaults={"page" = 1})
+     * @Route("/{page}", name="home_caisse_universite", defaults={"page" = 1})
      */
     public function indexAction(Request $request, $page) {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
