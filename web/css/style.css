@@ -241,7 +241,11 @@ table tbody tr td{
 #absence_employe_dateAbsent_month,
 #date_payement_eco_lycee_datePayement_month,
 #date_payement_eco_univ_datePayement_month,
-#pointage_enseignant_date_month
+#pointage_enseignant_date_month,
+#form_startMonth,
+#form_startYear,
+#form_endMonth,
+#form_endYear
 {
 	width: 100px !important;
 	margin: 2.5px !important;
