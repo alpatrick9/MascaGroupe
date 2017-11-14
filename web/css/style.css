@@ -242,10 +242,9 @@ table tbody tr td{
 #date_payement_eco_lycee_datePayement_month,
 #date_payement_eco_univ_datePayement_month,
 #pointage_enseignant_date_month,
-#form_startMonth,
-#form_startYear,
-#form_endMonth,
-#form_endYear
+#details_school_year_startMonth,
+#details_school_year_startYear,
+#details_school_year_endMonth
 {
 	width: 100px !important;
 	margin: 2.5px !important;
