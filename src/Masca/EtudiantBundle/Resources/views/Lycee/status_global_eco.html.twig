@@ -1,7 +1,7 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
 {% block etudiant_body %}
     <h3>Status global ecolage</h3>
-    <form>
+    <form method="post" id="form-data-year">
         <table>
             <tr>
                 <td>Début année scolaire</td>
@@ -12,14 +12,41 @@
                 <td>Détails année scolaire</td>
                 <td>{{ form_widget(form.startMonth) }} <span id="start-year"></span></td>
                 <td> - {{ form_widget(form.endMonth)}} <span id="end-year"></span></td>
+                <td><input type="submit" value="valider" id="submit-data-year" class="btn-lg btn-primary"></td>
             </tr>
         </table>
     </form>
+
     <script>
         var schoolYearElement = $(".school-year");
+
         var startYearElement = $("#details_school_year_startYear");
+        var firstMonthSelect = $("#details_school_year_startMonth");
+        var lastMonthSelect = $("#details_school_year_endMonth");
+
+        var submitButton = $("#submit-data-year");
+        submitButton.hide();
+
+        toggleData();
+        validateForm();
 
         startYearElement.change(function () {
+            toggleData();
+        });
+
+        $("select").change(function () {
+            validateForm();
+        });
+
+        function validateForm() {
+            if(startYearElement.find("option:selected").val() && firstMonthSelect.val() && lastMonthSelect.val()) {
+                submitButton.show();
+            } else {
+                submitButton.hide();
+            }
+        }
+
+        function toggleData() {
             var detailsSchoolYear = $(".details-school-year");
             var startYear = startYearElement.find("option:selected").val();
 
@@ -35,9 +62,6 @@
             $("#start-year").text(startYear);
             $("#end-year").text(endYear);
             detailsSchoolYear.show();
-        });
-
-
-
+        }
     </script>
 {% endblock %}
