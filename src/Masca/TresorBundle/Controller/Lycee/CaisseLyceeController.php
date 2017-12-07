@@ -130,7 +130,7 @@ class CaisseLyceeController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/virement", name="virement_to_universite")
+     * @Route("/virement/", name="virement_to_universite")
      */
     public function virementToUniversiteAction(Request $request) {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
