@@ -244,7 +244,8 @@ table tbody tr td{
 #pointage_enseignant_date_month,
 #details_school_year_startMonth,
 #details_school_year_startYear,
-#details_school_year_endMonth
+#details_school_year_endMonth,
+#details_school_year_classe
 {
 	width: 100px !important;
 	margin: 2.5px !important;

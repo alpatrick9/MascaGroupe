@@ -6,7 +6,10 @@
             <tr>
                 <td>Début année scolaire</td>
                 <td>{{ form_widget(form.startYear) }}</td>
-                <td class="school-year hide">année scolaire: <span></span></td>
+                <td class="school-year hide">
+                    année scolaire: <span></span>
+                     classe de: {{ form_widget(form.classe) }}
+                </td>
             </tr>
             <tr class="details-school-year hide">
                 <td>Détails année scolaire</td>
@@ -23,6 +26,7 @@
         var startYearElement = $("#details_school_year_startYear");
         var firstMonthSelect = $("#details_school_year_startMonth");
         var lastMonthSelect = $("#details_school_year_endMonth");
+        var classeSelect = $("#details_school_year_classe");
 
         var submitButton = $("#submit-data-year");
         submitButton.hide();
@@ -39,7 +43,7 @@
         });
 
         function validateForm() {
-            if(startYearElement.find("option:selected").val() && firstMonthSelect.val() && lastMonthSelect.val()) {
+            if(startYearElement.find("option:selected").val() && firstMonthSelect.val() && lastMonthSelect.val() && classeSelect.find("option:selected").val()) {
                 submitButton.show();
             } else {
                 submitButton.hide();

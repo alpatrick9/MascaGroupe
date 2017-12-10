@@ -9,11 +9,18 @@
 namespace Masca\EtudiantBundle\Model;
 
 
+use Masca\EtudiantBundle\Entity\Classe;
+
 class DetailsSchoolYear
 {
     private $startYear;
     private $startMonth;
     private $endMonth;
+
+    /**
+     * @var $classe Classe
+     */
+    private $classe;
 
     /**
      * @return mixed
@@ -61,6 +68,22 @@ class DetailsSchoolYear
     public function setEndMonth($endMonth)
     {
         $this->endMonth = $endMonth;
+    }
+
+    /**
+     * @return Classe
+     */
+    public function getClasse()
+    {
+        return $this->classe;
+    }
+
+    /**
+     * @param Classe $classe
+     */
+    public function setClasse($classe)
+    {
+        $this->classe = $classe;
     }
 
 

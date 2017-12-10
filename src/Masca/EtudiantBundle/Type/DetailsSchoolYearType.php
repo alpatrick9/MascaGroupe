@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Type;
 
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,6 +42,13 @@ class DetailsSchoolYearType extends AbstractType
                 'choices' => $this->months,
                 'choices_as_values' => true,
                 'placeholder'=>'au mois'
+            ])
+            ->add('classe', EntityType::class, [
+                'label' => '',
+                'class' => 'Masca\EtudiantBundle\Entity\Classe',
+                'choice_label'=>'intitule',
+                'placeholder'=>"choisissez...",
+                'empty_data'=>null
             ])
         ;
     }

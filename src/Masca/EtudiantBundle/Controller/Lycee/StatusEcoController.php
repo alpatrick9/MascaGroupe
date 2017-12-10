@@ -8,6 +8,7 @@
 
 namespace Masca\EtudiantBundle\Controller\Lycee;
 
+use Masca\EtudiantBundle\Entity\Classe;
 use Masca\EtudiantBundle\Model\DetailsSchoolYear;
 use Masca\EtudiantBundle\Type\DetailsSchoolYearType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,7 +40,16 @@ class StatusEcoController extends Controller
         if(empty($session->get('data')))
             $detailsSchoolYear = new DetailsSchoolYear();
         else {
+            /**
+             * @var $detailsSchoolYear DetailsSchoolYear
+             */
             $detailsSchoolYear = unserialize($session->get('data'));
+
+            /**
+             * @var $classe Classe
+             */
+            $classe = $this->getDoctrine()->getManager()->merge($detailsSchoolYear->getClasse());
+            $detailsSchoolYear->setClasse($classe);
             $session->remove("data");
         }
 
