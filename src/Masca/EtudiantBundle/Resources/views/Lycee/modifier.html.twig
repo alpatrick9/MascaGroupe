@@ -3,13 +3,19 @@
     <h3>Page de modification des informations concernant l'étudiant</h3>
     <div class="row">
         <form method="post">
-            <div class="span6">
+            <div class="span4">
                 <fieldset>
                     <legend>Etat civil</legend>
                     {{ form_widget(personForm) }}
                 </fieldset>
             </div>
-            <div class="span6">
+            <div class="span4">
+                <fieldset>
+                    <legend>Etude</legend>
+                    {{ form_widget(lyceenForm) }}
+                </fieldset>
+            </div>
+            <div class="span4">
                 <fieldset>
                     <legend>Complémentaire</legend>
                     {{ form_widget(infoEtudiantForm) }}

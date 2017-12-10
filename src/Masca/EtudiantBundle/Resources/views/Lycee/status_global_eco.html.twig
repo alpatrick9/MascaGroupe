@@ -20,6 +20,22 @@
         </table>
     </form>
 
+    {% if haveData %}
+        <table class="table  table-hover table-bordered table-striped avectri">
+            <thead>
+                <th style="width: 1em">N°</th>
+                <th style="width: 15em">Nom</th>
+            </thead>
+            <tbody>
+            {% for l in lyceens %}
+                <tr>
+                    <td>{{ l.numeros }}</td>
+                    <td>{{ l.person.fullName }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
     <script>
         var schoolYearElement = $(".school-year");
 

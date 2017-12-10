@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\Lycee;
 
 use Masca\EtudiantBundle\Entity\Classe;
+use Masca\EtudiantBundle\Entity\Lyceen;
 use Masca\EtudiantBundle\Model\DetailsSchoolYear;
 use Masca\EtudiantBundle\Type\DetailsSchoolYearType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,6 +34,7 @@ class StatusEcoController extends Controller
     public function index(Request $request) {
         $session = $this->get('session');
         $years = [];
+        $haveData = false;
         foreach(range(date('Y')-2,date('Y')) as $myyear) {
             $years[$myyear] = $myyear;
         }
@@ -40,6 +42,7 @@ class StatusEcoController extends Controller
         if(empty($session->get('data')))
             $detailsSchoolYear = new DetailsSchoolYear();
         else {
+            $haveData = true;
             /**
              * @var $detailsSchoolYear DetailsSchoolYear
              */
@@ -58,6 +61,21 @@ class StatusEcoController extends Controller
             'months' => $this->getParameter('mois')
         ]);
 
+        /**
+         * @var $lyceens Lyceen[]
+         */
+        $lyceens = [];
+        if($haveData) {
+            $lyceens = $this->getDoctrine()->getManager()->getRepository("MascaEtudiantBundle:Lyceen")
+                ->findBy([
+                    "sonClasse" => $detailsSchoolYear->getClasse(),
+                    "anneeScolaire" => $detailsSchoolYear->getStartYear()."-".($detailsSchoolYear->getStartYear()+1)
+                    ],
+                    [
+                        "numeros" => "ASC"
+                    ]);
+        }
+
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
 
@@ -66,7 +84,9 @@ class StatusEcoController extends Controller
         }
 
         return $this->render('MascaEtudiantBundle:Lycee:status_global_eco.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'haveData' => $haveData,
+            'lyceens' => $lyceens
         ]);
     }
 }

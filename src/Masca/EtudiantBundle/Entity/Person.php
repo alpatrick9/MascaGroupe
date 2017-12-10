@@ -271,10 +271,15 @@ class Person
     {
         return $this->lieuDelivranceCin;
     }
+
     /**
      * Constructor
      */
     public function __construct()
     {
+    }
+
+    public function getFullName() {
+        return $this->nom." ".$this->prenom;
     }
 }
