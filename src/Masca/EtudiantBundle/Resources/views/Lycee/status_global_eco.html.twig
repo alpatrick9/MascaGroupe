@@ -1,4 +1,14 @@
 {% extends "MascaEtudiantBundle::layout.html.twig" %}
+{% block stylesheet %}
+    <style>
+        .container {
+            width: 95%;
+        }
+        .zone-bordered {
+
+        }
+    </style>
+{% endblock %}
 {% block etudiant_body %}
     <h3>Statut global ecolage</h3>
     <form method="post" id="form-data-year">
@@ -25,12 +35,23 @@
             <thead>
                 <th style="width: 1em">N°</th>
                 <th style="width: 15em">Nom</th>
+                {% for m in months %}
+                    <th>{{ m }}</th>
+                {% endfor %}
             </thead>
             <tbody>
             {% for l in lyceens %}
                 <tr>
                     <td>{{ l.numeros }}</td>
-                    <td>{{ l.person.fullName }}</td>
+                    <td><a href="{{ path('ecolage_lyceen', {'id':l.id}) }}" title="Détails ecolage" target="_blank">{{ l.person.fullName }}</a></td>
+                    {% for m in months %}
+                        <td style="text-align: center">{% if status[l.id][loop.index - 1] %}
+                                <i class="fa fa-check" style="color:green"></i>
+                            {% else %}
+                                <i class="fa fa-times" style="color:red"></i>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
                 </tr>
             {% endfor %}
             </tbody>

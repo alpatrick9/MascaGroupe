@@ -9,6 +9,7 @@
 namespace Masca\EtudiantBundle\Controller\Lycee;
 
 use Masca\EtudiantBundle\Entity\Classe;
+use Masca\EtudiantBundle\Entity\FraisScolariteLyceen;
 use Masca\EtudiantBundle\Entity\Lyceen;
 use Masca\EtudiantBundle\Model\DetailsSchoolYear;
 use Masca\EtudiantBundle\Type\DetailsSchoolYearType;
@@ -34,6 +35,7 @@ class StatusEcoController extends Controller
     public function index(Request $request) {
         $session = $this->get('session');
         $years = [];
+        $months = [];
         $haveData = false;
         foreach(range(date('Y')-2,date('Y')) as $myyear) {
             $years[$myyear] = $myyear;
@@ -47,6 +49,14 @@ class StatusEcoController extends Controller
              * @var $detailsSchoolYear DetailsSchoolYear
              */
             $detailsSchoolYear = unserialize($session->get('data'));
+
+            for($i = $this->convertMonthToInt($detailsSchoolYear->getStartMonth()); $i < 12; $i++) {
+                $months[] = $this->convertIntToMonth($i);
+            }
+
+            for($j = 0 ; $j <= $this->convertMonthToInt($detailsSchoolYear->getEndMonth()); $j++) {
+                $months[] = $this->convertIntToMonth($j);
+            }
 
             /**
              * @var $classe Classe
@@ -65,6 +75,7 @@ class StatusEcoController extends Controller
          * @var $lyceens Lyceen[]
          */
         $lyceens = [];
+        $status = [];
         if($haveData) {
             $lyceens = $this->getDoctrine()->getManager()->getRepository("MascaEtudiantBundle:Lyceen")
                 ->findBy([
@@ -74,6 +85,33 @@ class StatusEcoController extends Controller
                     [
                         "numeros" => "ASC"
                     ]);
+
+            foreach ($lyceens as $lyceen) {
+                $status[$lyceen->getId()] = [];
+                $ecoRepository = $this->getDoctrine()->getRepository("MascaEtudiantBundle:FraisScolariteLyceen");
+                for($i = $this->convertMonthToInt($detailsSchoolYear->getStartMonth()); $i < 12; $i++) {
+                    /**
+                     * @var $ecolage FraisScolariteLyceen
+                     */
+                    $ecolage = $ecoRepository->findOneBy([
+                        'mois' => $this->convertIntToMonth($i),
+                        'annee' => $detailsSchoolYear->getStartYear(),
+                        'lyceen' => $lyceen
+                    ]);
+                    $status[$lyceen->getId()][] = $ecolage == null ? false : $ecolage->getStatus();
+                }
+                for($j = 0 ; $j <= $this->convertMonthToInt($detailsSchoolYear->getEndMonth()); $j++) {
+                    /**
+                     * @var $ecolage FraisScolariteLyceen
+                     */
+                    $ecolage = $ecoRepository->findOneBy([
+                        'mois' => $this->convertIntToMonth($j),
+                        'annee' => $detailsSchoolYear->getStartYear()+1,
+                        'lyceen' => $lyceen
+                    ]);
+                    $status[$lyceen->getId()][] = $ecolage == null ? false : $ecolage->getStatus();
+                }
+            }
         }
 
         if ($request->isMethod('POST')) {
@@ -86,7 +124,30 @@ class StatusEcoController extends Controller
         return $this->render('MascaEtudiantBundle:Lycee:status_global_eco.html.twig', [
             'form' => $form->createView(),
             'haveData' => $haveData,
-            'lyceens' => $lyceens
+            'lyceens' => $lyceens,
+            'months' => $months,
+            'status' => $status
         ]);
+    }
+
+    protected function convertMonthToInt($month) {
+        $months = $this->months();
+        foreach ($months as $key => $value) {
+            if($value == $month)
+                return $key;
+        }
+    }
+
+    protected function convertIntToMonth($month) {
+        return $this->months()[$month];
+    }
+
+    protected function months() {
+        $months = $this->getParameter("mois");
+        $month_array = [];
+        foreach ($months as $m) {
+            $month_array[] = $m;
+        }
+        return $month_array;
     }
 }
