@@ -72,7 +72,7 @@ class CaisseUniversiteController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/new", name="add_mvmt_universite")
+     * @Route("/add/", name="add_mvmt_universite")
      */
     public function addMvmtUniversiteAction(Request $request) {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {

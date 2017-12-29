@@ -70,7 +70,7 @@ class CaisseLyceeController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/new", name="add_mvmt_lycee")
+     * @Route("/add/", name="add_mvmt_lycee")
      */
     public function addMvmtLyceeAction(Request $request) {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_DAF')) {
