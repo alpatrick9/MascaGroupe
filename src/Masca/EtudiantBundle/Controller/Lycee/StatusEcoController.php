@@ -37,7 +37,7 @@ class StatusEcoController extends Controller
         $years = [];
         $months = [];
         $haveData = false;
-        foreach(range(date('Y')-2,date('Y')) as $myyear) {
+        foreach(range(date('Y')-4,date('Y')) as $myyear) {
             $years[$myyear] = $myyear;
         }
 
