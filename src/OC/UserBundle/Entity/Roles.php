@@ -17,7 +17,9 @@ class Roles
         'Economa université'=>'ROLE_ECO_U',
         'Economa lycée'=>'ROLE_ECO_L',
         'SG université'=>'ROLE_SG_U',
-        'SG lycée'=>'ROLE_SG_L'
+        'SG lycée'=>'ROLE_SG_L',
+        'Visiteur université'=>'ROLE_USER_U',
+        'Visiteur lycée'=>'ROLE_USER_L'
     ];
 
 }
