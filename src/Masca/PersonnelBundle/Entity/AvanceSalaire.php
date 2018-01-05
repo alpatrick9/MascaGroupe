@@ -69,8 +69,6 @@ class AvanceSalaire
      */
     public function __construct()
     {
-        $this->date = new \DateTime();
-        $this->annee = $this->date->format('Y');
     }
 
 

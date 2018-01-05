@@ -43,7 +43,7 @@ class PointageEnseignantType extends AbstractType
             ->add('date', DateType::class, [
                 'label'=>'Date du pointage',
                 'format'=>'dd MMMM yyyy',
-                'years'=>range(date('Y'),date('Y')),
+                'years'=>range(date('Y')-4,date('Y')),
                 'placeholder'=>array('year'=>'Année','day'=>'Jour','month'=>'Mois')
             ])
             ->add('heureDebut', TimeType::class, [

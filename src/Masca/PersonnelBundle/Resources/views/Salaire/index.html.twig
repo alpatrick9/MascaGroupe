@@ -17,7 +17,7 @@
                     <thead>
                     <tr>
                         <th data-tri="1" data-type="num">Date</th>
-                        <th>Mois</th>
+                        <th>mois/année</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -25,7 +25,7 @@
                     {% for salaire in salaires %}
                         <tr>
                             <td>{{ salaire.date | date('d/m/Y') }}</td>
-                            <td>{{ salaire.mois }}</td>
+                            <td>{{ salaire.mois }} {{ salaire.annee }}</td>
                             <td>
                                 <div class="align-center">
                                     <a href="{{ path('detail_salaire', {'id': salaire.id}) }}">
@@ -56,7 +56,7 @@
                     <thead>
                     <tr>
                         <th data-tri="1" data-type="num">Date</th>
-                        <th>Mois</th>
+                        <th>mois/année</th>
                         <th>Montant (Ar)</th>
                         <th>Déduit sur</th>
                         <th></th>
@@ -66,7 +66,7 @@
                     {% for avance in avances %}
                         <tr>
                             <td>{{ avance.date | date('d/m/Y') }}</td>
-                            <td>{{ avance.mois }}</td>
+                            <td>{{ avance.mois }} {{ avance.annee }}</td>
                             <td>{{ avance.somme}}</td>
                             <td>{{ avance.caisse }}</td>
                             <td>

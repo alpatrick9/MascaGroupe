@@ -224,11 +224,13 @@ table tbody tr td{
 #absence_employe_dateAbsent_day,
 #date_payement_eco_lycee_datePayement_day,
 #date_payement_eco_univ_datePayement_day,
-#pointage_enseignant_date_day
+#pointage_enseignant_date_day,
+#avance_salaire_date_day
 {
 	width: 65px !important;
 	margin: 2.5px !important;
 }
+
 #person_dateNaissance_month,
 #person_dateDelivranceCin_month,
 #lyceen_dateReinscription_month,
@@ -245,7 +247,8 @@ table tbody tr td{
 #details_school_year_startMonth,
 #details_school_year_startYear,
 #details_school_year_endMonth,
-#details_school_year_classe
+#details_school_year_classe,
+#avance_salaire_date_month
 {
 	width: 100px !important;
 	margin: 2.5px !important;
@@ -262,7 +265,8 @@ table tbody tr td{
 #absence_employe_dateAbsent_year,
 #date_payement_eco_lycee_datePayement_year,
 #date_payement_eco_univ_datePayement_year,
-#pointage_enseignant_date_year
+#pointage_enseignant_date_year,
+#avance_salaire_date_year
 {
 	width: 80px !important;
 	margin: 2.5px !important;

@@ -3,7 +3,7 @@
     <h3>Fiche de paye de {{ salaire.employer.person.nom }} {{ salaire.employer.person.prenom }}</h3>
     <div>
         <p>Payé le {{ salaire.date | date('d/m/Y') }}</p>
-        <p> Mois de {{ salaire.mois }}</p>
+        <p> Mois de {{ salaire.mois }} {{ salaire.annee }}</p>
     </div>
     <fieldset>
         <legend>Détails</legend>

@@ -27,7 +27,7 @@ class SalaireType extends AbstractType
     public function __construct($mois)
     {
         $this->mois = $mois;
-        $tempYears = range(date('Y')-2,date('Y'));
+        $tempYears = range(date('Y')-4,date('Y'));
         foreach( $tempYears as $year) {
             $this->years[$year] = $year;
         }
